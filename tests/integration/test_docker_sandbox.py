@@ -27,12 +27,32 @@ def test_sandbox_enforces_paths_and_runs_only_fixed_tests(tmp_path: Path):
         )[0]
         listing = sandbox.invoke("list_files", {})
         escaped = sandbox.invoke("read_file", {"path": "../../etc/passwd"})
+        patched = sandbox.invoke(
+            "apply_patch",
+            {
+                "patch": """*** Begin Patch
+*** Update File: calculator.py
+@@
+-    if denominator <= 0:
++    if denominator == 0:
+*** Update File: tests/test_calculator.py
+@@
+ def test_positive_division():
+     assert safe_divide(12, 3) == 4
++    assert safe_divide(12, -3) == -4
+*** End Patch"""
+            },
+        )
         tests = sandbox.invoke("run_tests", {})
+        diff = sandbox.invoke("git_diff", {})
 
     assert listing["ok"]
     assert "calculator.py" in listing["result"]["files"]
     assert not escaped["ok"]
+    assert patched["ok"]
+    assert patched["result"]["ignored_paths"] == ["tests/test_calculator.py"]
     assert tests["ok"] and tests["result"]["passed"]
+    assert diff["result"]["changed_files"] == ["calculator.py"]
     assert not (workspace / ".env").exists()
     host_config = inspected["HostConfig"]
     assert host_config["NetworkMode"] == "none"

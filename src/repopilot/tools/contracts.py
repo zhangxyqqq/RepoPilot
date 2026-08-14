@@ -50,7 +50,7 @@ TOOL_SCHEMAS: list[dict[str, Any]] = [
     {
         "type": "function",
         "name": "apply_patch",
-        "description": "Apply a unified diff whose paths are relative to the repository root.",
+        "description": "Apply a Git diff or *** Begin Patch envelope to production files. Public test files are protected.",
         "parameters": {
             "type": "object",
             "properties": {"patch": {"type": "string"}},

@@ -139,6 +139,10 @@ class AgentLoop:
                 last_test_revision = result.revision
                 if result.observation.get("passed"):
                     first_passing_revision = result.revision
+                    if result.revision > 0:
+                        stop_reason = "tests_passed"
+                        final_message = "Configured tests passed on the modified revision."
+                        break
                 elif result.revision > 0:
                     repair_cycles += 1
                     if repair_cycles >= self.max_repair_cycles:

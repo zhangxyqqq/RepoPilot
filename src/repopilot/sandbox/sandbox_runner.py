@@ -126,11 +126,129 @@ def patch_paths(patch: str) -> list[str]:
     return sorted(set(paths))
 
 
+def is_protected_test_path(value: str) -> bool:
+    path = PurePosixPath(value)
+    return "tests" in path.parts or path.name.startswith("test_") or path.name.endswith("_test.py")
+
+
+def filter_git_patch(patch: str) -> tuple[str, list[str], list[str]]:
+    sections = re.split(r"(?=^diff --git )", patch, flags=re.MULTILINE)
+    if sections and sections[0].strip():
+        raise ValueError("patch content before the first diff header is not supported")
+    kept: list[str] = []
+    paths: list[str] = []
+    ignored: list[str] = []
+    for section in sections:
+        if not section.strip():
+            continue
+        header = section.splitlines()[0]
+        match = re.fullmatch(r"diff --git a/(.+) b/(.+)", header)
+        if not match or match.group(1) != match.group(2):
+            raise ValueError("renames and malformed diff paths are not supported")
+        value = match.group(1)
+        safe_path(value, must_exist=False)
+        if is_protected_test_path(value):
+            ignored.append(value)
+        else:
+            kept.append(section)
+            paths.append(value)
+    if not kept:
+        raise ValueError("patch contains no editable production files; test files are protected")
+    return "".join(kept), sorted(set(paths)), sorted(set(ignored))
+
+
+def parse_patch_envelope(patch: str) -> list[tuple[str, list[list[str]]]]:
+    lines = patch.splitlines()
+    if not lines or lines[0] != "*** Begin Patch" or lines[-1] != "*** End Patch":
+        raise ValueError("invalid apply-patch envelope")
+    sections: list[tuple[str, list[list[str]]]] = []
+    current_path: str | None = None
+    current_hunks: list[list[str]] = []
+    current_hunk: list[str] | None = None
+    for line in lines[1:-1]:
+        if line.startswith("*** Update File: "):
+            if current_path is not None:
+                if current_hunk is not None:
+                    current_hunks.append(current_hunk)
+                sections.append((current_path, current_hunks))
+            current_path = line.removeprefix("*** Update File: ")
+            safe_path(current_path)
+            current_hunks = []
+            current_hunk = None
+        elif line.startswith("@@"):
+            if current_path is None:
+                raise ValueError("patch hunk appeared before an Update File header")
+            if current_hunk is not None:
+                current_hunks.append(current_hunk)
+            current_hunk = []
+        elif line.startswith("*** "):
+            raise ValueError("only Update File sections are supported")
+        else:
+            if current_hunk is None or not line.startswith((" ", "+", "-")):
+                raise ValueError("malformed apply-patch hunk")
+            current_hunk.append(line)
+    if current_path is not None:
+        if current_hunk is not None:
+            current_hunks.append(current_hunk)
+        sections.append((current_path, current_hunks))
+    if not sections or any(not hunks for _, hunks in sections):
+        raise ValueError("patch envelope must contain at least one update hunk")
+    return sections
+
+
+def apply_patch_envelope(patch: str) -> dict[str, Any]:
+    updates: dict[Path, str] = {}
+    changed_paths: list[str] = []
+    ignored_paths: list[str] = []
+    for value, hunks in parse_patch_envelope(patch):
+        if is_protected_test_path(value):
+            ignored_paths.append(value)
+            continue
+        path = safe_path(value)
+        if not path.is_file() or path.stat().st_size > MAX_TEXT_BYTES:
+            raise ValueError(f"updated file is missing or too large: {value}")
+        original = updates.get(path, path.read_text(encoding="utf-8"))
+        lines = original.splitlines()
+        for hunk in hunks:
+            before = [line[1:] for line in hunk if line[0] in {" ", "-"}]
+            after = [line[1:] for line in hunk if line[0] in {" ", "+"}]
+            if not before:
+                raise ValueError(f"patch hunk for {value} has no matching context")
+            matches = [
+                index
+                for index in range(len(lines) - len(before) + 1)
+                if lines[index : index + len(before)] == before
+            ]
+            if len(matches) != 1:
+                raise ValueError(f"patch context for {value} matched {len(matches)} locations")
+            index = matches[0]
+            lines[index : index + len(before)] = after
+        updated = "\n".join(lines) + ("\n" if original.endswith("\n") else "")
+        if updated == original:
+            raise ValueError(f"patch made no change to {value}")
+        updates[path] = updated
+        if value not in changed_paths:
+            changed_paths.append(value)
+    if not updates:
+        raise ValueError("patch contains no editable production files; test files are protected")
+    for path, content in updates.items():
+        path.write_text(content, encoding="utf-8")
+    return {
+        "changed": True,
+        "format": "apply_patch_envelope",
+        "paths": sorted(set(changed_paths)),
+        "ignored_paths": sorted(set(ignored_paths)),
+    }
+
+
 def apply_patch(args: dict[str, Any]) -> dict[str, Any]:
     patch = args.get("patch")
     if not isinstance(patch, str) or not patch or len(patch) > 50_000:
         raise ValueError("patch must be a non-empty unified diff of at most 50,000 characters")
-    paths = patch_paths(patch)
+    if patch.startswith("*** Begin Patch\n"):
+        return apply_patch_envelope(patch)
+    patch, paths, ignored_paths = filter_git_patch(patch)
+    patch_paths(patch)
     check = subprocess.run(
         ["git", "apply", "--check", "--whitespace=nowarn", "-"],
         cwd=WORKSPACE,
@@ -151,7 +269,12 @@ def apply_patch(args: dict[str, Any]) -> dict[str, Any]:
     )
     if applied.returncode != 0:
         raise ValueError(f"patch application failed: {applied.stderr.strip()}")
-    return {"changed": True, "paths": paths}
+    return {
+        "changed": True,
+        "format": "git_diff",
+        "paths": paths,
+        "ignored_paths": ignored_paths,
+    }
 
 
 def run_tests(args: dict[str, Any]) -> dict[str, Any]:

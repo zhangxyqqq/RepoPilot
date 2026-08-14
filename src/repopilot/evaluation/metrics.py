@@ -51,6 +51,8 @@ def aggregate(case_results: list[dict[str, Any]]) -> dict[str, Any]:
         "cases": total,
         "tasks_succeeded": successful,
         "success_rate": successful / total if total else 0.0,
+        "public_test_cases_passed": sum(bool(case["public_tests"]["passed"]) for case in case_results),
+        "hidden_test_cases_passed": sum(bool(case["hidden_tests"]["passed"]) for case in case_results),
         "localization_f1_mean": average("localization_f1"),
         "tool_calls_total": sum(case["tool_calls"] for case in case_results),
         "unnecessary_tool_calls_total": sum(case["unnecessary_tool_calls"] for case in case_results),
