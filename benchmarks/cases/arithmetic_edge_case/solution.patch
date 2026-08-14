@@ -1,0 +1,10 @@
+diff --git a/calculator.py b/calculator.py
+--- a/calculator.py
++++ b/calculator.py
+@@ -1,5 +1,5 @@
+ def safe_divide(numerator: float, denominator: float) -> float:
+     """Divide two numbers, raising a clear error for a zero denominator."""
+-    if denominator <= 0:
++    if denominator == 0:
+         raise ValueError("denominator must be non-zero")
+     return numerator / denominator

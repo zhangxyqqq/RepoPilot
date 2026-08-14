@@ -1,0 +1,11 @@
+diff --git a/config.py b/config.py
+--- a/config.py
++++ b/config.py
+@@ -8,6 +8,6 @@ def resolve_config(
+ ) -> dict[str, str]:
+     """Merge defaults, a config file, and environment values."""
+     resolved = dict(defaults)
+-    resolved.update(environment)
+     resolved.update(file_values)
++    resolved.update(environment)
+     return resolved

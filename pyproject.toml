@@ -1,0 +1,33 @@
+[build-system]
+requires = ["hatchling>=1.25,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "repopilot"
+version = "0.1.0"
+description = "A small, evaluated repository coding agent"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "openai>=1.40,<3",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.3,<9",
+  "pytest-cov>=5,<7",
+]
+
+[project.scripts]
+repopilot = "repopilot.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/repopilot"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+pythonpath = ["src"]
+markers = [
+  "docker: requires a running Docker daemon",
+]

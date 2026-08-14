@@ -1,0 +1,12 @@
+diff --git a/retry.py b/retry.py
+--- a/retry.py
++++ b/retry.py
+@@ -9,7 +9,7 @@ def run_with_retries(operation: Callable[[], T], retries: int) -> T:
+     if retries < 0:
+         raise ValueError("retries cannot be negative")
+     last_error: Exception | None = None
+-    for _attempt in range(retries):
++    for _attempt in range(retries + 1):
+         try:
+             return operation()
+         except Exception as exc:

@@ -1,0 +1,8 @@
+{
+  "id": "config_precedence",
+  "issue": "resolve_config applies configuration sources in the wrong order. Environment values must override file values, and file values must override defaults.",
+  "search_query": "resolve_config",
+  "expected_fix_files": ["config.py"],
+  "allowed_fix_sets": [["config.py"]],
+  "test_command": ["python", "-m", "pytest", "-q"]
+}

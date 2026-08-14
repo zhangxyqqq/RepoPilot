@@ -1,0 +1,8 @@
+{
+  "id": "arithmetic_edge_case",
+  "issue": "safe_divide incorrectly rejects negative denominators. It should reject only division by zero while preserving normal Python division behavior.",
+  "search_query": "safe_divide",
+  "expected_fix_files": ["calculator.py"],
+  "allowed_fix_sets": [["calculator.py"]],
+  "test_command": ["python", "-m", "pytest", "-q"]
+}

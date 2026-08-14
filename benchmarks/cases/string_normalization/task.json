@@ -1,0 +1,8 @@
+{
+  "id": "string_normalization",
+  "issue": "slugify should trim surrounding whitespace and collapse every run of whitespace to one hyphen. It currently only replaces individual spaces.",
+  "search_query": "slugify",
+  "expected_fix_files": ["slug.py"],
+  "allowed_fix_sets": [["slug.py"]],
+  "test_command": ["python", "-m", "pytest", "-q"]
+}

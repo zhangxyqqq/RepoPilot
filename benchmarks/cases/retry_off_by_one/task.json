@@ -1,0 +1,8 @@
+{
+  "id": "retry_off_by_one",
+  "issue": "run_with_retries treats retries as the total attempt count. retries means additional attempts after the first call, so retries=2 must permit three calls.",
+  "search_query": "range(retries)",
+  "expected_fix_files": ["retry.py"],
+  "allowed_fix_sets": [["retry.py"]],
+  "test_command": ["python", "-m", "pytest", "-q"]
+}
