@@ -1,0 +1,8 @@
+{
+  "id": "layered_feature_flags",
+  "issue": "An explicit disabled feature is ignored when that feature is enabled by default. Explicit enabled values and features absent from the override layer should retain their current behavior.",
+  "search_query": "overrides.get(name)",
+  "expected_fix_files": ["src/features/resolver.py"],
+  "allowed_fix_sets": [["src/features/resolver.py"]],
+  "test_command": ["python", "-m", "pytest", "-q"]
+}

@@ -1,0 +1,8 @@
+{
+  "id": "settings_cache_invalidation",
+  "issue": "After the service host is changed on a client configuration object, later requests continue using the endpoint derived from the previous host. Fresh objects and unchanged configurations behave correctly.",
+  "search_query": "self._host = normalize_host(value)",
+  "expected_fix_files": ["src/client/settings.py"],
+  "allowed_fix_sets": [["src/client/settings.py"]],
+  "test_command": ["python", "-m", "pytest", "-q"]
+}

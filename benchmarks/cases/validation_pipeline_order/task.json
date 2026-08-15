@@ -1,0 +1,8 @@
+{
+  "id": "validation_pipeline_order",
+  "issue": "Submitting a profile with a whitespace-only optional nickname is rejected instead of treating the nickname as absent. Nonblank nicknames must still be trimmed and validated, including the existing minimum-length rule.",
+  "search_query": "validate_nickname(raw_nickname)",
+  "expected_fix_files": ["src/accounts/service.py"],
+  "allowed_fix_sets": [["src/accounts/service.py"], ["src/accounts/validator.py"]],
+  "test_command": ["python", "-m", "pytest", "-q"]
+}

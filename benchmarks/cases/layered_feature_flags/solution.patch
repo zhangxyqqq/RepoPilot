@@ -1,0 +1,11 @@
+diff --git a/src/features/resolver.py b/src/features/resolver.py
+--- a/src/features/resolver.py
++++ b/src/features/resolver.py
+@@ -4,4 +4,6 @@ from features.defaults import DEFAULT_FLAGS
+ 
+ def resolve_flag(name: str, overrides: Mapping[str, bool]) -> bool:
+     """Resolve an explicit override before consulting application defaults."""
+-    return overrides.get(name) or DEFAULT_FLAGS.get(name, False)
++    if name in overrides:
++        return overrides[name]
++    return DEFAULT_FLAGS.get(name, False)

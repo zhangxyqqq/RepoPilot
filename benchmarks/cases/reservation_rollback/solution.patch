@@ -1,0 +1,22 @@
+diff --git a/inventory.py b/inventory.py
+--- a/inventory.py
++++ b/inventory.py
+@@ -15,8 +15,13 @@ class Inventory:
+     def reserve_many(self, skus: list[str]) -> None:
+         """Reserve one unit of every SKU as a single operation."""
+         reserved: list[str] = []
+-        for sku in skus:
+-            if self._stock.get(sku, 0) <= 0:
+-                raise OutOfStock(sku)
+-            self._stock[sku] -= 1
+-            reserved.append(sku)
++        try:
++            for sku in skus:
++                if self._stock.get(sku, 0) <= 0:
++                    raise OutOfStock(sku)
++                self._stock[sku] -= 1
++                reserved.append(sku)
++        except OutOfStock:
++            for sku in reserved:
++                self._stock[sku] += 1
++            raise

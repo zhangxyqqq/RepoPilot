@@ -1,0 +1,11 @@
+diff --git a/commerce/orders.py b/commerce/orders.py
+--- a/commerce/orders.py
++++ b/commerce/orders.py
+@@ -6,6 +6,6 @@ from commerce.tax import calculate_tax
+ 
+ def checkout_total(customer: Customer, subtotal: Decimal, tax_rate: Decimal) -> Decimal:
+     """Archived accounts and tax-exempt customers do not accrue new tax."""
+-    if not customer.active:
++    if not customer.active or customer.tax_exempt:
+         return subtotal
+     return subtotal + calculate_tax(subtotal, tax_rate)

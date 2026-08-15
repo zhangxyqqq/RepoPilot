@@ -1,0 +1,11 @@
+diff --git a/src/accounts/service.py b/src/accounts/service.py
+--- a/src/accounts/service.py
++++ b/src/accounts/service.py
+@@ -7,6 +7,6 @@ from accounts.validator import validate_nickname
+ 
+ def build_profile(payload: Mapping[str, object]) -> dict[str, str | None]:
+     raw_nickname = parse_nickname(payload)
+-    validate_nickname(raw_nickname)
+     nickname = normalize_optional(raw_nickname)
++    validate_nickname(nickname)
+     return {"nickname": nickname}

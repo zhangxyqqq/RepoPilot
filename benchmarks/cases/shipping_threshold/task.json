@@ -1,0 +1,8 @@
+{
+  "id": "shipping_threshold",
+  "issue": "A basket whose merchandise total exactly reaches the free-delivery threshold is still charged delivery. Totals below and above the threshold already behave as expected.",
+  "search_query": "subtotal > threshold",
+  "expected_fix_files": ["src/store/shipping.py"],
+  "allowed_fix_sets": [["src/store/shipping.py"]],
+  "test_command": ["python", "-m", "pytest", "-q"]
+}

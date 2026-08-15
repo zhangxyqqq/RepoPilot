@@ -7,7 +7,7 @@ TOOL_SCHEMAS: list[dict[str, Any]] = [
     {
         "type": "function",
         "name": "list_files",
-        "description": "List repository files below an optional relative directory.",
+        "description": "List files and return a bounded Python AST repo map with modules, imports, symbols, signatures, and lines.",
         "parameters": {
             "type": "object",
             "properties": {"path": {"type": "string", "default": "."}},

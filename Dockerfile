@@ -9,6 +9,7 @@ RUN groupadd --gid 10001 repopilot \
     && useradd --uid 10001 --gid 10001 --no-create-home --home-dir /home/repopilot repopilot
 
 COPY src/repopilot/sandbox/sandbox_runner.py /opt/repopilot/sandbox_runner.py
+COPY src/repopilot/sandbox/repository_context.py /opt/repopilot/repository_context.py
 
 USER 10001:10001
 WORKDIR /workspace

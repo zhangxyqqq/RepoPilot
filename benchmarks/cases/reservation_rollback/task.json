@@ -1,0 +1,8 @@
+{
+  "id": "reservation_rollback",
+  "issue": "When an order cannot reserve every requested item, stock for items processed before the failure remains reduced. A rejected reservation must leave all stock unchanged, while successful reservations should still consume stock.",
+  "search_query": "reserved.append(sku)",
+  "expected_fix_files": ["inventory.py"],
+  "allowed_fix_sets": [["inventory.py"]],
+  "test_command": ["python", "-m", "pytest", "-q"]
+}

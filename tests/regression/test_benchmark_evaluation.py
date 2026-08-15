@@ -10,11 +10,11 @@ from repopilot.evaluation import evaluate_benchmarks
 def test_all_scripted_benchmarks_pass_and_emit_reports(tmp_path: Path):
     report = evaluate_benchmarks(Path("benchmarks/cases"), tmp_path / "reports")
 
-    assert report["aggregate"]["cases"] == 4
-    assert report["aggregate"]["tasks_succeeded"] == 4
+    assert report["aggregate"]["cases"] == 12
+    assert report["aggregate"]["tasks_succeeded"] == 12
     assert report["aggregate"]["success_rate"] == 1.0
-    assert report["aggregate"]["public_test_cases_passed"] == 4
-    assert report["aggregate"]["hidden_test_cases_passed"] == 4
+    assert report["aggregate"]["public_test_cases_passed"] == 12
+    assert report["aggregate"]["hidden_test_cases_passed"] == 12
     assert report["aggregate"]["localization_f1_mean"] == 1.0
 
     json_report = Path(report["report_paths"]["json"])
@@ -24,7 +24,7 @@ def test_all_scripted_benchmarks_pass_and_emit_reports(tmp_path: Path):
     assert "# RepoPilot deterministic evaluation" in markdown_report.read_text(encoding="utf-8")
 
     persisted = json.loads(json_report.read_text(encoding="utf-8"))
-    assert len(persisted["cases"]) == 4
+    assert len(persisted["cases"]) == 12
     for case in persisted["cases"]:
         assert case["task_success"] is True
         assert case["public_tests"]["passed"] is True

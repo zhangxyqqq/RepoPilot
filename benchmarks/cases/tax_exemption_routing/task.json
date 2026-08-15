@@ -1,0 +1,8 @@
+{
+  "id": "tax_exemption_routing",
+  "issue": "Active customers marked tax-exempt are still charged tax at checkout. Taxable active customers and archived customers should retain their current totals.",
+  "search_query": "customer.active",
+  "expected_fix_files": ["commerce/orders.py"],
+  "allowed_fix_sets": [["commerce/orders.py"]],
+  "test_command": ["python", "-m", "pytest", "-q"]
+}

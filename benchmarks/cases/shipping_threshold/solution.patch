@@ -1,0 +1,11 @@
+diff --git a/src/store/shipping.py b/src/store/shipping.py
+--- a/src/store/shipping.py
++++ b/src/store/shipping.py
+@@ -2,6 +2,6 @@ from decimal import Decimal
+ 
+ 
+ def delivery_charge(subtotal: Decimal, threshold: Decimal) -> Decimal:
+-    if subtotal > threshold:
++    if subtotal >= threshold:
+         return Decimal("0.00")
+     return Decimal("5.00")

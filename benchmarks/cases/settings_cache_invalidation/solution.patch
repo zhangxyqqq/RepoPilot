@@ -1,0 +1,11 @@
+diff --git a/src/client/settings.py b/src/client/settings.py
+--- a/src/client/settings.py
++++ b/src/client/settings.py
+@@ -17,6 +17,7 @@ class Settings:
+     @host.setter
+     def host(self, value: str) -> None:
+         self._host = normalize_host(value)
++        self._endpoint_cache = None
+ 
+     @property
+     def endpoint(self) -> str:

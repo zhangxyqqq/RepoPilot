@@ -1,0 +1,9 @@
+diff --git a/src/access/project.py b/src/access/project.py
+--- a/src/access/project.py
++++ b/src/access/project.py
+@@ -8,4 +8,4 @@ class ProjectPolicy(BasePolicy):
+         self.project_permissions = set(project_permissions)
+ 
+     def permissions(self) -> set[str]:
+-        return set(self.project_permissions)
++        return super().permissions() | self.project_permissions

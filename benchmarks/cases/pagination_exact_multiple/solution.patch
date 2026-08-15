@@ -1,0 +1,9 @@
+diff --git a/pagination.py b/pagination.py
+--- a/pagination.py
++++ b/pagination.py
+@@ -7,4 +7,4 @@ def count_pages(total: int, page_size: int) -> int:
+         raise ValueError("total cannot be negative")
+     if total == 0:
+         return 0
+-    return total // page_size + 1
++    return (total + page_size - 1) // page_size

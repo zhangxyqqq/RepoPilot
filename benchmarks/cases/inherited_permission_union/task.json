@@ -1,0 +1,8 @@
+{
+  "id": "inherited_permission_union",
+  "issue": "Specialized access rules lose organization-wide permissions when narrower capabilities are added. They must retain inherited permissions while continuing to expose their own capabilities.",
+  "search_query": "self.project_permissions",
+  "expected_fix_files": ["src/access/project.py"],
+  "allowed_fix_sets": [["src/access/project.py"]],
+  "test_command": ["python", "-m", "pytest", "-q"]
+}

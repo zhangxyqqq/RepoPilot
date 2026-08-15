@@ -8,6 +8,11 @@ import sys
 from pathlib import Path, PurePosixPath
 from typing import Any
 
+try:
+    from repopilot.sandbox.repository_context import build_repository_context
+except ModuleNotFoundError:
+    from repository_context import build_repository_context
+
 
 WORKSPACE = Path("/workspace")
 MAX_TEXT_BYTES = 1_000_000
@@ -55,7 +60,12 @@ def list_files(args: dict[str, Any]) -> dict[str, Any]:
         raise ValueError("list_files path must be a directory")
     paths = [str(path.relative_to(WORKSPACE)) for path in repository_files(root)]
     truncated = len(paths) > 500
-    return {"files": paths[:500], "count": len(paths), "truncated": truncated}
+    return {
+        "files": paths[:500],
+        "count": len(paths),
+        "truncated": truncated,
+        "repository_context": build_repository_context(root, WORKSPACE),
+    }
 
 
 def search_code(args: dict[str, Any]) -> dict[str, Any]:
