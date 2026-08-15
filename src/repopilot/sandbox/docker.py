@@ -24,11 +24,13 @@ class DockerSandbox:
         *,
         test_command: tuple[str, ...],
         command_timeout_seconds: int,
+        issue: str = "",
         config: SandboxConfig = SandboxConfig(),
     ):
         self.workspace = workspace.resolve(strict=True)
         self.test_command = test_command
         self.command_timeout_seconds = command_timeout_seconds
+        self.issue = issue
         self.config = config
         self.container_name = f"repopilot-{uuid.uuid4().hex[:12]}"
         self._started = False
@@ -96,6 +98,8 @@ class DockerSandbox:
         if tool_name == "run_tests":
             payload["command"] = list(self.test_command)
             payload["timeout_seconds"] = self.command_timeout_seconds
+        elif tool_name == "list_files":
+            payload["_issue"] = self.issue
         command = [
             "docker", "exec", self.container_name,
             "python", "/opt/repopilot/sandbox_runner.py",

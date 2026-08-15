@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "name": "RepoPilot real-world SWE-bench Verified pilot",
+  "dataset": "princeton-nlp/SWE-bench_Verified",
+  "task_count": 5,
+  "tasks": [
+    {
+      "id": "pallets__flask-5014",
+      "path": "tasks/pallets__flask-5014/task.json"
+    },
+    {
+      "id": "psf__requests-5414",
+      "path": "tasks/psf__requests-5414/task.json"
+    },
+    {
+      "id": "psf__requests-6028",
+      "path": "tasks/psf__requests-6028/task.json"
+    },
+    {
+      "id": "pytest-dev__pytest-10051",
+      "path": "tasks/pytest-dev__pytest-10051/task.json"
+    },
+    {
+      "id": "pytest-dev__pytest-7324",
+      "path": "tasks/pytest-dev__pytest-7324/task.json"
+    }
+  ]
+}
+

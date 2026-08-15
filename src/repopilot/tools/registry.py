@@ -6,7 +6,7 @@ from typing import Any
 
 from repopilot.models import ToolResult
 from repopilot.sandbox.docker import DockerSandbox
-from repopilot.tools.contracts import TOOL_SCHEMAS
+from repopilot.tools.contracts import TOOL_SCHEMAS, validate_tool_arguments
 
 
 class ToolRegistry:
@@ -29,6 +29,16 @@ class ToolRegistry:
         if not isinstance(arguments, dict):
             self.unnecessary_calls += 1
             return ToolResult(False, {}, (perf_counter() - started) * 1000, self.revision, "tool arguments must be an object")
+        validation_error = validate_tool_arguments(name, arguments)
+        if validation_error is not None:
+            self.unnecessary_calls += 1
+            return ToolResult(
+                False,
+                {},
+                (perf_counter() - started) * 1000,
+                self.revision,
+                f"invalid tool arguments: {validation_error}",
+            )
 
         call_key = (name, json.dumps(arguments, sort_keys=True), self.revision)
         if call_key in self._seen_calls:

@@ -16,6 +16,7 @@ def test_sandbox_enforces_paths_and_runs_only_fixed_tests(tmp_path: Path):
         workspace,
         test_command=("python", "-m", "pytest", "-q"),
         command_timeout_seconds=30,
+        issue="safe_divide fails for negative denominators",
     ) as sandbox:
         inspected = json.loads(
             subprocess.run(
@@ -49,7 +50,8 @@ def test_sandbox_enforces_paths_and_runs_only_fixed_tests(tmp_path: Path):
     assert listing["ok"]
     assert "calculator.py" in listing["result"]["files"]
     repository_context = listing["result"]["repository_context"]
-    assert repository_context["format"] == "python_ast_outline_v1"
+    assert repository_context["format"] == "python_ast_outline_v2"
+    assert "safe_divide" in repository_context["ranking"]["issue_terms"]
     assert "calculator.py [module=calculator, role=source]" in repository_context["map"]
     assert "def safe_divide(numerator: float, denominator: float) -> float" in repository_context["map"]
     assert "tests/test_calculator.py [module=tests.test_calculator, role=test]" in repository_context["map"]
@@ -68,3 +70,4 @@ def test_sandbox_enforces_paths_and_runs_only_fixed_tests(tmp_path: Path):
     assert host_config["NanoCpus"] > 0
     assert host_config["PidsLimit"] == 128
     assert not any(value.startswith("OPENAI_API_KEY=") for value in inspected["Config"]["Env"])
+    assert not any(value.startswith("DEEPSEEK_API_KEY=") for value in inspected["Config"]["Env"])

@@ -64,7 +64,11 @@ def list_files(args: dict[str, Any]) -> dict[str, Any]:
         "files": paths[:500],
         "count": len(paths),
         "truncated": truncated,
-        "repository_context": build_repository_context(root, WORKSPACE),
+        "repository_context": build_repository_context(
+            root,
+            WORKSPACE,
+            issue=str(args.get("_issue", "")),
+        ),
     }
 
 

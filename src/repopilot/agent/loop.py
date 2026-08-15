@@ -235,6 +235,7 @@ def run_agent(config: RunConfig, model: ModelClient, *, run_id: str | None = Non
         workspace,
         test_command=config.test_command,
         command_timeout_seconds=config.limits.command_timeout_seconds,
+        issue=config.issue,
         config=config.sandbox,
     )
     try:
