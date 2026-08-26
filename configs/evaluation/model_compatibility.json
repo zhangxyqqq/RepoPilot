@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "profile_id": "repopilot-model-controller-compatibility",
+  "profile_version": 1,
+  "track": "model_controller_compatibility",
+  "frozen_at": "2026-08-26",
+  "claim_boundary": "Synthetic protocol interoperability gate only; not a coding benchmark or software-engineering capability score.",
+  "corpus": {
+    "path": "benchmarks/model_compatibility/cases.v1.json",
+    "corpus_id": "repopilot-model-controller-compatibility",
+    "corpus_version": 1,
+    "case_count": 12,
+    "content_hash": "sha256:4111a5c2eb3b65e629fa0fb99ecdb486f895106db6e1d23ac35d4425c0904e5a"
+  },
+  "provider": {
+    "provider": "openai_compatible",
+    "endpoint_owner": "local Ollama",
+    "endpoint": "http://127.0.0.1:11434/v1",
+    "endpoint_api": "Responses",
+    "ollama_version": "0.20.5",
+    "model": "mistral:7b",
+    "model_manifest_sha256": "sha256:6577803aa9a036369e481d648a2baebb381ebc6e897f2bb9a766a2aa7bfbc1cf",
+    "model_blob_sha256": "sha256:f5074b1221da0f5a2910d33b642efa5b9eb58cfdddca1c79e16d7ad28aa2b31f",
+    "sdk_timeout_seconds": 60,
+    "sdk_retry_limit": 0,
+    "temperature": null,
+    "random_seed": null,
+    "repetitions_per_case": 1,
+    "credentials_required": false
+  },
+  "agent_protocol": {
+    "system_prompt_source": "src/repopilot/llm/prompting.py:SYSTEM_PROMPT",
+    "system_prompt_sha256": "sha256:f310a0a46501849ed020e8165a741163c14fac81501c595901e5850c8687ee04",
+    "tool_catalog_version": 1,
+    "tool_catalog_sha256": "sha256:84aefeae76e6b1e6f48a04657765d7aa8b7216d9f55c9549f971ed32c71546d4",
+    "model_visible_tools": [
+      "list_files",
+      "search_code",
+      "read_file",
+      "apply_patch",
+      "run_tests",
+      "git_diff"
+    ],
+    "tool_transport": "direct",
+    "retrieval_strategy": "structural",
+    "arbitrary_shell": false,
+    "model_selected_test_commands": false
+  },
+  "controller": {
+    "max_iterations": 8,
+    "max_repair_cycles": 3,
+    "total_timeout_seconds": 60,
+    "command_timeout_seconds": 30,
+    "max_observation_chars": 20000,
+    "max_patch_chars": 50000,
+    "recovery_policy": {
+      "version": 1,
+      "max_model_retries": 2,
+      "max_read_only_retries": 1,
+      "max_test_timeout_retries": 0
+    },
+    "compatibility_bound_rationale": "The synthetic cases require little code reasoning. A 60-second bound makes this a cheap pre-admission screen and is stricter than the 300-second real-world pilot; it cannot improve a model's compatibility result."
+  },
+  "sandbox": {
+    "image": "repopilot-sandbox:0.1.0",
+    "network_mode": "none",
+    "user": "10001:10001",
+    "read_only_root_filesystem": true,
+    "capabilities_dropped": ["ALL"],
+    "no_new_privileges": true,
+    "memory": "512m",
+    "cpus": "1.0",
+    "pids_limit": 128,
+    "only_staged_workspace_writable": true,
+    "credentials_forwarded": false
+  },
+  "evaluation": {
+    "evaluation_schema_version": 1,
+    "taxonomy_id": "repopilot-failures",
+    "taxonomy_version": 1,
+    "taxonomy_sha256": "sha256:3e52b575bbe735979fe4e0538f91f3e072e3108eed6a2e87c4338fa5f37992eb",
+    "accepted_terminal_reasons": ["model_final", "tests_passed"],
+    "malformed_codes": ["malformed_output", "empty_output"],
+    "protocol_success_requires_all_ordered_milestones": true,
+    "prelude_evidence_origin": "deterministic_benchmark_fixture",
+    "fault_injection_origin": "deterministic_benchmark_fixture"
+  },
+  "admission_gate": {
+    "first_valid_tool_call_rate_min": 0.9,
+    "protocol_complete_success_rate_min": 0.8,
+    "plan_only_timeout_rate_max": 0.0,
+    "duplicate_mutation_count_max": 0,
+    "unsafe_retry_count_max": 0,
+    "malformed_action_rate_max": 0.1,
+    "successful_finalization_rate_min": 0.8,
+    "decision_values": ["COMPATIBLE", "NOT COMPATIBLE", "INCONCLUSIVE / INFRASTRUCTURE FAILURE"]
+  },
+  "deadline_diagnostics": {
+    "measure_configured_deadline": true,
+    "measure_last_controller_checkpoint": true,
+    "measure_provider_call_start_and_completion": true,
+    "measure_tool_call_start_and_completion": true,
+    "measure_controller_return": true,
+    "measure_cleanup_completion": true,
+    "measure_artifact_completion": true,
+    "hard_cancellation_supported": false
+  },
+  "protocol": {
+    "benchmark_frozen_before_model_run": true,
+    "one_attempt_per_case": true,
+    "post_result_case_changes": false,
+    "post_result_threshold_changes": false,
+    "model_tuning": false,
+    "swebench_inputs_forbidden": true
+  }
+}

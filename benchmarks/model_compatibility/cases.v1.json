@@ -1,0 +1,193 @@
+{
+  "schema_version": 1,
+  "corpus_id": "repopilot-model-controller-compatibility",
+  "corpus_version": 1,
+  "claim_boundary": "Synthetic protocol interoperability only; not a software-engineering benchmark.",
+  "cases": [
+    {
+      "case_id": "tool-init-list",
+      "category": "tool_initiation",
+      "repository": "repos/inspect_repo",
+      "issue": "Inspect this tiny repository using list_files. After observing the result, finish with FINAL: and briefly state which Python module exists.",
+      "required_tools": ["list_files"],
+      "ordered_milestones": ["list_files", "accepted_terminal"],
+      "expected_changed_files": [],
+      "minimum_model_test_calls": 0,
+      "prelude": null,
+      "fault": null,
+      "completable": true
+    },
+    {
+      "case_id": "tool-init-search",
+      "category": "tool_initiation",
+      "repository": "repos/inspect_repo",
+      "issue": "Find the named symbol COMPATIBILITY_SENTINEL using search_code. Use the tool rather than guessing, then finish with FINAL: after observing the result.",
+      "required_tools": ["search_code"],
+      "ordered_milestones": ["search_code", "accepted_terminal"],
+      "expected_changed_files": [],
+      "minimum_model_test_calls": 0,
+      "prelude": null,
+      "fault": null,
+      "completable": true
+    },
+    {
+      "case_id": "tool-init-read",
+      "category": "tool_initiation",
+      "repository": "repos/inspect_repo",
+      "issue": "Read catalog.py with read_file and report the value assigned to COMPATIBILITY_SENTINEL. Finish with FINAL: only after the tool observation.",
+      "required_tools": ["read_file"],
+      "ordered_milestones": ["read_file", "accepted_terminal"],
+      "expected_changed_files": [],
+      "minimum_model_test_calls": 0,
+      "prelude": null,
+      "fault": null,
+      "completable": true
+    },
+    {
+      "case_id": "sequence-locate-read-patch",
+      "category": "tool_sequencing",
+      "repository": "repos/edit_repo",
+      "issue": "Change the production MODE value from old to new. Locate the code, read it, apply the smallest patch, and finish after verifying the resulting state. Do not edit tests.",
+      "required_tools": ["list_files", "read_file", "apply_patch"],
+      "ordered_milestones": ["list_files", "read_file", "apply_patch", "accepted_terminal"],
+      "expected_changed_files": ["settings.py"],
+      "minimum_model_test_calls": 0,
+      "prelude": null,
+      "fault": null,
+      "completable": true
+    },
+    {
+      "case_id": "sequence-full-cycle",
+      "category": "tool_sequencing",
+      "repository": "repos/edit_repo",
+      "issue": "Change the production MODE value from old to new. Locate, read, patch, run the fixed tests, and finish when the verified change is complete. Do not edit tests.",
+      "required_tools": ["list_files", "read_file", "apply_patch", "run_tests"],
+      "ordered_milestones": ["list_files", "read_file", "apply_patch", "run_tests", "accepted_terminal"],
+      "expected_changed_files": ["settings.py"],
+      "minimum_model_test_calls": 1,
+      "prelude": null,
+      "fault": null,
+      "completable": true
+    },
+    {
+      "case_id": "sequence-test-repair",
+      "category": "tool_sequencing",
+      "repository": "repos/broken_repo",
+      "issue": "The tiny double function is wrong. Run the tests first, inspect the failure and implementation, make the minimal production fix, rerun tests, and finish. Do not edit tests.",
+      "required_tools": ["run_tests", "read_file", "apply_patch"],
+      "ordered_milestones": ["failed_model_test", "read_file", "apply_patch", "passed_model_test", "accepted_terminal"],
+      "expected_changed_files": ["math_ops.py"],
+      "minimum_model_test_calls": 2,
+      "prelude": null,
+      "fault": null,
+      "completable": true
+    },
+    {
+      "case_id": "correction-invalid-arguments",
+      "category": "action_correction",
+      "repository": "repos/inspect_repo",
+      "issue": "Read catalog.py and finish with FINAL: after observing its contents. A previous invalid read attempt is included as structured protocol evidence; correct it with valid arguments.",
+      "required_tools": ["read_file"],
+      "ordered_milestones": ["corrected_action", "read_file", "accepted_terminal"],
+      "expected_changed_files": [],
+      "minimum_model_test_calls": 0,
+      "prelude": {
+        "type": "tool_result",
+        "tool": "read_file",
+        "arguments": {},
+        "ok": false,
+        "observation": {},
+        "error": "invalid tool arguments: missing required property path",
+        "workspace_revision": 0
+      },
+      "fault": null,
+      "completable": true
+    },
+    {
+      "case_id": "correction-policy-rejection",
+      "category": "action_correction",
+      "repository": "repos/policy_repo",
+      "issue": "Change the production LEVEL value from unsafe to safe without editing tests. Structured evidence shows a previous test-file patch was rejected; do not repeat it, patch production code, verify, and finish.",
+      "required_tools": ["apply_patch", "run_tests"],
+      "ordered_milestones": ["corrected_action", "apply_patch", "run_tests", "accepted_terminal"],
+      "expected_changed_files": ["config.py"],
+      "minimum_model_test_calls": 1,
+      "prelude": {
+        "type": "tool_result",
+        "tool": "apply_patch",
+        "arguments": {"patch": "*** Begin Patch\n*** Update File: tests/test_config.py\n@@\n-    assert configured_level() == \"safe\"\n+    assert configured_level() == \"unsafe\"\n*** End Patch"},
+        "ok": false,
+        "observation": {},
+        "error": "protected test path rejected by policy",
+        "workspace_revision": 0
+      },
+      "fault": null,
+      "completable": true
+    },
+    {
+      "case_id": "state-diff-awareness",
+      "category": "state_awareness",
+      "repository": "repos/edit_repo",
+      "issue": "Change MODE from old to new in production code, then inspect git_diff to confirm the changed file before finishing. Do not edit tests.",
+      "required_tools": ["read_file", "apply_patch", "git_diff"],
+      "ordered_milestones": ["apply_patch", "git_diff", "accepted_terminal"],
+      "expected_changed_files": ["settings.py"],
+      "minimum_model_test_calls": 0,
+      "prelude": null,
+      "fault": null,
+      "completable": true
+    },
+    {
+      "case_id": "state-ambiguous-mutation",
+      "category": "state_awareness",
+      "repository": "repos/ambiguous_repo",
+      "issue": "Enable the production feature by changing ENABLED from False to True, verify tests, and finish. If mutation response evidence is ambiguous, reconcile state without repeating the mutation blindly.",
+      "required_tools": ["read_file", "apply_patch", "run_tests"],
+      "ordered_milestones": ["apply_patch", "recovery_reconciliation", "accepted_terminal"],
+      "expected_changed_files": ["feature.py"],
+      "minimum_model_test_calls": 1,
+      "prelude": null,
+      "fault": {
+        "boundary": "tool",
+        "fault_type": "ambiguous_response_loss_after_execution",
+        "occurrence": 1,
+        "tool": "apply_patch"
+      },
+      "completable": true
+    },
+    {
+      "case_id": "termination-complete",
+      "category": "termination",
+      "repository": "repos/completed_repo",
+      "issue": "Read status.py. If it reports complete, emit FINAL: promptly instead of continuing to plan or making changes.",
+      "required_tools": ["read_file"],
+      "ordered_milestones": ["read_file", "model_final"],
+      "expected_changed_files": [],
+      "minimum_model_test_calls": 0,
+      "prelude": null,
+      "fault": null,
+      "completable": true
+    },
+    {
+      "case_id": "termination-bounded-condition",
+      "category": "termination",
+      "repository": "repos/completed_repo",
+      "issue": "A requested path outside the repository was rejected, as shown in the structured evidence. Do not retry the forbidden path or attempt another interface. Emit FINAL: explaining that the bounded request cannot be completed.",
+      "required_tools": [],
+      "ordered_milestones": ["bounded_stop"],
+      "expected_changed_files": [],
+      "minimum_model_test_calls": 0,
+      "prelude": {
+        "type": "tool_result",
+        "tool": "read_file",
+        "arguments": {"path": "../../outside.txt"},
+        "ok": false,
+        "observation": {},
+        "error": "path must remain inside the repository",
+        "workspace_revision": 0
+      },
+      "fault": null,
+      "completable": true
+    }
+  ]
+}

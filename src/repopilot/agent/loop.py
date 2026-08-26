@@ -5,7 +5,7 @@ import time
 import uuid
 from dataclasses import asdict
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 from repopilot.agent.recovery import RecoveryPolicy, failure_from_exception
 from repopilot.config import RunConfig
@@ -34,6 +34,7 @@ class AgentLoop:
         total_timeout_seconds: int,
         recovery_policy: RecoveryPolicy | None = None,
         fault_runtime: Any | None = None,
+        timing_hook: Callable[[str, float], None] | None = None,
     ):
         self.issue = issue
         self.model = model
@@ -44,6 +45,11 @@ class AgentLoop:
         self.total_timeout_seconds = total_timeout_seconds
         self.recovery_policy = recovery_policy or RecoveryPolicy()
         self.fault_runtime = fault_runtime
+        self.timing_hook = timing_hook
+
+    def _timing(self, checkpoint: str, started: float) -> None:
+        if self.timing_hook is not None:
+            self.timing_hook(checkpoint, (time.perf_counter() - started) * 1000)
 
     def _record_tool(
         self,
@@ -126,6 +132,7 @@ class AgentLoop:
 
     def run(self, run_id: str, *, started_at: float | None = None) -> RunResult:
         started = started_at if started_at is not None else time.perf_counter()
+        self._timing("controller_started", started)
         history: list[dict[str, Any]] = []
         usage = TokenUsage()
         repair_cycles = 0
@@ -144,12 +151,14 @@ class AgentLoop:
         forced_stop: str | None = None
         for iteration in range(1, self.max_iterations + 1):
             iterations = iteration
+            self._timing("before_iteration", started)
             controller_stop = self._controller_fault("before_iteration")
             if controller_stop is not None:
                 stop_reason = controller_stop
                 break
             if time.perf_counter() - started >= self.total_timeout_seconds:
                 stop_reason = "total_timeout"
+                self._timing("deadline_detected", started)
                 break
             pending_model_decision: dict[str, Any] | None = None
             skip_iteration = False
@@ -411,6 +420,7 @@ class AgentLoop:
                 last_diff = result.observation
                 last_diff_revision = result.revision
 
+        self._timing("finalization_started", started)
         if last_test_revision != self.tools.revision:
             last_test_result = self.tools.call("run_tests", {})
             tool_calls += 1
@@ -435,6 +445,7 @@ class AgentLoop:
                 origin="controller",
             )
             last_diff = diff_result.observation if diff_result.ok else {}
+        self._timing("finalization_completed", started)
         final_diff = (last_diff or {}).get("diff", "")
         changed_files = (last_diff or {}).get("changed_files", [])
         success = bool(last_test and last_test.get("passed"))
