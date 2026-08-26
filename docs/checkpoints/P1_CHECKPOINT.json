@@ -1,0 +1,71 @@
+{
+  "checkpoint_schema_version": 1,
+  "milestone": "RepoPilot V2 P1 retrieval negative result",
+  "checkpoint_ref": "repopilot-v2-p1-negative",
+  "validated_at": "2026-08-26",
+  "p0_checkpoint": {
+    "commit": "c894f6e353097c8b2e4ff99306c1999e88f6fbef",
+    "tag": "repopilot-v2-p0",
+    "manifest": "docs/checkpoints/P0_CHECKPOINT.json"
+  },
+  "p1_content_commit": "ddb527b86da7d6dae6fb2b848b8c13380d7499a7",
+  "p1_content_tree": "a4dcfda1eb6308a98545de671f45a2d39234d0de",
+  "experiment_hashes": {
+    "corpus_content_hash": "sha256:67c3ca0fd24e6fa434110b33b39507c02c2485a003ee4e5ccc3ac0d7395fb7ad",
+    "evaluation_profile_content_hash": "sha256:3fdaf0f1c740807065ddbd6eca04f8505f42bcf830b0d43238314b2f5e6eeb7c",
+    "semantic_model_file_sha256": "67df4c4ab32c1cd951857e99d1452de89f2d8bab9ecbb3f75186254aed36c101",
+    "deterministic_fingerprint": "sha256:7767602dff5fff4ebe9f421d740765a851dd3c18c143aefe8601ea98589651fb"
+  },
+  "phase_status": {
+    "phase_5": "PASS",
+    "phase_6": "FAIL",
+    "overall_p1": "FAIL"
+  },
+  "aggregate": {
+    "structural": {
+      "recall_at_5": 1.0,
+      "mrr": 0.5729166666666666
+    },
+    "semantic": {
+      "recall_at_5": 1.0,
+      "mrr": 0.6041666666666666
+    },
+    "hybrid": {
+      "recall_at_5": 1.0,
+      "mrr": 0.59375
+    }
+  },
+  "acceptance": {
+    "required_semantic_unique_paraphrase_recoveries_at_3": 2,
+    "observed_semantic_unique_paraphrase_recoveries_at_3": 1,
+    "observed_cases": [
+      "allocation_rollback_paraphrase"
+    ],
+    "failed_criterion": "semantic uniquely recovered fewer than two predeclared paraphrase cases at Recall@3",
+    "offline_gate_passed": false
+  },
+  "decision": {
+    "hybrid_promoted": false,
+    "default_retrieval_strategy": "structural",
+    "live_structural_vs_hybrid_comparison_run": false,
+    "reason": "The frozen offline acceptance gate failed; no held-out tuning or live comparison is permitted."
+  },
+  "preserved_artifacts": [
+    "benchmarks/retrieval/cases.v1.json",
+    "configs/evaluation/retrieval.json",
+    "configs/evaluation/retrieval_structural_baseline.json",
+    "configs/retrieval/semantic_model.v1.json",
+    "docs/checkpoints/P1_STRUCTURAL_BASELINE.json",
+    "docs/checkpoints/P1_OFFLINE_RESULT.json"
+  ],
+  "repository_state": {
+    "readme_modified": false,
+    "excluded_unrelated_paths": [
+      ".DS_Store",
+      "src/repopilot/agent/loop.py (pre-existing explanatory comments; behavior unchanged)",
+      "src/repopilot/sandbox/repository_context.py (pre-existing explanatory comments; behavior unchanged)",
+      "src/repopilot/sandbox/sandbox_runner.py (pre-existing explanatory comments; behavior unchanged)",
+      "src/repopilot/tools/registry.py (pre-existing explanatory comments; behavior unchanged)"
+    ]
+  }
+}
