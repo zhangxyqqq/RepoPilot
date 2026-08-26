@@ -40,6 +40,7 @@ class SWEbenchSandbox:
         command_timeout_seconds: int = 120,
         config: SandboxConfig = SandboxConfig(),
         forbidden_host_roots: Iterable[Path] = (),
+        runner_source_root: Path | None = None,
     ):
         self.workspace = workspace.resolve(strict=True)
         self.instance_id = instance_id
@@ -50,6 +51,7 @@ class SWEbenchSandbox:
         self.command_timeout_seconds = min(max(command_timeout_seconds, 1), 120)
         self.config = config
         self.forbidden_host_roots = tuple(path.resolve(strict=True) for path in forbidden_host_roots)
+        self.runner_source_root = (runner_source_root or self.project_root()).resolve(strict=True)
         self.container_name = f"repopilot-sweb-{uuid.uuid4().hex[:12]}"
         self._started = False
         self._bundle: tempfile.TemporaryDirectory[str] | None = None
@@ -67,7 +69,7 @@ class SWEbenchSandbox:
     def _stage_runner_bundle(self) -> Path:
         self._bundle = tempfile.TemporaryDirectory(prefix="repopilot-sweb-runner-")
         root = Path(self._bundle.name)
-        project = self.project_root()
+        project = self.runner_source_root
         shutil.copy2(project / "src/repopilot/sandbox/sandbox_runner.py", root / "sandbox_runner.py")
         shutil.copy2(project / "src/repopilot/sandbox/repository_context.py", root / "repository_context.py")
         package = root / "repopilot"
