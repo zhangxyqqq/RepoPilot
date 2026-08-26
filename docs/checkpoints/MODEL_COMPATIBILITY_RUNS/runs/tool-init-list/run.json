@@ -1,0 +1,300 @@
+{
+  "case_id": "tool-init-list",
+  "category": "tool_initiation",
+  "changed_files": [],
+  "completable": true,
+  "contamination": {
+    "answer_files_absent": true,
+    "passed": true,
+    "swebench_instance_ids_absent": true
+  },
+  "deadline_diagnostics": {
+    "active_operation_completion_ms": 60735.934708005516,
+    "artifact_completion_ms": 60807.058250007685,
+    "cancellation_initiation_ms": null,
+    "cleanup_completion_ms": 60802.25212499499,
+    "configured_deadline_ms": 60000,
+    "controller_checkpoints_ms": {
+      "before_iteration": [
+        1182.231375016272,
+        8511.461832997156,
+        24778.63874999457,
+        47698.737375001656,
+        60350.95533300773
+      ],
+      "controller_started": [
+        1182.2177910071332
+      ],
+      "deadline_detected": [
+        60350.96500001964
+      ],
+      "finalization_completed": [
+        60736.55837500701
+      ],
+      "finalization_started": [
+        60350.98212500452
+      ]
+    },
+    "controller_return_ms": 60736.74654102069,
+    "deadline_detection_ms": 60350.96500001964,
+    "hard_cancellation_supported": false,
+    "process_exit_ms": 60807.058250007685,
+    "provider_and_tool_operations": [
+      {
+        "completed_ms": 8510.06425000378,
+        "duration_ms": 7327.813584008254,
+        "operation": "model",
+        "started_ms": 1182.2506659955252
+      },
+      {
+        "completed_ms": 24777.141333004693,
+        "duration_ms": 16265.646666986868,
+        "operation": "model",
+        "started_ms": 8511.494666017825
+      },
+      {
+        "completed_ms": 47696.77241600584,
+        "duration_ms": 22918.114708008943,
+        "operation": "model",
+        "started_ms": 24778.6577079969
+      },
+      {
+        "completed_ms": 60349.41049999907,
+        "duration_ms": 12650.658958998974,
+        "operation": "model",
+        "started_ms": 47698.75154100009
+      },
+      {
+        "completed_ms": 60626.11650000326,
+        "duration_ms": 275.0899170059711,
+        "operation": "tool",
+        "started_ms": 60351.02658299729,
+        "tool": "run_tests"
+      },
+      {
+        "completed_ms": 60735.934708005516,
+        "duration_ms": 108.43404199113138,
+        "operation": "tool",
+        "started_ms": 60627.500666014384,
+        "tool": "git_diff"
+      }
+    ]
+  },
+  "iterations": 5,
+  "latency_ms": 60736.565166007495,
+  "ordered_milestones": [
+    "list_files",
+    "accepted_terminal"
+  ],
+  "repair_cycles": 0,
+  "required_tools": [
+    "list_files"
+  ],
+  "run_id": "compat-tool-init-list-05f9eece",
+  "score": {
+    "action_counts": {
+      "plan": 4
+    },
+    "changed_files": [],
+    "correction_after_failed_tests": null,
+    "correction_after_structured_error": null,
+    "duplicate_mutation_attempts": 0,
+    "failure_analysis": {
+      "classifications": [
+        {
+          "attribution_confidence": "deterministic_rule",
+          "evidence_event_ids": [
+            "8514edb309895e5eb4da21b8e59bac6a"
+          ],
+          "fault_origin": "natural",
+          "label": "controller.total_timeout",
+          "observable_signal": "controller total deadline reached",
+          "outcome_impact": "task_failure",
+          "phase": "controller",
+          "recoverability": "non_retryable"
+        }
+      ],
+      "evidence_availability": "trace_only",
+      "historical_missing_evidence": true,
+      "injected_faults": [],
+      "manual_hypotheses": [],
+      "observed_facts": [
+        {
+          "evidence_event_ids": [
+            "8514edb309895e5eb4da21b8e59bac6a"
+          ],
+          "fact": "controller total deadline reached",
+          "source": "observed_trace_or_evaluation_fact"
+        }
+      ],
+      "recovery_decisions": [],
+      "taxonomy": {
+        "schema_version": 1,
+        "source": "/private/tmp/repopilot-model-compat-runtime-b7db32d/configs/evaluation/failure_taxonomy.v1.json",
+        "taxonomy_id": "repopilot-failures",
+        "version": 1
+      },
+      "terminal_reason": {
+        "classification": "failure_label",
+        "evidence_event_ids": [
+          "8514edb309895e5eb4da21b8e59bac6a"
+        ],
+        "stop_reason": "total_timeout"
+      },
+      "unclassified_error_count": 0,
+      "unclassified_error_event_ids": []
+    },
+    "first_valid_tool_call": false,
+    "invalid_argument_calls": 0,
+    "malformed_actions": 0,
+    "milestones_observed": [],
+    "model_final": false,
+    "model_test_calls": 0,
+    "model_tool_calls": 0,
+    "model_tool_names": [],
+    "model_turns": 4,
+    "plan_only_loop": true,
+    "plan_only_responses_before_first_tool": 4,
+    "premature_final": false,
+    "protocol_complete": false,
+    "repeated_identical_tool_calls": 0,
+    "required_tool_coverage": false,
+    "state_revision_aware": null,
+    "stop_reason": "total_timeout",
+    "successful_finalization": false,
+    "time_to_first_valid_tool_call_ms": null,
+    "tool_selection_correct_calls": 0,
+    "unknown_tool_calls": 0,
+    "unnecessary_tool_calls": 0,
+    "unsafe_retry_count": 0,
+    "valid_structured_actions": 4
+  },
+  "security": {
+    "assertions": {
+      "canonical_tools": true,
+      "capabilities_dropped": true,
+      "cpu_bounded": true,
+      "credentials_absent": true,
+      "memory_bounded": true,
+      "network_none": true,
+      "no_new_privileges": true,
+      "non_root": true,
+      "only_workspace_bind_mounted": true,
+      "pids_bounded": true,
+      "read_only_root": true,
+      "workspace_writable": true
+    },
+    "passed": true,
+    "passed_count": 12,
+    "total_count": 12
+  },
+  "stop_reason": "total_timeout",
+  "success": true,
+  "tool_calls": 2,
+  "trace_reconciliation": {
+    "available": true,
+    "checks": {
+      "final_status": {
+        "actual": "ok",
+        "expected": "ok",
+        "match": true
+      },
+      "run_latency_ms": {
+        "actual": 60736.565166007495,
+        "expected": 60736.565166007495,
+        "match": true
+      },
+      "stop_reason": {
+        "actual": "total_timeout",
+        "expected": "total_timeout",
+        "match": true
+      },
+      "token_usage": {
+        "actual": {
+          "cached_tokens": 0,
+          "input_tokens": 1999,
+          "output_tokens": 997,
+          "reasoning_tokens": 0
+        },
+        "expected": {
+          "cached_tokens": 0,
+          "input_tokens": 1999,
+          "output_tokens": 997,
+          "reasoning_tokens": 0
+        },
+        "match": true
+      },
+      "tool_count": {
+        "actual": 2,
+        "expected": 2,
+        "match": true
+      }
+    },
+    "passed": true
+  },
+  "trace_summary": {
+    "complete": true,
+    "errors": {
+      "by_code": {},
+      "total": 0
+    },
+    "event_count": 14,
+    "final": {
+      "status": "ok",
+      "stop_reason": "total_timeout",
+      "success": true
+    },
+    "latency_ms": {
+      "model": 59161.9276679703,
+      "run": 60736.565166007495,
+      "tool": 383.1474590115249
+    },
+    "phase_counts": {
+      "controller": 6,
+      "model": 4,
+      "run": 2,
+      "tool": 2
+    },
+    "reader_issues": [],
+    "run_id": "compat-tool-init-list-05f9eece",
+    "source_schema_versions": [
+      2
+    ],
+    "status_counts": {
+      "in_progress": 1,
+      "ok": 13
+    },
+    "summary_schema_version": 1,
+    "token_usage": {
+      "cached_tokens": 0,
+      "input_tokens": 1999,
+      "output_tokens": 997,
+      "reasoning_tokens": 0
+    },
+    "tool_calls": {
+      "by_name": {
+        "git_diff": 1,
+        "run_tests": 1
+      },
+      "by_status": {
+        "ok": 2
+      },
+      "total": 2
+    },
+    "trace_id": "204a7f9a952652d895c07f889fb3bac4",
+    "workspace_revisions": {
+      "final": 0,
+      "observed": [
+        0
+      ],
+      "transitions": 0
+    }
+  },
+  "unnecessary_tool_calls": 0,
+  "usage": {
+    "cached_tokens": 0,
+    "input_tokens": 1999,
+    "output_tokens": 997,
+    "reasoning_tokens": 0
+  }
+}

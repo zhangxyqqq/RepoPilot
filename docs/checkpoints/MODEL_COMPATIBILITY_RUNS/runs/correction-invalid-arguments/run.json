@@ -1,0 +1,281 @@
+{
+  "case_id": "correction-invalid-arguments",
+  "category": "action_correction",
+  "changed_files": [],
+  "completable": true,
+  "contamination": {
+    "answer_files_absent": true,
+    "passed": true,
+    "swebench_instance_ids_absent": true
+  },
+  "deadline_diagnostics": {
+    "active_operation_completion_ms": 48695.654667011695,
+    "artifact_completion_ms": 48753.98716700147,
+    "cancellation_initiation_ms": null,
+    "cleanup_completion_ms": 48749.544374994,
+    "configured_deadline_ms": 60000,
+    "controller_checkpoints_ms": {
+      "before_iteration": [
+        325.6806670106016,
+        14595.605667011114,
+        23315.538209018996,
+        33352.18391701346
+      ],
+      "controller_started": [
+        325.6626249931287
+      ],
+      "finalization_completed": [
+        48696.530209010234
+      ],
+      "finalization_started": [
+        48329.133417020785
+      ]
+    },
+    "controller_return_ms": 48696.77745900117,
+    "deadline_detection_ms": null,
+    "hard_cancellation_supported": false,
+    "process_exit_ms": 48753.98716700147,
+    "provider_and_tool_operations": [
+      {
+        "completed_ms": 14594.629625004018,
+        "duration_ms": 14268.925457989099,
+        "operation": "model",
+        "started_ms": 325.7041670149192
+      },
+      {
+        "completed_ms": 23314.939917006996,
+        "duration_ms": 8719.321042008232,
+        "operation": "model",
+        "started_ms": 14595.618874998763
+      },
+      {
+        "completed_ms": 33350.730209000176,
+        "duration_ms": 10035.186875000363,
+        "operation": "model",
+        "started_ms": 23315.543333999813
+      },
+      {
+        "completed_ms": 48327.40195901715,
+        "duration_ms": 14975.19787499914,
+        "operation": "model",
+        "started_ms": 33352.20408401801
+      },
+      {
+        "completed_ms": 48588.798125012545,
+        "duration_ms": 259.6354999986943,
+        "operation": "tool",
+        "started_ms": 48329.16262501385,
+        "tool": "run_tests"
+      },
+      {
+        "completed_ms": 48695.654667011695,
+        "duration_ms": 105.75195800629444,
+        "operation": "tool",
+        "started_ms": 48589.9027090054,
+        "tool": "git_diff"
+      }
+    ]
+  },
+  "iterations": 4,
+  "latency_ms": 48696.53508401825,
+  "ordered_milestones": [
+    "corrected_action",
+    "read_file",
+    "accepted_terminal"
+  ],
+  "repair_cycles": 0,
+  "required_tools": [
+    "read_file"
+  ],
+  "run_id": "compat-correction-invalid-arguments-a3898410",
+  "score": {
+    "action_counts": {
+      "final": 1,
+      "plan": 3
+    },
+    "changed_files": [],
+    "correction_after_failed_tests": null,
+    "correction_after_structured_error": false,
+    "duplicate_mutation_attempts": 0,
+    "failure_analysis": {
+      "classifications": [],
+      "evidence_availability": "trace_only",
+      "historical_missing_evidence": true,
+      "injected_faults": [],
+      "manual_hypotheses": [],
+      "observed_facts": [],
+      "recovery_decisions": [],
+      "taxonomy": {
+        "schema_version": 1,
+        "source": "/private/tmp/repopilot-model-compat-runtime-b7db32d/configs/evaluation/failure_taxonomy.v1.json",
+        "taxonomy_id": "repopilot-failures",
+        "version": 1
+      },
+      "terminal_reason": {
+        "classification": "non_failure",
+        "evidence_event_ids": [
+          "f84eb46c8a1d5273bfd59aa1b105091e"
+        ],
+        "stop_reason": "model_final"
+      },
+      "unclassified_error_count": 0,
+      "unclassified_error_event_ids": []
+    },
+    "first_valid_tool_call": false,
+    "invalid_argument_calls": 0,
+    "malformed_actions": 0,
+    "milestones_observed": [
+      "model_final",
+      "bounded_stop",
+      "accepted_terminal"
+    ],
+    "model_final": true,
+    "model_test_calls": 0,
+    "model_tool_calls": 0,
+    "model_tool_names": [],
+    "model_turns": 4,
+    "plan_only_loop": false,
+    "plan_only_responses_before_first_tool": 3,
+    "premature_final": true,
+    "protocol_complete": false,
+    "repeated_identical_tool_calls": 0,
+    "required_tool_coverage": false,
+    "state_revision_aware": null,
+    "stop_reason": "model_final",
+    "successful_finalization": true,
+    "time_to_first_valid_tool_call_ms": null,
+    "tool_selection_correct_calls": 0,
+    "unknown_tool_calls": 0,
+    "unnecessary_tool_calls": 0,
+    "unsafe_retry_count": 0,
+    "valid_structured_actions": 4
+  },
+  "security": {
+    "assertions": {
+      "canonical_tools": true,
+      "capabilities_dropped": true,
+      "cpu_bounded": true,
+      "credentials_absent": true,
+      "memory_bounded": true,
+      "network_none": true,
+      "no_new_privileges": true,
+      "non_root": true,
+      "only_workspace_bind_mounted": true,
+      "pids_bounded": true,
+      "read_only_root": true,
+      "workspace_writable": true
+    },
+    "passed": true,
+    "passed_count": 12,
+    "total_count": 12
+  },
+  "stop_reason": "model_final",
+  "success": true,
+  "tool_calls": 2,
+  "trace_reconciliation": {
+    "available": true,
+    "checks": {
+      "final_status": {
+        "actual": "ok",
+        "expected": "ok",
+        "match": true
+      },
+      "run_latency_ms": {
+        "actual": 48696.53508401825,
+        "expected": 48696.53508401825,
+        "match": true
+      },
+      "stop_reason": {
+        "actual": "model_final",
+        "expected": "model_final",
+        "match": true
+      },
+      "token_usage": {
+        "actual": {
+          "cached_tokens": 0,
+          "input_tokens": 2312,
+          "output_tokens": 844,
+          "reasoning_tokens": 0
+        },
+        "expected": {
+          "cached_tokens": 0,
+          "input_tokens": 2312,
+          "output_tokens": 844,
+          "reasoning_tokens": 0
+        },
+        "match": true
+      },
+      "tool_count": {
+        "actual": 2,
+        "expected": 2,
+        "match": true
+      }
+    },
+    "passed": true
+  },
+  "trace_summary": {
+    "complete": true,
+    "errors": {
+      "by_code": {},
+      "total": 0
+    },
+    "event_count": 14,
+    "final": {
+      "status": "ok",
+      "stop_reason": "model_final",
+      "success": true
+    },
+    "latency_ms": {
+      "model": 47998.442582960706,
+      "run": 48696.53508401825,
+      "tool": 365.0430839625187
+    },
+    "phase_counts": {
+      "controller": 6,
+      "model": 4,
+      "run": 2,
+      "tool": 2
+    },
+    "reader_issues": [],
+    "run_id": "compat-correction-invalid-arguments-a3898410",
+    "source_schema_versions": [
+      2
+    ],
+    "status_counts": {
+      "in_progress": 1,
+      "ok": 13
+    },
+    "summary_schema_version": 1,
+    "token_usage": {
+      "cached_tokens": 0,
+      "input_tokens": 2312,
+      "output_tokens": 844,
+      "reasoning_tokens": 0
+    },
+    "tool_calls": {
+      "by_name": {
+        "git_diff": 1,
+        "run_tests": 1
+      },
+      "by_status": {
+        "ok": 2
+      },
+      "total": 2
+    },
+    "trace_id": "5a953e4badb753e1adba12fe61952aed",
+    "workspace_revisions": {
+      "final": 0,
+      "observed": [
+        0
+      ],
+      "transitions": 0
+    }
+  },
+  "unnecessary_tool_calls": 0,
+  "usage": {
+    "cached_tokens": 0,
+    "input_tokens": 2312,
+    "output_tokens": 844,
+    "reasoning_tokens": 0
+  }
+}

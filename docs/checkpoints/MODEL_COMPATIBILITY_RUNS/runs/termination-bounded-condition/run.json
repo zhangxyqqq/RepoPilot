@@ -1,0 +1,304 @@
+{
+  "case_id": "termination-bounded-condition",
+  "category": "termination",
+  "changed_files": [],
+  "completable": true,
+  "contamination": {
+    "answer_files_absent": true,
+    "passed": true,
+    "swebench_instance_ids_absent": true
+  },
+  "deadline_diagnostics": {
+    "active_operation_completion_ms": 62898.65354198264,
+    "artifact_completion_ms": 62956.91412498127,
+    "cancellation_initiation_ms": null,
+    "cleanup_completion_ms": 62952.34529199661,
+    "configured_deadline_ms": 60000,
+    "controller_checkpoints_ms": {
+      "before_iteration": [
+        328.6013749893755,
+        5019.25833398127,
+        13556.369750003796,
+        26748.141083982773,
+        44421.277999994345,
+        62539.94962500292
+      ],
+      "controller_started": [
+        328.5924590018112
+      ],
+      "deadline_detected": [
+        62539.95354200015
+      ],
+      "finalization_completed": [
+        62899.25975000369
+      ],
+      "finalization_started": [
+        62539.954749983735
+      ]
+    },
+    "controller_return_ms": 62899.42804200109,
+    "deadline_detection_ms": 62539.95354200015,
+    "hard_cancellation_supported": false,
+    "process_exit_ms": 62956.91412498127,
+    "provider_and_tool_operations": [
+      {
+        "completed_ms": 5018.840499978978,
+        "duration_ms": 4690.2228749822825,
+        "operation": "model",
+        "started_ms": 328.61762499669567
+      },
+      {
+        "completed_ms": 13555.210541991983,
+        "duration_ms": 8535.94712499762,
+        "operation": "model",
+        "started_ms": 5019.263416994363
+      },
+      {
+        "completed_ms": 26746.83345897938,
+        "duration_ms": 13190.450541995233,
+        "operation": "model",
+        "started_ms": 13556.382916984148
+      },
+      {
+        "completed_ms": 44419.804791978095,
+        "duration_ms": 17671.65091697825,
+        "operation": "model",
+        "started_ms": 26748.153874999844
+      },
+      {
+        "completed_ms": 62538.34774999996,
+        "duration_ms": 18117.05129101756,
+        "operation": "model",
+        "started_ms": 44421.2964589824
+      },
+      {
+        "completed_ms": 62778.58933398966,
+        "duration_ms": 238.61629198654555,
+        "operation": "tool",
+        "started_ms": 62539.97304200311,
+        "tool": "run_tests"
+      },
+      {
+        "completed_ms": 62898.65354198264,
+        "duration_ms": 118.84008298511617,
+        "operation": "tool",
+        "started_ms": 62779.81345899752,
+        "tool": "git_diff"
+      }
+    ]
+  },
+  "iterations": 6,
+  "latency_ms": 62899.264958978165,
+  "ordered_milestones": [
+    "bounded_stop"
+  ],
+  "repair_cycles": 0,
+  "required_tools": [],
+  "run_id": "compat-termination-bounded-condition-02b22827",
+  "score": {
+    "action_counts": {
+      "plan": 5
+    },
+    "changed_files": [],
+    "correction_after_failed_tests": null,
+    "correction_after_structured_error": false,
+    "duplicate_mutation_attempts": 0,
+    "failure_analysis": {
+      "classifications": [
+        {
+          "attribution_confidence": "deterministic_rule",
+          "evidence_event_ids": [
+            "8d08c53531dd59e4be5b1eaa74feb676"
+          ],
+          "fault_origin": "natural",
+          "label": "controller.total_timeout",
+          "observable_signal": "controller total deadline reached",
+          "outcome_impact": "task_failure",
+          "phase": "controller",
+          "recoverability": "non_retryable"
+        }
+      ],
+      "evidence_availability": "trace_only",
+      "historical_missing_evidence": true,
+      "injected_faults": [],
+      "manual_hypotheses": [],
+      "observed_facts": [
+        {
+          "evidence_event_ids": [
+            "8d08c53531dd59e4be5b1eaa74feb676"
+          ],
+          "fact": "controller total deadline reached",
+          "source": "observed_trace_or_evaluation_fact"
+        }
+      ],
+      "recovery_decisions": [],
+      "taxonomy": {
+        "schema_version": 1,
+        "source": "/private/tmp/repopilot-model-compat-runtime-b7db32d/configs/evaluation/failure_taxonomy.v1.json",
+        "taxonomy_id": "repopilot-failures",
+        "version": 1
+      },
+      "terminal_reason": {
+        "classification": "failure_label",
+        "evidence_event_ids": [
+          "8d08c53531dd59e4be5b1eaa74feb676"
+        ],
+        "stop_reason": "total_timeout"
+      },
+      "unclassified_error_count": 0,
+      "unclassified_error_event_ids": []
+    },
+    "first_valid_tool_call": false,
+    "invalid_argument_calls": 0,
+    "malformed_actions": 0,
+    "milestones_observed": [],
+    "model_final": false,
+    "model_test_calls": 0,
+    "model_tool_calls": 0,
+    "model_tool_names": [],
+    "model_turns": 5,
+    "plan_only_loop": true,
+    "plan_only_responses_before_first_tool": 5,
+    "premature_final": false,
+    "protocol_complete": false,
+    "repeated_identical_tool_calls": 0,
+    "required_tool_coverage": true,
+    "state_revision_aware": null,
+    "stop_reason": "total_timeout",
+    "successful_finalization": false,
+    "time_to_first_valid_tool_call_ms": null,
+    "tool_selection_correct_calls": 0,
+    "unknown_tool_calls": 0,
+    "unnecessary_tool_calls": 0,
+    "unsafe_retry_count": 0,
+    "valid_structured_actions": 5
+  },
+  "security": {
+    "assertions": {
+      "canonical_tools": true,
+      "capabilities_dropped": true,
+      "cpu_bounded": true,
+      "credentials_absent": true,
+      "memory_bounded": true,
+      "network_none": true,
+      "no_new_privileges": true,
+      "non_root": true,
+      "only_workspace_bind_mounted": true,
+      "pids_bounded": true,
+      "read_only_root": true,
+      "workspace_writable": true
+    },
+    "passed": true,
+    "passed_count": 12,
+    "total_count": 12
+  },
+  "stop_reason": "total_timeout",
+  "success": true,
+  "tool_calls": 2,
+  "trace_reconciliation": {
+    "available": true,
+    "checks": {
+      "final_status": {
+        "actual": "ok",
+        "expected": "ok",
+        "match": true
+      },
+      "run_latency_ms": {
+        "actual": 62899.264958978165,
+        "expected": 62899.264958978165,
+        "match": true
+      },
+      "stop_reason": {
+        "actual": "total_timeout",
+        "expected": "total_timeout",
+        "match": true
+      },
+      "token_usage": {
+        "actual": {
+          "cached_tokens": 0,
+          "input_tokens": 2730,
+          "output_tokens": 1090,
+          "reasoning_tokens": 0
+        },
+        "expected": {
+          "cached_tokens": 0,
+          "input_tokens": 2730,
+          "output_tokens": 1090,
+          "reasoning_tokens": 0
+        },
+        "match": true
+      },
+      "tool_count": {
+        "actual": 2,
+        "expected": 2,
+        "match": true
+      }
+    },
+    "passed": true
+  },
+  "trace_summary": {
+    "complete": true,
+    "errors": {
+      "by_code": {},
+      "total": 0
+    },
+    "event_count": 16,
+    "final": {
+      "status": "ok",
+      "stop_reason": "total_timeout",
+      "success": true
+    },
+    "latency_ms": {
+      "model": 62205.105874018045,
+      "run": 62899.264958978165,
+      "tool": 357.1488749876153
+    },
+    "phase_counts": {
+      "controller": 7,
+      "model": 5,
+      "run": 2,
+      "tool": 2
+    },
+    "reader_issues": [],
+    "run_id": "compat-termination-bounded-condition-02b22827",
+    "source_schema_versions": [
+      2
+    ],
+    "status_counts": {
+      "in_progress": 1,
+      "ok": 15
+    },
+    "summary_schema_version": 1,
+    "token_usage": {
+      "cached_tokens": 0,
+      "input_tokens": 2730,
+      "output_tokens": 1090,
+      "reasoning_tokens": 0
+    },
+    "tool_calls": {
+      "by_name": {
+        "git_diff": 1,
+        "run_tests": 1
+      },
+      "by_status": {
+        "ok": 2
+      },
+      "total": 2
+    },
+    "trace_id": "b41e2d191164512b84c9e0cbd65a8932",
+    "workspace_revisions": {
+      "final": 0,
+      "observed": [
+        0
+      ],
+      "transitions": 0
+    }
+  },
+  "unnecessary_tool_calls": 0,
+  "usage": {
+    "cached_tokens": 0,
+    "input_tokens": 2730,
+    "output_tokens": 1090,
+    "reasoning_tokens": 0
+  }
+}
