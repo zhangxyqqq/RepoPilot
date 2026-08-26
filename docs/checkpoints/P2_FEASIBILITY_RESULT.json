@@ -1,0 +1,273 @@
+{
+  "schema_version": 1,
+  "evaluated_at": "2026-08-26",
+  "track": "swebench_feasibility_security",
+  "claim_boundary": "Environment and security feasibility only; no live-agent SWE-bench solve was attempted.",
+  "live_agent_behavior_run": false,
+  "checkpoints": {
+    "p0_commit": "c894f6e353097c8b2e4ff99306c1999e88f6fbef",
+    "p0_tag": "repopilot-v2-p0",
+    "p1_checkpoint_commit": "faa2faa886013614b6559a95a1a5f867917caf3a",
+    "p1_content_commit": "ddb527b86da7d6dae6fb2b848b8c13380d7499a7",
+    "p1_tag": "repopilot-v2-p1-negative",
+    "p2_selection_commit": "6af9345bf259deab795ed7c403318e2c84870473"
+  },
+  "profile": {
+    "path": "configs/evaluation/swebench_verified_feasibility.json",
+    "sha256": "cb935acd22da027639725194ea03c1d96237b9bcbc351522d63a7899a4fc8753",
+    "all_candidates": [
+      "pallets__flask-5014",
+      "psf__requests-5414",
+      "psf__requests-6028",
+      "pytest-dev__pytest-10051",
+      "pytest-dev__pytest-7324"
+    ],
+    "frozen_instances": [
+      "pallets__flask-5014",
+      "psf__requests-5414",
+      "pytest-dev__pytest-10051"
+    ],
+    "excluded_before_testing": {
+      "psf__requests-6028": "Requests was already represented and this candidate had the larger trusted grading plan (2 FAIL_TO_PASS, 185 PASS_TO_PASS).",
+      "pytest-dev__pytest-7324": "pytest was already represented and this candidate had the larger trusted grading plan (3 FAIL_TO_PASS, 58 PASS_TO_PASS)."
+    },
+    "substitutions_after_freeze": 0
+  },
+  "official_environment": {
+    "harness": {
+      "package": "swebench",
+      "version": "5.0.2",
+      "git_commit": "7a21e05772954cc81471ae19d56f436cecf43c54"
+    },
+    "dataset": {
+      "reference_id": "princeton-nlp/SWE-bench_Verified",
+      "reference_revision": "c104f840cc67f8b6eec6f759ebc8b2693d585d4a",
+      "enriched_environment_id": "SWE-bench/SWE-bench_Verified",
+      "enriched_environment_revision": "78f471bf655a3137b2e8a75af1501690ec009ec3",
+      "split": "test",
+      "local_patch_difference": "Only one trailing newline; content after rstrip matched for all selected reference and test patches."
+    },
+    "docker": {
+      "client_version": "29.1.3",
+      "server_version": "29.1.3",
+      "host_architecture": "arm64",
+      "image_architecture": "amd64",
+      "execution_mode": "Docker Desktop AMD64 emulation",
+      "assigned_cpus": 12,
+      "assigned_memory_bytes": 8217165824
+    },
+    "gold_command": "python -m swebench.harness.run_evaluation --dataset_name SWE-bench/SWE-bench_Verified --split test --predictions_path gold --max_workers 1 --instance_ids pallets__flask-5014 psf__requests-5414 pytest-dev__pytest-10051 --run_id repopilot-p2-gold-amd64-7a21 --timeout 900",
+    "gold_run_id": "repopilot-p2-gold-amd64-7a21",
+    "gold_aggregate": {
+      "submitted": 3,
+      "completed": 3,
+      "resolved": 2,
+      "unresolved": 1,
+      "errors": 0,
+      "ambiguous_failures": 1
+    }
+  },
+  "network_boundary": {
+    "setup_acquisition": {
+      "network_used": true,
+      "operations": [
+        "clone pinned official SWE-bench harness",
+        "download pinned SWE-bench dataset metadata",
+        "install the pinned harness into an isolated temporary virtual environment",
+        "pull exact AMD64 official images by digest",
+        "fetch exact upstream base commits into disposable staging worktrees"
+      ]
+    },
+    "agent_runtime": {
+      "network_used": false,
+      "docker_network_mode": "none",
+      "credentials_forwarded": false
+    }
+  },
+  "trusted_test_plan": {
+    "design": "The model calls run_tests with no arguments. The controller injects one immutable, versioned argv-only pytest plan associated with the exact instance. Shell strings, arbitrary commands, model-selected paths, and normal run_tests policy broadening are rejected.",
+    "hidden_test_patch_staged": false,
+    "plans": {
+      "pallets__flask-5014": {
+        "command": ["python", "-m", "pytest", "-q", "tests/test_blueprints.py"],
+        "content_hash": "sha256:25a9a4507521b35ac4ee0894a95aa99a2043d338f183a8714eda71c85c9f9274"
+      },
+      "psf__requests-5414": {
+        "command": ["python", "-m", "pytest", "-q", "tests/test_requests.py"],
+        "content_hash": "sha256:5fd2ee306af15b768a2fe96c77e4423362ce10395597f65ce3fcc47f21125def"
+      },
+      "pytest-dev__pytest-10051": {
+        "command": ["python", "-m", "pytest", "-q", "testing/logging/test_fixture.py"],
+        "content_hash": "sha256:b235f8b2e1fb470e6d1785ddf0390e499c900da9b23209270a28aca4f32ffee6"
+      }
+    }
+  },
+  "cases": [
+    {
+      "instance_id": "pallets__flask-5014",
+      "base_commit": "7ee9ceb71e868944a46e1ff00b506772a53a4f1d",
+      "image": "swebench/sweb.eval.x86_64.pallets_1776_flask-5014@sha256:eaf597005c159361cb8ee26018fb3741b320f331065f0c95726d83ccf2f1fba4",
+      "image_size_bytes": 1145544724,
+      "environment_construction": {"status": "PASS", "setup_artifacts": []},
+      "gold_patch": {
+        "status": "PASS",
+        "patch_applied": true,
+        "fail_to_pass": {"passed": 1, "required": 1},
+        "pass_to_pass": {"passed": 59, "required": 59},
+        "official_resolved": true,
+        "test_execution_seconds": 4.1
+      },
+      "security": {
+        "status": "PASS",
+        "assertions_passed": 16,
+        "assertions_total": 16,
+        "user": "10001:10001",
+        "network": "none",
+        "read_only_root": true,
+        "cap_drop": ["ALL"],
+        "no_new_privileges": true,
+        "memory_bytes": 536870912,
+        "nano_cpus": 1000000000,
+        "pids_limit": 128,
+        "writable_bind_mounts": ["/testbed"],
+        "read_only_bind_mounts": ["/opt/repopilot"],
+        "docker_socket_absent": true,
+        "host_home_not_mounted": true,
+        "original_repository_not_mounted": true,
+        "ssh_agent_not_mounted": true,
+        "credentials_absent": true,
+        "revision_matched": true
+      },
+      "contamination": {
+        "status": "PASS",
+        "forbidden_name_hits": 0,
+        "forbidden_blob_hits": 0,
+        "boundaries_checked": ["staged workspace", "issue prompt payload", "six tool outputs", "repository context", "container environment", "mounts"],
+        "mcp": "not used by this adapter",
+        "trajectory": "not created because no agent run occurred"
+      },
+      "tool_smoke": {
+        "status": "PASS",
+        "tools_passed": 6,
+        "tools_total": 6,
+        "run_tests_passed": true,
+        "synthetic_changed_file": "src/flask/__init__.py",
+        "mutation_discarded": true,
+        "policy_checks": {"path_escape_rejected": true, "protected_test_edit_rejected": true, "model_selected_test_command_rejected": true},
+        "latency_ms": {"list_files": 459.488, "search_code": 260.541, "read_file": 219.02, "apply_patch": 231.803, "run_tests": 752.2, "git_diff": 439.613}
+      },
+      "decision": "PASS"
+    },
+    {
+      "instance_id": "psf__requests-5414",
+      "base_commit": "39d0fdd9096f7dceccbc8f82e1eda7dd64717a8e",
+      "image": "swebench/sweb.eval.x86_64.psf_1776_requests-5414@sha256:8fadbdc7cf0281a50f88fdb78e6ac7242b499f207ec2d940250aef0abc4b3f4f",
+      "image_size_bytes": 1025891396,
+      "environment_construction": {"status": "FAIL", "reason": "Official image ran but its grading environment lacked the HTTP test dependency required by the repository suite."},
+      "gold_patch": {
+        "status": "FAIL",
+        "patch_applied": true,
+        "fail_to_pass": {"passed": 1, "required": 1},
+        "pass_to_pass": {"passed": 126, "required": 130},
+        "failed_pass_to_pass": [
+          "tests/test_requests.py::TestTimeout::test_connect_timeout[timeout0]",
+          "tests/test_requests.py::TestTimeout::test_connect_timeout[timeout1]",
+          "tests/test_requests.py::TestTimeout::test_total_timeout_connect[timeout0]",
+          "tests/test_requests.py::TestTimeout::test_total_timeout_connect[timeout1]"
+        ],
+        "setup_errors": 158,
+        "failure_reason": "missing_module",
+        "official_resolved": false,
+        "test_execution_seconds": 153.5
+      },
+      "security": {"status": "NOT_RUN", "reason": "Stopped after the mandatory gold environment gate failed."},
+      "contamination": {"status": "NOT_RUN", "reason": "Stopped after the mandatory gold environment gate failed."},
+      "tool_smoke": {"status": "NOT_RUN", "reason": "Stopped after the mandatory gold environment gate failed."},
+      "decision": "FAIL"
+    },
+    {
+      "instance_id": "pytest-dev__pytest-10051",
+      "base_commit": "aa55975c7d3f6c9f6d7f68accc41bb7cadf0eb9a",
+      "image": "swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-10051@sha256:e44f9e532acb710b07626a0b927addd9ee24adf5abb554e25af149a7ab19cf9f",
+      "image_size_bytes": 1028983212,
+      "environment_construction": {
+        "status": "PASS",
+        "setup_artifacts": [
+          {
+            "path": "src/_pytest/_version.py",
+            "sha256": "0f4adb875569af074e0a30c0eabc25f52272ee40c96c7d5049f3e201ef20adc7",
+            "source": "generated packaging metadata from pinned official image",
+            "oracle_content": false
+          }
+        ]
+      },
+      "gold_patch": {
+        "status": "PASS",
+        "patch_applied": true,
+        "fail_to_pass": {"passed": 1, "required": 1},
+        "pass_to_pass": {"passed": 15, "required": 15},
+        "official_resolved": true,
+        "test_execution_seconds": 4.9
+      },
+      "security": {
+        "status": "PASS",
+        "assertions_passed": 16,
+        "assertions_total": 16,
+        "user": "10001:10001",
+        "network": "none",
+        "read_only_root": true,
+        "cap_drop": ["ALL"],
+        "no_new_privileges": true,
+        "memory_bytes": 536870912,
+        "nano_cpus": 1000000000,
+        "pids_limit": 128,
+        "writable_bind_mounts": ["/testbed"],
+        "read_only_bind_mounts": ["/opt/repopilot"],
+        "docker_socket_absent": true,
+        "host_home_not_mounted": true,
+        "original_repository_not_mounted": true,
+        "ssh_agent_not_mounted": true,
+        "credentials_absent": true,
+        "revision_matched": true
+      },
+      "contamination": {
+        "status": "PASS",
+        "forbidden_name_hits": 0,
+        "forbidden_blob_hits": 0,
+        "boundaries_checked": ["staged workspace", "issue prompt payload", "six tool outputs", "repository context", "container environment", "mounts"],
+        "mcp": "not used by this adapter",
+        "trajectory": "not created because no agent run occurred"
+      },
+      "tool_smoke": {
+        "status": "PASS",
+        "tools_passed": 6,
+        "tools_total": 6,
+        "run_tests_passed": true,
+        "synthetic_changed_file": "src/_pytest/__init__.py",
+        "mutation_discarded": true,
+        "policy_checks": {"path_escape_rejected": true, "protected_test_edit_rejected": true, "model_selected_test_command_rejected": true},
+        "latency_ms": {"list_files": 1036.511, "search_code": 312.913, "read_file": 228.895, "apply_patch": 231.341, "run_tests": 740.077, "git_diff": 511.42}
+      },
+      "decision": "PASS"
+    }
+  ],
+  "aggregate": {
+    "frozen_instances": 3,
+    "feasible_instances": 2,
+    "failed_instances": 1,
+    "security_assertions_passed": 32,
+    "security_assertions_run": 32,
+    "contamination_failures": 0,
+    "tool_smokes_passed": 2,
+    "tool_smokes_run": 2,
+    "recommendation": "REVIEW PARTIAL FEASIBILITY"
+  },
+  "known_limitations": [
+    "The frozen cohort is too small for a benchmark-quality behavioral claim.",
+    "Official images were AMD64-only and ran under ARM64 emulation.",
+    "The Requests 5414 official environment failed its gold PASS_TO_PASS oracle and was rejected without substitution.",
+    "Trusted agent-time tests use public base-repository test files; hidden official test patches remain controller-side for grading only.",
+    "The spike does not implement prediction export, live agent execution, official result import as a product command, or behavioral reporting.",
+    "MCP was not involved in the adapter smoke; the canonical registry still exposes exactly the same six tools."
+  ]
+}

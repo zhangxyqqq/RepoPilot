@@ -5,8 +5,37 @@
   "track": "swebench_feasibility_security",
   "dataset": {
     "id": "princeton-nlp/SWE-bench_Verified",
+    "official_enriched_id": "SWE-bench/SWE-bench_Verified",
+    "official_enriched_revision": "78f471bf655a3137b2e8a75af1501690ec009ec3",
     "split": "test",
     "candidate_inventory": "benchmarks/real_world/inventory.json"
+  },
+  "official_environment": {
+    "harness_version": "5.0.2",
+    "harness_commit": "7a21e05772954cc81471ae19d56f436cecf43c54",
+    "host_architecture": "arm64",
+    "image_architecture": "amd64",
+    "execution_mode": "Docker Desktop AMD64 emulation on ARM64",
+    "images": {
+      "pallets__flask-5014": "swebench/sweb.eval.x86_64.pallets_1776_flask-5014@sha256:eaf597005c159361cb8ee26018fb3741b320f331065f0c95726d83ccf2f1fba4",
+      "psf__requests-5414": "swebench/sweb.eval.x86_64.psf_1776_requests-5414@sha256:8fadbdc7cf0281a50f88fdb78e6ac7242b499f207ec2d940250aef0abc4b3f4f",
+      "pytest-dev__pytest-10051": "swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-10051@sha256:e44f9e532acb710b07626a0b927addd9ee24adf5abb554e25af149a7ab19cf9f"
+    },
+    "eval_script_sha256": {
+      "pallets__flask-5014": "ddbdee5ea6095a371b999d4d2613710c33ee3345790e82882538640c82f7ba1f",
+      "psf__requests-5414": "e74ec7cce3032abbbd2ac873d0630572bdf8e098aa5941dcf8dfe36bfc22f6d4",
+      "pytest-dev__pytest-10051": "b1daf1322ad3d9342982daf7208ada2f657f859aff2db31bc1d01d0a413c1417"
+    },
+    "staged_setup_artifacts": {
+      "pytest-dev__pytest-10051": [
+        {
+          "path": "src/_pytest/_version.py",
+          "sha256": "0f4adb875569af074e0a30c0eabc25f52272ee40c96c7d5049f3e201ef20adc7",
+          "source": "generated packaging metadata extracted from the pinned official image before agent runtime",
+          "oracle_content": false
+        }
+      ]
+    }
   },
   "selection_frozen_at": "2026-08-26",
   "selection_frozen_before_environment_testing": true,
@@ -68,7 +97,7 @@
     "memory": "512m",
     "cpus": "1.0",
     "pids_limit": 128,
-    "command_timeout_seconds": 300,
+    "command_timeout_seconds": 120,
     "total_spike_timeout_seconds": 1800,
     "writable_mounts": [
       "/workspace",
@@ -93,6 +122,47 @@
     "apply_patch",
     "run_tests",
     "git_diff"
+  ],
+  "trusted_test_plans": [
+    {
+      "plan_id": "swebench-public-file-pytest",
+      "version": 1,
+      "instance_id": "pallets__flask-5014",
+      "command": [
+        "python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_blueprints.py"
+      ],
+      "source": "controller-owned public base-repository test file; official hidden test patch is not staged"
+    },
+    {
+      "plan_id": "swebench-public-file-pytest",
+      "version": 1,
+      "instance_id": "psf__requests-5414",
+      "command": [
+        "python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_requests.py"
+      ],
+      "source": "controller-owned public base-repository test file; official hidden test patch is not staged"
+    },
+    {
+      "plan_id": "swebench-public-file-pytest",
+      "version": 1,
+      "instance_id": "pytest-dev__pytest-10051",
+      "command": [
+        "python",
+        "-m",
+        "pytest",
+        "-q",
+        "testing/logging/test_fixture.py"
+      ],
+      "source": "controller-owned public base-repository test file; official hidden test patch is not staged"
+    }
   ],
   "claim_boundary": "This profile is an environment and security feasibility spike. It does not authorize or report a live agent SWE-bench solve."
 }

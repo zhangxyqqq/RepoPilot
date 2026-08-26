@@ -9,6 +9,7 @@ from repopilot.evaluation.retrieval import (
     load_retrieval_corpus,
     load_retrieval_profile,
 )
+from repopilot.evaluation.swebench_feasibility import load_feasibility_profile
 
 __all__ = [
     "EvaluationProfileError",
@@ -21,5 +22,6 @@ __all__ = [
     "evaluate_retrieval",
     "load_retrieval_corpus",
     "load_retrieval_profile",
+    "load_feasibility_profile",
     "validate_real_world_references",
 ]

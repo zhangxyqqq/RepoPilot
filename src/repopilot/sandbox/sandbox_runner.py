@@ -16,7 +16,7 @@ except ModuleNotFoundError:
 from repopilot.retrieval import RetrievalConfig, select_context
 
 
-WORKSPACE = Path("/workspace")
+WORKSPACE = Path(os.environ.get("REPOPILOT_WORKSPACE", "/workspace"))
 MAX_TEXT_BYTES = 1_000_000
 MAX_RESULTS = 200
 ALLOWED_TEST_COMMANDS = {("python", "-m", "pytest", "-q")}
@@ -314,7 +314,16 @@ def apply_patch(args: dict[str, Any]) -> dict[str, Any]:
 
 def run_tests(args: dict[str, Any]) -> dict[str, Any]:
     command = tuple(args.get("command", ()))
-    if command not in ALLOWED_TEST_COMMANDS:
+    allowed_commands = set(ALLOWED_TEST_COMMANDS)
+    trusted_raw = os.environ.get("REPOPILOT_TRUSTED_TEST_COMMAND")
+    if trusted_raw:
+        try:
+            trusted = json.loads(trusted_raw)
+        except json.JSONDecodeError:
+            trusted = None
+        if isinstance(trusted, list) and trusted and all(isinstance(item, str) for item in trusted):
+            allowed_commands.add(tuple(trusted))
+    if command not in allowed_commands:
         raise ValueError("test command is not allowlisted")
     timeout = min(max(int(args.get("timeout_seconds", 30)), 1), 120)
     try:
