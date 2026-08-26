@@ -1,0 +1,2 @@
+{"instance_id": "pallets__flask-5014", "model_name_or_path": "repopilot/mistral:7b@sha256:6577803aa9a036369e481d648a2baebb381ebc6e897f2bb9a766a2aa7bfbc1cf", "model_patch": ""}
+{"instance_id": "pytest-dev__pytest-10051", "model_name_or_path": "repopilot/mistral:7b@sha256:6577803aa9a036369e481d648a2baebb381ebc6e897f2bb9a766a2aa7bfbc1cf", "model_patch": ""}

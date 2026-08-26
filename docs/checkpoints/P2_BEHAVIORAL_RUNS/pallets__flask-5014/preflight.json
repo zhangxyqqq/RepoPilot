@@ -1,0 +1,97 @@
+{
+  "contamination": {
+    "assertions": {
+      "canonical_six_tool_surface": true,
+      "container_environment_credentials_absent": true,
+      "forbidden_host_roots_not_mounted": true,
+      "forbidden_roots_configured": true,
+      "model_prompt_clean": true,
+      "preflight_tools_executed_without_error": true,
+      "repository_context_clean": true,
+      "sampled_read_only_tool_outputs_clean": true,
+      "staged_worktree_names_and_blobs_absent": true,
+      "tool_schemas_clean": true
+    },
+    "assertions_passed": 10,
+    "assertions_total": 10,
+    "forbidden_blob_count": 3,
+    "passed": true,
+    "prompt_scan": {
+      "forbidden_blob_hash_hits": [],
+      "forbidden_name_hits": [],
+      "passed": true
+    },
+    "repository_context_scan": {
+      "forbidden_blob_hash_hits": [],
+      "forbidden_name_hits": [],
+      "passed": true
+    },
+    "sensitive_environment_variable_names": [],
+    "tool_output_scan": {
+      "forbidden_blob_hash_hits": [],
+      "forbidden_name_hits": [],
+      "passed": true
+    },
+    "tool_schema_scan": {
+      "forbidden_blob_hash_hits": [],
+      "forbidden_name_hits": [],
+      "passed": true
+    },
+    "workspace_scan": {
+      "forbidden_blob_hash_hits": [],
+      "forbidden_name_hits": [],
+      "passed": true
+    }
+  },
+  "passed": true,
+  "security": {
+    "assertions": {
+      "capabilities_dropped": true,
+      "cpu_bounded": true,
+      "credentials_absent": true,
+      "docker_socket_absent": true,
+      "forbidden_host_roots_not_mounted": true,
+      "host_home_not_mounted": true,
+      "memory_bounded": true,
+      "network_disabled": true,
+      "no_new_privileges": true,
+      "non_root_user": true,
+      "only_staged_workspace_writable": true,
+      "pids_bounded": true,
+      "root_filesystem_read_only": true,
+      "runner_bundle_read_only": true,
+      "ssh_agent_not_mounted": true,
+      "staged_revision_matches": true
+    },
+    "evidence": {
+      "cap_drop": [
+        "ALL"
+      ],
+      "container_user": "10001:10001",
+      "environment_variable_names": [
+        "HOME",
+        "PATH",
+        "PYTHONDONTWRITEBYTECODE",
+        "REPOPILOT_TRUSTED_TEST_COMMAND",
+        "REPOPILOT_WORKSPACE",
+        "TZ"
+      ],
+      "memory_bytes": 536870912,
+      "nano_cpus": 1000000000,
+      "network_mode": "none",
+      "pids_limit": 128,
+      "read_only_mount_destinations": [
+        "/opt/repopilot"
+      ],
+      "read_only_rootfs": true,
+      "read_write_mount_destinations": [
+        "/testbed"
+      ],
+      "security_opt": [
+        "no-new-privileges"
+      ],
+      "staged_revision": "7ee9ceb71e868944a46e1ff00b506772a53a4f1d"
+    },
+    "passed": true
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "reconciliation": {
+    "available": true,
+    "checks": {
+      "final_status": {
+        "actual": "ok",
+        "expected": "ok",
+        "match": true
+      },
+      "model_latency_ms": {
+        "actual": 312741.80241604336,
+        "expected": 312741.80241604336,
+        "match": true
+      },
+      "run_latency_ms": {
+        "actual": 314275.26645798935,
+        "expected": 314275.26645798935,
+        "match": true
+      },
+      "stop_reason": {
+        "actual": "total_timeout",
+        "expected": "total_timeout",
+        "match": true
+      },
+      "token_usage": {
+        "actual": {
+          "cached_tokens": 0,
+          "input_tokens": 46357,
+          "output_tokens": 5565,
+          "reasoning_tokens": 0
+        },
+        "expected": {
+          "cached_tokens": 0,
+          "input_tokens": 46357,
+          "output_tokens": 5565,
+          "reasoning_tokens": 0
+        },
+        "match": true
+      },
+      "tool_count": {
+        "actual": 2,
+        "expected": 2,
+        "match": true
+      },
+      "tool_latency_ms": {
+        "actual": 1504.8157910059672,
+        "expected": 1504.8157910059672,
+        "match": true
+      },
+      "workspace_revisions": {
+        "actual": {
+          "final": 0,
+          "observed": [
+            0
+          ],
+          "transitions": 0
+        },
+        "expected": {
+          "final": 0,
+          "observed": [
+            0
+          ],
+          "transitions": 0
+        },
+        "match": true
+      }
+    },
+    "passed": true
+  },
+  "trace": {
+    "complete": true,
+    "errors": {
+      "by_code": {},
+      "total": 0
+    },
+    "event_count": 22,
+    "final": {
+      "status": "ok",
+      "stop_reason": "total_timeout",
+      "success": true
+    },
+    "latency_ms": {
+      "model": 312741.80241604336,
+      "run": 314275.26645798935,
+      "tool": 1504.8157910059672
+    },
+    "phase_counts": {
+      "model": 18,
+      "run": 2,
+      "tool": 2
+    },
+    "reader_issues": [],
+    "run_id": "p2-behavioral-pallets__flask-5014-0131b778",
+    "source_schema_versions": [
+      2
+    ],
+    "status_counts": {
+      "in_progress": 1,
+      "ok": 21
+    },
+    "summary_schema_version": 1,
+    "token_usage": {
+      "cached_tokens": 0,
+      "input_tokens": 46357,
+      "output_tokens": 5565,
+      "reasoning_tokens": 0
+    },
+    "tool_calls": {
+      "by_name": {
+        "git_diff": 1,
+        "run_tests": 1
+      },
+      "by_status": {
+        "ok": 2
+      },
+      "total": 2
+    },
+    "trace_id": "a478b34a44b0526c930824992a70a5c0",
+    "workspace_revisions": {
+      "final": 0,
+      "observed": [
+        0
+      ],
+      "transitions": 0
+    }
+  }
+}

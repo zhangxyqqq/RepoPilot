@@ -15,6 +15,7 @@ from repopilot.evaluation.swebench_behavioral import (
 
 
 PROFILE = Path("configs/evaluation/swebench_verified_behavioral_pilot.json")
+REPORT = Path("docs/checkpoints/P2_BEHAVIORAL_PILOT.json")
 
 
 def test_behavioral_profile_freezes_exact_two_cases_and_all_boundaries() -> None:
@@ -105,3 +106,27 @@ def test_profile_contains_no_oracle_or_solution_fields() -> None:
         "gold_prediction", "solution_patch",
     ):
         assert forbidden not in text
+
+
+def test_behavioral_checkpoint_preserves_empty_patch_outcome_without_inferred_oracle_results() -> None:
+    report = json.loads(REPORT.read_text(encoding="utf-8"))
+    assert report["final_status"] == "BEHAVIORAL PILOT COMPLETE — 0/2 RESOLVED"
+    assert report["aggregate"]["resolved_instances"] == 0
+    assert report["aggregate"]["unresolved_instances"] == 2
+    assert report["aggregate"]["harness_or_setup_failures"] == 0
+    for case in report["cases"]:
+        assert case["prediction_non_empty"] is False
+        assert case["official_resolved"] is False
+        assert case["outcome"] == "unresolved"
+        assert case["fail_to_pass"]["status"] == "NOT_RUN_EMPTY_PATCH"
+        assert case["fail_to_pass"]["passed"] is None
+        assert case["pass_to_pass"]["status"] == "NOT_RUN_EMPTY_PATCH"
+        assert case["pass_to_pass"]["passed"] is None
+
+
+def test_official_prediction_export_is_exact_two_record_jsonl() -> None:
+    path = Path("docs/checkpoints/P2_BEHAVIORAL_RUNS/predictions.jsonl")
+    predictions = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines()]
+    assert [prediction["instance_id"] for prediction in predictions] == list(INSTANCE_IDS)
+    assert all(set(prediction) == {"instance_id", "model_name_or_path", "model_patch"} for prediction in predictions)
+    assert all(prediction["model_patch"] == "" for prediction in predictions)

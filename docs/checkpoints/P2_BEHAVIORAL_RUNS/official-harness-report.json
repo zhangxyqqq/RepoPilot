@@ -1,0 +1,34 @@
+{
+  "ambiguous_failure_ids": [],
+  "ambiguous_failure_instances": 0,
+  "completed_ids": [],
+  "completed_instances": 0,
+  "empty_patch_ids": [
+    "pallets__flask-5014",
+    "pytest-dev__pytest-10051"
+  ],
+  "empty_patch_instances": 2,
+  "error_ids": [],
+  "error_instances": 0,
+  "failure_reasons": {},
+  "incomplete_ids": [],
+  "infra_failure_ids": [],
+  "infra_failure_instances": 0,
+  "resolved_ids": [],
+  "resolved_instances": 0,
+  "schema_version": 2,
+  "submitted_ids": [
+    "pallets__flask-5014",
+    "pytest-dev__pytest-10051"
+  ],
+  "submitted_instances": 2,
+  "total_instances": 2,
+  "unremoved_images": [
+    "swebench/sweb.eval.x86_64.pallets_1776_flask-5014:latest",
+    "swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-10051:latest"
+  ],
+  "unresolved_ids": [],
+  "unresolved_instances": 0,
+  "unstopped_containers": [],
+  "unstopped_instances": 0
+}

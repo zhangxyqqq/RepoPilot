@@ -1,0 +1,443 @@
+{
+  "schema_version": 1,
+  "evaluated_at": "2026-08-26",
+  "track": "swebench_verified_behavioral_pilot",
+  "final_status": "BEHAVIORAL PILOT COMPLETE — 0/2 RESOLVED",
+  "claim_boundary": "Exactly two pre-authorized SWE-bench Verified instances with one local-model attempt each. This is not a representative SWE-bench benchmark, leaderboard result, or broad real-world coding-agent performance claim.",
+  "checkpoints": {
+    "p0_commit": "c894f6e353097c8b2e4ff99306c1999e88f6fbef",
+    "p0_tag": "repopilot-v2-p0",
+    "p1_checkpoint_commit": "faa2faa886013614b6559a95a1a5f867917caf3a",
+    "p1_tag": "repopilot-v2-p1-negative",
+    "p2_feasibility_commit": "376e368680a11e5f6073682e2f0c8b9cf5c6e039",
+    "p2_feasibility_tag": "repopilot-v2-p2-feasibility",
+    "behavioral_configuration_freeze_commit": "c67ff06b5dabdfca96ad25913bfbfbfc7e9cec6b",
+    "behavioral_runtime_commit": "c67ff06b5dabdfca96ad25913bfbfbfc7e9cec6b"
+  },
+  "frozen_configuration": {
+    "path": "configs/evaluation/swebench_verified_behavioral_pilot.json",
+    "file_sha256": "sha256:e720d16d80ba3464eecd9b067d1f9e161856ca0fe168330f8c3a043dd1976f60",
+    "canonical_content_hash": "sha256:1e1c57e076515772c0caabfe7faf0b51427c8a589283dff55c6fd946d250bfd2",
+    "frozen_before_live_execution": true,
+    "instances": [
+      "pallets__flask-5014",
+      "pytest-dev__pytest-10051"
+    ],
+    "repetitions_per_instance": 1,
+    "random_seed": null,
+    "provider": "openai_compatible",
+    "endpoint_owner": "local Ollama 0.20.5",
+    "endpoint_api": "Responses",
+    "model": "mistral:7b",
+    "model_manifest_sha256": "sha256:6577803aa9a036369e481d648a2baebb381ebc6e897f2bb9a766a2aa7bfbc1cf",
+    "model_blob_sha256": "sha256:f5074b1221da0f5a2910d33b642efa5b9eb58cfdddca1c79e16d7ad28aa2b31f",
+    "model_description": "7.2B-parameter GGUF Q4_K_M local model with completion and tool-call capabilities",
+    "system_prompt_sha256": "sha256:f310a0a46501849ed020e8165a741163c14fac81501c595901e5850c8687ee04",
+    "tool_catalog_version": 1,
+    "tool_catalog_sha256": "sha256:84aefeae76e6b1e6f48a04657765d7aa8b7216d9f55c9549f971ed32c71546d4",
+    "model_visible_tools": [
+      "list_files",
+      "search_code",
+      "read_file",
+      "apply_patch",
+      "run_tests",
+      "git_diff"
+    ],
+    "controller": {
+      "max_iterations": 30,
+      "max_repair_cycles": 3,
+      "provider_retry_limit": 2,
+      "provider_sdk_retry_limit": 0,
+      "provider_sdk_timeout_seconds": 60,
+      "total_deadline_seconds": 300,
+      "read_only_retry_limit": 1,
+      "test_timeout_retry_limit": 0
+    },
+    "limits": {
+      "tool_test_timeout_seconds": 120,
+      "max_observation_chars": 20000,
+      "max_patch_chars": 50000,
+      "repository_context_max_chars": 12000,
+      "repository_context_max_files": 40,
+      "repository_context_max_symbols": 240
+    },
+    "retrieval_strategy": "structural",
+    "semantic_retrieval": false,
+    "hybrid_retrieval": false,
+    "taxonomy_id": "repopilot-failures",
+    "taxonomy_version": 1,
+    "taxonomy_sha256": "sha256:3e52b575bbe735979fe4e0538f91f3e072e3108eed6a2e87c4338fa5f37992eb",
+    "post_hoc_tuning": false,
+    "agent_reruns": 0,
+    "instance_substitutions": 0,
+    "harness_retry_limit": 0
+  },
+  "official_environment": {
+    "dataset_id": "SWE-bench/SWE-bench_Verified",
+    "dataset_revision": "78f471bf655a3137b2e8a75af1501690ec009ec3",
+    "split": "test",
+    "harness_package": "swebench",
+    "harness_version": "5.0.2",
+    "harness_commit": "7a21e05772954cc81471ae19d56f436cecf43c54",
+    "grading_run_id": "repopilot-p2-behavioral-c67ff06",
+    "grading_attempts": 1,
+    "host_architecture": "arm64",
+    "image_architecture": "amd64",
+    "execution_mode": "Docker Desktop AMD64 emulation on ARM64",
+    "docker_client_version": "29.1.3",
+    "docker_server_version": "29.1.3",
+    "images": {
+      "pallets__flask-5014": "swebench/sweb.eval.x86_64.pallets_1776_flask-5014@sha256:eaf597005c159361cb8ee26018fb3741b320f331065f0c95726d83ccf2f1fba4",
+      "pytest-dev__pytest-10051": "swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-10051@sha256:e44f9e532acb710b07626a0b927addd9ee24adf5abb554e25af149a7ab19cf9f"
+    },
+    "predictions_path": "docs/checkpoints/P2_BEHAVIORAL_RUNS/predictions.jsonl",
+    "predictions_sha256": "sha256:1d6c20509aefcdebb0a46bdad875138ca6c2740dc76d169fa5f2ffbf32023f68",
+    "harness_report_path": "docs/checkpoints/P2_BEHAVIORAL_RUNS/official-harness-report.json",
+    "harness_report_sha256": "sha256:4e537666d4d6b396300a892de9907e8e8fc00c5ff528ab966a66afab5bb48b1e",
+    "aggregate": {
+      "submitted": 2,
+      "completed_test_executions": 0,
+      "resolved": 0,
+      "empty_patches": 2,
+      "harness_errors": 0,
+      "infrastructure_failures": 0,
+      "unstopped_containers": 0
+    }
+  },
+  "security_profile": {
+    "network_mode": "none",
+    "user": "10001:10001",
+    "read_only_root_filesystem": true,
+    "capabilities_dropped": [
+      "ALL"
+    ],
+    "no_new_privileges": true,
+    "memory": "512m",
+    "cpus": "1.0",
+    "pids_limit": 128,
+    "only_staged_worktree_writable": true,
+    "original_repository_mounted": false,
+    "docker_socket_mounted": false,
+    "host_home_mounted": false,
+    "ssh_agent_mounted": false,
+    "credentials_forwarded": false,
+    "arbitrary_shell_exposed": false,
+    "model_selected_test_commands": false
+  },
+  "cases": [
+    {
+      "instance_id": "pallets__flask-5014",
+      "base_commit": "7ee9ceb71e868944a46e1ff00b506772a53a4f1d",
+      "run_id": "p2-behavioral-pallets__flask-5014-0131b778",
+      "attempt_number": 1,
+      "model_executed": true,
+      "prediction_generated_successfully": true,
+      "prediction_non_empty": false,
+      "prediction_bytes": 0,
+      "prediction_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "harness_invocation_succeeded": true,
+      "official_instance_test_execution": false,
+      "official_skip_reason": "empty_patch",
+      "fail_to_pass": {
+        "status": "NOT_RUN_EMPTY_PATCH",
+        "passed": null,
+        "required": 1
+      },
+      "pass_to_pass": {
+        "status": "NOT_RUN_EMPTY_PATCH",
+        "passed": null,
+        "required": 59
+      },
+      "official_resolved": false,
+      "outcome": "unresolved",
+      "harness_or_setup_failure": false,
+      "agent_behavior": {
+        "controller_public_test_success": true,
+        "stop_reason": "total_timeout",
+        "iterations": 19,
+        "model_turns": 18,
+        "model_action_counts": {
+          "plan": 18,
+          "tool": 0,
+          "final": 0
+        },
+        "repair_cycles": 0,
+        "tool_calls": 2,
+        "tool_calls_by_name": {
+          "apply_patch": 0,
+          "git_diff": 1,
+          "list_files": 0,
+          "read_file": 0,
+          "run_tests": 1,
+          "search_code": 0
+        },
+        "model_originated_tool_calls": 0,
+        "controller_originated_tool_calls": 2,
+        "unnecessary_calls": 0,
+        "rejected_calls": 0,
+        "recovery_events": 0,
+        "changed_files": [],
+        "expected_fix_files_after_run_oracle": [
+          "src/flask/blueprints.py"
+        ],
+        "localization_precision": null,
+        "localization_recall": 0.0,
+        "localization_f1": 0.0,
+        "localization_note": "Precision is undefined for an empty changed-file set; recall and F1 are zero. Expected files were consulted only after both attempts completed."
+      },
+      "performance": {
+        "agent_controller_wall_clock_ms": 314275.26645798935,
+        "model_latency_ms": 312741.80241604336,
+        "tool_latency_ms": 1504.8157910059672,
+        "test_latency_ms": 1102.5152500078548,
+        "git_diff_latency_ms": 402.3005409981124,
+        "input_tokens": 46357,
+        "cached_tokens": 0,
+        "output_tokens": 5565,
+        "reasoning_tokens": 0,
+        "monetary_cost_usd": null,
+        "cost_note": "Local unmetered provider; no monetary estimate calculated."
+      },
+      "taxonomy": {
+        "labels": [
+          "controller.total_timeout"
+        ],
+        "evidence_event_ids": [
+          "76d61b467aa65ea283dfb702b6698acf"
+        ],
+        "unclassified_errors": 0
+      },
+      "reliability": {
+        "unsafe_retries": 0,
+        "duplicate_mutations": 0,
+        "revision_divergence": 0,
+        "budget_overshoots": 1,
+        "total_deadline_overshoot_ms": 14275.266457989346,
+        "trace_run_reconciliation_passed": true
+      },
+      "security": {
+        "runtime_assertions_passed": 16,
+        "runtime_assertions_total": 16,
+        "contamination_assertions_passed": 10,
+        "contamination_assertions_total": 10
+      },
+      "artifacts": {
+        "trajectory": "docs/checkpoints/P2_BEHAVIORAL_RUNS/pallets__flask-5014/trajectory.jsonl",
+        "trajectory_sha256": "sha256:1a86cc4ffc5f6e306023340389b8ddbfe004d98dd4507c1fff22db8a81f95ef9",
+        "run": "docs/checkpoints/P2_BEHAVIORAL_RUNS/pallets__flask-5014/run.json",
+        "run_sha256": "sha256:478eceba5cf1928d8d4f35a25441020f2670665de05d600968cf68d680c89342",
+        "preflight": "docs/checkpoints/P2_BEHAVIORAL_RUNS/pallets__flask-5014/preflight.json",
+        "model_patch": "docs/checkpoints/P2_BEHAVIORAL_RUNS/pallets__flask-5014/model.patch"
+      }
+    },
+    {
+      "instance_id": "pytest-dev__pytest-10051",
+      "base_commit": "aa55975c7d3f6c9f6d7f68accc41bb7cadf0eb9a",
+      "run_id": "p2-behavioral-pytest-dev__pytest-10051-f50b8fcc",
+      "attempt_number": 1,
+      "model_executed": true,
+      "prediction_generated_successfully": true,
+      "prediction_non_empty": false,
+      "prediction_bytes": 0,
+      "prediction_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "harness_invocation_succeeded": true,
+      "official_instance_test_execution": false,
+      "official_skip_reason": "empty_patch",
+      "fail_to_pass": {
+        "status": "NOT_RUN_EMPTY_PATCH",
+        "passed": null,
+        "required": 1
+      },
+      "pass_to_pass": {
+        "status": "NOT_RUN_EMPTY_PATCH",
+        "passed": null,
+        "required": 15
+      },
+      "official_resolved": false,
+      "outcome": "unresolved",
+      "harness_or_setup_failure": false,
+      "agent_behavior": {
+        "controller_public_test_success": true,
+        "stop_reason": "total_timeout",
+        "iterations": 15,
+        "model_turns": 14,
+        "model_action_counts": {
+          "plan": 14,
+          "tool": 0,
+          "final": 0
+        },
+        "repair_cycles": 0,
+        "tool_calls": 2,
+        "tool_calls_by_name": {
+          "apply_patch": 0,
+          "git_diff": 1,
+          "list_files": 0,
+          "read_file": 0,
+          "run_tests": 1,
+          "search_code": 0
+        },
+        "model_originated_tool_calls": 0,
+        "controller_originated_tool_calls": 2,
+        "unnecessary_calls": 0,
+        "rejected_calls": 0,
+        "recovery_events": 0,
+        "changed_files": [],
+        "expected_fix_files_after_run_oracle": [
+          "src/_pytest/logging.py"
+        ],
+        "localization_precision": null,
+        "localization_recall": 0.0,
+        "localization_f1": 0.0,
+        "localization_note": "Precision is undefined for an empty changed-file set; recall and F1 are zero. Expected files were consulted only after both attempts completed."
+      },
+      "performance": {
+        "agent_controller_wall_clock_ms": 331869.14216700825,
+        "model_latency_ms": 330616.0812919843,
+        "tool_latency_ms": 1229.7159580048174,
+        "test_latency_ms": 848.0436670070048,
+        "git_diff_latency_ms": 381.6722909978125,
+        "input_tokens": 40002,
+        "cached_tokens": 0,
+        "output_tokens": 6327,
+        "reasoning_tokens": 0,
+        "monetary_cost_usd": null,
+        "cost_note": "Local unmetered provider; no monetary estimate calculated."
+      },
+      "taxonomy": {
+        "labels": [
+          "controller.total_timeout"
+        ],
+        "evidence_event_ids": [
+          "e85fd8aaf5e45025928594d95584a814"
+        ],
+        "unclassified_errors": 0
+      },
+      "reliability": {
+        "unsafe_retries": 0,
+        "duplicate_mutations": 0,
+        "revision_divergence": 0,
+        "budget_overshoots": 1,
+        "total_deadline_overshoot_ms": 31869.14216700825,
+        "trace_run_reconciliation_passed": true
+      },
+      "security": {
+        "runtime_assertions_passed": 16,
+        "runtime_assertions_total": 16,
+        "contamination_assertions_passed": 10,
+        "contamination_assertions_total": 10
+      },
+      "artifacts": {
+        "trajectory": "docs/checkpoints/P2_BEHAVIORAL_RUNS/pytest-dev__pytest-10051/trajectory.jsonl",
+        "trajectory_sha256": "sha256:4b58b3526cc3f496ebfa9f2a230f5116cc5afeaf484acee62a46fcf7ac44ee9a",
+        "run": "docs/checkpoints/P2_BEHAVIORAL_RUNS/pytest-dev__pytest-10051/run.json",
+        "run_sha256": "sha256:b0f3bbfa4c3a58a730e3296aea22f277587e138e2622624e8de84df42e1338c0",
+        "preflight": "docs/checkpoints/P2_BEHAVIORAL_RUNS/pytest-dev__pytest-10051/preflight.json",
+        "model_patch": "docs/checkpoints/P2_BEHAVIORAL_RUNS/pytest-dev__pytest-10051/model.patch"
+      }
+    }
+  ],
+  "aggregate": {
+    "attempted_instances": 2,
+    "resolved_instances": 0,
+    "unresolved_instances": 2,
+    "harness_or_setup_failures": 0,
+    "empty_predictions": 2,
+    "iterations": 34,
+    "model_turns": 32,
+    "repair_cycles": 0,
+    "tool_calls": 4,
+    "model_originated_tool_calls": 0,
+    "controller_originated_tool_calls": 4,
+    "unnecessary_calls": 0,
+    "rejected_calls": 0,
+    "recovery_events": 0,
+    "changed_files": 0,
+    "agent_controller_wall_clock_ms": 646144.4086249976,
+    "model_latency_ms": 643357.8837080277,
+    "tool_latency_ms": 2734.5317490107846,
+    "input_tokens": 86359,
+    "cached_tokens": 0,
+    "output_tokens": 11892,
+    "reasoning_tokens": 0,
+    "monetary_cost_usd": null,
+    "unsafe_retries": 0,
+    "duplicate_mutations": 0,
+    "revision_divergence": 0,
+    "budget_overshoots": 2,
+    "unclassified_errors": 0,
+    "runtime_security_assertions_passed": 32,
+    "runtime_security_assertions_total": 32,
+    "contamination_assertions_passed": 20,
+    "contamination_assertions_total": 20,
+    "taxonomy_incidence": {
+      "controller.total_timeout": 2
+    }
+  },
+  "regression_validation": {
+    "pre_run_full_pytest": {
+      "passed": 153,
+      "failed": 0,
+      "status": "PASS"
+    },
+    "post_run_full_pytest": {
+      "passed": 155,
+      "failed": 0,
+      "status": "PASS",
+      "note": "Includes two additional behavioral checkpoint/report integrity assertions."
+    },
+    "controlled_deterministic": {
+      "tasks": "12/12",
+      "public_suites": "12/12",
+      "hidden_suites": "12/12",
+      "localization_f1_mean": 1.0,
+      "unclassified_errors": 0,
+      "status": "PASS"
+    },
+    "deterministic_reliability": {
+      "scenarios": "8/8",
+      "unsafe_retries": 0,
+      "duplicate_mutations": 0,
+      "revision_divergences": 0,
+      "budget_overshoots": 0,
+      "unclassified_errors": 0,
+      "status": "PASS"
+    },
+    "explicit_mcp_sandbox_trace_redaction_taxonomy_structural_slice": {
+      "tests": "26/26",
+      "status": "PASS"
+    },
+    "real_world_reference_integrity": {
+      "cases": "5/5",
+      "live_agent_tasks_succeeded": null,
+      "status": "PASS"
+    },
+    "structural_default_active": true,
+    "p1_negative_checkpoint_unchanged": {
+      "checkpoint_file_sha256_at_faa2faa": "sha256:8c94e8d3c06a4d8c35f6f4dbabadab403373b58bb5923fcb487f23a96f3caa49",
+      "current_checkpoint_file_sha256": "sha256:8c94e8d3c06a4d8c35f6f4dbabadab403373b58bb5923fcb487f23a96f3caa49",
+      "offline_result_sha256": "sha256:6bfa50faf3c875ba2269f6f5231219738905cb601b249896cd724337996076d9",
+      "structural_baseline_sha256": "sha256:981adf4d08dbe8aba7e1e0e6e2ac795c658edd156a2a83456a4113f7bc3a5212",
+      "status": "PASS"
+    },
+    "credential_redaction_artifact_scan": "PASS",
+    "post_run_oracle_contamination_scan": "PASS",
+    "complete_trace_readers": "2/2 PASS",
+    "trace_run_reconciliation": "2/2 PASS"
+  },
+  "interpretation": {
+    "primary_observation": "The local 7.2B model emitted only plan text for all 32 model turns, never invoked a repository tool, never edited a file, and reached the controller deadline on both cases.",
+    "public_test_caveat": "RepoPilot's controller-owned public files passed at revision zero, but that is neither a fix nor SWE-bench resolution evidence.",
+    "official_grading_caveat": "The official harness treats empty predictions as empty patches and does not execute FAIL_TO_PASS or PASS_TO_PASS tests for them. Both cases are therefore unresolved, with oracle test counts reported as unavailable rather than failed counts.",
+    "deadline_caveat": "The current total deadline is checked between model turns and final controller collection still runs; in-flight calls and finalization produced bounded overshoots of 14.3 s and 31.9 s. This is a measured reliability limitation, not a security-boundary relaxation.",
+    "model_caveat": "This pilot used a small local quantized model selected after the configured OpenAI credential failed a pre-run access check. Its outcome should not be generalized to stronger models or compared with leaderboard systems."
+  },
+  "known_limitations": [
+    "Two selected instances are far too few for statistical or leaderboard claims.",
+    "Both predictions were empty, so the official harness had no per-instance test execution and no FAIL_TO_PASS/PASS_TO_PASS pass counts.",
+    "The local 7.2B Q4 model is not representative of frontier coding-agent models.",
+    "One repetition per instance measures no run-to-run variance.",
+    "The controller's deadline is soft between calls and finalization rather than a hard process kill.",
+    "Localization precision is undefined for empty changed-file sets.",
+    "Official grading metadata distinguishes empty patches from the harness's completed/unresolved buckets; this report maps them to unresolved at the pilot outcome layer."
+  ]
+}

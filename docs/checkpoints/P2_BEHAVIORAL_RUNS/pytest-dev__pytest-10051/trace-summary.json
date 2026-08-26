@@ -1,0 +1,57 @@
+{
+  "complete": true,
+  "errors": {
+    "by_code": {},
+    "total": 0
+  },
+  "event_count": 18,
+  "final": {
+    "status": "ok",
+    "stop_reason": "total_timeout",
+    "success": true
+  },
+  "latency_ms": {
+    "model": 330616.0812919843,
+    "run": 331869.14216700825,
+    "tool": 1229.7159580048174
+  },
+  "phase_counts": {
+    "model": 14,
+    "run": 2,
+    "tool": 2
+  },
+  "reader_issues": [],
+  "run_id": "p2-behavioral-pytest-dev__pytest-10051-f50b8fcc",
+  "source_schema_versions": [
+    2
+  ],
+  "status_counts": {
+    "in_progress": 1,
+    "ok": 17
+  },
+  "summary_schema_version": 1,
+  "token_usage": {
+    "cached_tokens": 0,
+    "input_tokens": 40002,
+    "output_tokens": 6327,
+    "reasoning_tokens": 0
+  },
+  "tool_calls": {
+    "by_name": {
+      "git_diff": 1,
+      "run_tests": 1
+    },
+    "by_status": {
+      "ok": 2
+    },
+    "total": 2
+  },
+  "trace_id": "0fbf19817ee056188d7cf44a4c9b29d5",
+  "workspace_revisions": {
+    "final": 0,
+    "observed": [
+      0
+    ],
+    "transitions": 0
+  }
+}
