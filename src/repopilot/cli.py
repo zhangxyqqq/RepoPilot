@@ -15,7 +15,9 @@ from repopilot.agent import run_agent
 from repopilot.config import RunConfig
 from repopilot.evaluation import (
     EvaluationProfileError,
+    RetrievalBenchmarkError,
     evaluate_benchmarks,
+    evaluate_retrieval,
     load_evaluation_profile,
     run_reliability_evaluation,
     validate_real_world_references,
@@ -118,6 +120,19 @@ def build_parser() -> argparse.ArgumentParser:
     reliability_parser.add_argument("--profile", type=Path)
     reliability_parser.add_argument("--schedule", type=Path)
     reliability_parser.add_argument("--output", type=Path, default=Path("reports/reliability"))
+    retrieval_parser = subparsers.add_parser(
+        "retrieval-eval",
+        help="run the deterministic offline repository-localization benchmark",
+    )
+    retrieval_parser.add_argument("--corpus", type=Path, default=Path("benchmarks/retrieval/cases.v1.json"))
+    retrieval_parser.add_argument("--profile", type=Path, default=Path("configs/evaluation/retrieval.json"))
+    retrieval_parser.add_argument("--output", type=Path, default=Path("reports/retrieval"))
+    retrieval_parser.add_argument(
+        "--strategies",
+        nargs="+",
+        choices=("structural", "lexical", "semantic", "hybrid"),
+        default=("structural",),
+    )
     return parser
 
 
@@ -140,6 +155,21 @@ async def _serve_mcp_command(args: argparse.Namespace) -> None:
 def main(argv: Sequence[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
+    if args.command == "retrieval-eval":
+        try:
+            report = evaluate_retrieval(
+                args.corpus,
+                args.profile,
+                args.output,
+                strategies=tuple(args.strategies),
+            )
+        except (RetrievalBenchmarkError, ValueError) as exc:
+            parser.error(str(exc))
+        summary = {strategy: value["aggregate"] for strategy, value in report["strategies"].items()}
+        print(json.dumps(summary, indent=2, sort_keys=True))
+        print(f"JSON report: {report['report_paths']['json']}")
+        print(f"Markdown report: {report['report_paths']['markdown']}")
+        return 0
     if args.command == "reliability":
         try:
             report = run_reliability_evaluation(

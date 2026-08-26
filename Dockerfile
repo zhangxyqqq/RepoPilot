@@ -10,6 +10,9 @@ RUN groupadd --gid 10001 repopilot \
 
 COPY src/repopilot/sandbox/sandbox_runner.py /opt/repopilot/sandbox_runner.py
 COPY src/repopilot/sandbox/repository_context.py /opt/repopilot/repository_context.py
+COPY src/repopilot/__init__.py /opt/repopilot/repopilot/__init__.py
+COPY src/repopilot/retrieval /opt/repopilot/repopilot/retrieval
+COPY configs/retrieval /opt/repopilot/repopilot/configs/retrieval
 
 USER 10001:10001
 WORKDIR /workspace

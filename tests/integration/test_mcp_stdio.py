@@ -129,6 +129,12 @@ def test_complete_controlled_tool_sequence_matches_direct_over_real_stdio_mcp(tm
         observation = normalized.get("observation")
         if isinstance(observation, dict) and "output" in observation:
             observation["output"] = parse_pytest_counts(str(observation["output"]))
+        if isinstance(observation, dict):
+            repository_context = observation.get("repository_context")
+            if isinstance(repository_context, dict):
+                retrieval = repository_context.get("retrieval")
+                if isinstance(retrieval, dict):
+                    retrieval.pop("latency_ms", None)
         return normalized
 
     mcp_results: dict[str, dict[str, object]] = {}

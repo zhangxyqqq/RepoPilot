@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "model_id": "repopilot-semantic-mini",
+  "model_version": 1,
+  "hash_dimensions": 128,
+  "concept_weight": 3.0,
+  "token_weight": 1.0,
+  "concepts": [
+    ["abort", "cancel", "compensate", "release", "reservation", "reservations", "rollback", "undo"],
+    ["access", "authorize", "authorization", "enforce", "guard", "permission", "permissions", "reject", "rights", "role"],
+    ["attempt", "attempts", "backoff", "delay", "failure", "failures", "repeat", "repeated", "retry", "wait"],
+    ["abandoned", "blob", "blobs", "cleanup", "delete", "orphan", "orphaned", "purge", "temporary", "upload", "uploads"],
+    ["cache", "entry", "entries", "evict", "invalidate", "refresh", "stale", "write"],
+    ["allocate", "allocation", "inventory", "reserve", "reservation", "stock"],
+    ["decode", "deserialize", "encode", "parse", "serialize", "serializer"],
+    ["expire", "expiration", "expiry", "session", "token", "ttl"],
+    ["canonical", "format", "normalization", "normalize", "phone"],
+    ["invoice", "money", "payment", "price", "round", "total"],
+    ["checkout", "order", "purchase", "transaction"],
+    ["cleanup", "close", "dispose", "finalize", "release", "resource"]
+  ]
+}

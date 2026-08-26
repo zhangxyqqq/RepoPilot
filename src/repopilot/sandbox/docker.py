@@ -26,12 +26,14 @@ class DockerSandbox:
         command_timeout_seconds: int,
         issue: str = "",
         config: SandboxConfig = SandboxConfig(),
+        retrieval: dict[str, Any] | None = None,
     ):
         self.workspace = workspace.resolve(strict=True)
         self.test_command = test_command
         self.command_timeout_seconds = command_timeout_seconds
         self.issue = issue
         self.config = config
+        self.retrieval = dict(retrieval or {"strategy": "structural"})
         self.container_name = f"repopilot-{uuid.uuid4().hex[:12]}"
         self._started = False
         validate_test_command(test_command)
@@ -100,6 +102,7 @@ class DockerSandbox:
             payload["timeout_seconds"] = self.command_timeout_seconds
         elif tool_name == "list_files":
             payload["_issue"] = self.issue
+            payload["_retrieval"] = self.retrieval
         command = [
             "docker", "exec", self.container_name,
             "python", "/opt/repopilot/sandbox_runner.py",

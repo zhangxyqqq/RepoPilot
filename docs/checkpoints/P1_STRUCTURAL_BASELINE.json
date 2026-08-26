@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "milestone": "RepoPilot V2 P1 structural retrieval baseline",
+  "frozen_at": "2026-08-26",
+  "strategy": "structural",
+  "strategy_version": 1,
+  "corpus": {
+    "benchmark_id": "repopilot-retrieval-challenge",
+    "version": 1,
+    "content_hash": "sha256:67c3ca0fd24e6fa434110b33b39507c02c2485a003ee4e5ccc3ac0d7395fb7ad",
+    "development_cases": 3,
+    "held_out_cases": 5
+  },
+  "profile_content_hash": "sha256:0839c13cc3afea127d01c4482c2020394962afd53f38eac0e1a2dcc10d5fc372",
+  "profile_source": "configs/evaluation/retrieval_structural_baseline.json",
+  "deterministic_fingerprint": "sha256:fa38c3d0b36aee9eccc51695708f2c7cd79a7974e71a7956ed341a54f20abac1",
+  "aggregate": {
+    "cases": 8,
+    "recall_at_1": 0.375,
+    "recall_at_3": 0.625,
+    "recall_at_5": 1.0,
+    "mrr": 0.5729166666666666,
+    "expected_symbol_hit_rate": 1.0,
+    "context_precision_mean": 0.2,
+    "selected_files_mean": 5.0,
+    "selected_context_characters_mean": 514.375,
+    "truncation_rate": 1.0,
+    "fallback_rate": 0.0
+  },
+  "per_case_expected_file_rank": {
+    "allocation_rollback_paraphrase": 4,
+    "exact_invoice_symbol": 1,
+    "import_neighbor_tax": 3,
+    "permission_guard_paraphrase": 4,
+    "retry_backoff_paraphrase": 2,
+    "orphan_upload_cleanup": 4,
+    "src_phone_normalization": 1,
+    "order_serialization_exact": 1
+  },
+  "oracle_leakage_check": {
+    "passed": true,
+    "staged_oracle_fields": 0
+  },
+  "claim_boundary": "This is an offline localization baseline. It is not task-success or live-agent evidence."
+}

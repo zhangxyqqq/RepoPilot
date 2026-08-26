@@ -46,6 +46,7 @@ def _inputs(scenario: str) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     if scenario == "test_policy": return [_event(1, "tool_call", payload={"tool": "apply_patch"}, error=error("policy_rejected", "protected test files are protected"))], {}
     if scenario == "command_policy": return [_event(1, "tool_call", payload={"tool": "run_tests"}, error=error("invalid_arguments", "command not allowed"))], {}
     if scenario == "retrieval_truncated": return [_event(1, "tool_call", payload={"tool": "list_files", "observation": {"repository_context": {"truncated": True}}})], {}
+    if scenario == "retrieval_fallback": return [_event(1, "tool_call", payload={"tool": "list_files", "observation": {"repository_context": {"retrieval": {"fallback": {"used": True, "error_code": "semantic_initialization_failed"}}}}})], {}
     if scenario == "patch_rejected": return [_event(1, "tool_call", payload={"tool": "apply_patch"}, error=error("tool_error", "patch failed"))], {}
     if scenario == "no_op": return [_event(1, "tool_call", payload={"tool": "apply_patch", "ok": True, "observation": {"changed": False}})], {}
     if scenario == "public_failed": return [_event(1, "tool_call", payload={"tool": "run_tests", "ok": True, "observation": {"passed": False}})], {}

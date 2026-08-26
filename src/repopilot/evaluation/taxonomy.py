@@ -187,6 +187,11 @@ def classify_failures(
                 add("policy.command_rejected", event)
             if tool == "list_files" and (payload.get("observation") or {}).get("repository_context", {}).get("truncated"):
                 add("retrieval.context_truncated", event)
+            retrieval = (payload.get("observation") or {}).get("repository_context", {}).get("retrieval", {})
+            fallback = retrieval.get("fallback") if isinstance(retrieval, dict) else None
+            if isinstance(fallback, dict) and fallback.get("used"):
+                add("retrieval.semantic_failed", event, was_recovered=True)
+                add("retrieval.fallback_used", event, was_recovered=True)
             if tool == "apply_patch":
                 observation = payload.get("observation") or {}
                 if error and code != "response_lost": add("edit.patch_rejected", event, was_recovered=later_success)

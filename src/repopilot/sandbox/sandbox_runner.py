@@ -13,6 +13,8 @@ try:
 except ModuleNotFoundError:
     from repository_context import build_repository_context
 
+from repopilot.retrieval import RetrievalConfig, select_context
+
 
 WORKSPACE = Path("/workspace")
 MAX_TEXT_BYTES = 1_000_000
@@ -60,15 +62,30 @@ def list_files(args: dict[str, Any]) -> dict[str, Any]:
         raise ValueError("list_files path must be a directory")
     paths = [str(path.relative_to(WORKSPACE)) for path in repository_files(root)]
     truncated = len(paths) > 500
+    retrieval_config = RetrievalConfig(**dict(args.get("_retrieval") or {"strategy": "structural"}))
+    retrieval_result = select_context(root, WORKSPACE, str(args.get("_issue", "")), retrieval_config)
+    retrieval_artifact = retrieval_result.artifact()
+    legacy = retrieval_result.metadata.get("legacy_context")
+    repository_context = dict(legacy) if isinstance(legacy, dict) else {
+        "format": "repository_retrieval_v1",
+        "map": retrieval_result.context,
+        "stats": {
+            "python_files": retrieval_result.scanned_files,
+            "mapped_files": retrieval_result.selected_files,
+            "symbols": retrieval_result.selected_chunks,
+            "parse_errors": 0,
+        },
+        "parse_errors": [],
+        "truncated": retrieval_result.truncated,
+        "ranking": {},
+    }
+    retrieval_artifact.pop("context", None)
+    repository_context["retrieval"] = retrieval_artifact
     return {
         "files": paths[:500],
         "count": len(paths),
         "truncated": truncated,
-        "repository_context": build_repository_context(
-            root,
-            WORKSPACE,
-            issue=str(args.get("_issue", "")),
-        ),
+        "repository_context": repository_context,
     }
 
 

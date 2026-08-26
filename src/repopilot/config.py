@@ -32,3 +32,4 @@ class RunConfig:
     limits: RunLimits = RunLimits()
     sandbox: SandboxConfig = SandboxConfig()
     evaluation_profile: dict[str, Any] | None = None
+    retrieval: dict[str, Any] | None = None

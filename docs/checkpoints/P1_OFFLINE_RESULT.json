@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "evaluated_at": "2026-08-26",
+  "evaluation_track": "offline_retrieval",
+  "p0_checkpoint_commit": "c894f6e353097c8b2e4ff99306c1999e88f6fbef",
+  "corpus_content_hash": "sha256:67c3ca0fd24e6fa434110b33b39507c02c2485a003ee4e5ccc3ac0d7395fb7ad",
+  "profile_content_hash": "sha256:3fdaf0f1c740807065ddbd6eca04f8505f42bcf830b0d43238314b2f5e6eeb7c",
+  "semantic_model_sha256": "67df4c4ab32c1cd951857e99d1452de89f2d8bab9ecbb3f75186254aed36c101",
+  "deterministic_fingerprint": "sha256:7767602dff5fff4ebe9f421d740765a851dd3c18c143aefe8601ea98589651fb",
+  "aggregate": {
+    "structural": {"recall_at_1": 0.375, "recall_at_3": 0.625, "recall_at_5": 1.0, "mrr": 0.5729166666666666, "context_precision": 0.2, "context_characters_mean": 514.375},
+    "semantic": {"recall_at_1": 0.375, "recall_at_3": 0.75, "recall_at_5": 1.0, "mrr": 0.6041666666666666, "context_precision": 0.2, "context_characters_mean": 557.25},
+    "hybrid": {"recall_at_1": 0.375, "recall_at_3": 0.625, "recall_at_5": 1.0, "mrr": 0.59375, "context_precision": 0.2, "context_characters_mean": 478.375}
+  },
+  "per_case_file_ranks": {
+    "allocation_rollback_paraphrase": {"structural": 4, "semantic": 2, "hybrid": 4},
+    "exact_invoice_symbol": {"structural": 1, "semantic": 1, "hybrid": 1},
+    "import_neighbor_tax": {"structural": 3, "semantic": 2, "hybrid": 2},
+    "permission_guard_paraphrase": {"structural": 4, "semantic": 4, "hybrid": 4},
+    "retry_backoff_paraphrase": {"structural": 2, "semantic": 3, "hybrid": 2},
+    "orphan_upload_cleanup": {"structural": 4, "semantic": 4, "hybrid": 4},
+    "src_phone_normalization": {"structural": 1, "semantic": 1, "hybrid": 1},
+    "order_serialization_exact": {"structural": 1, "semantic": 1, "hybrid": 1}
+  },
+  "stress_latency_ms": {
+    "structural": {"cold": 30.51579199382104, "warm": 28.263040992897004},
+    "semantic": {"cold": 173.7772919877898, "warm": 24.933750013587996},
+    "hybrid": {"cold": 217.45612498489209, "warm": 69.85870801145211}
+  },
+  "cache": {
+    "cold_misses": 252,
+    "warm_hits": 252,
+    "bytes": 224710,
+    "max_bytes": 32000000,
+    "location": "ephemeral_tmpfs",
+    "cache_in_worktree": false,
+    "persistent_service": false
+  },
+  "acceptance": {
+    "hybrid_recall_at_5": true,
+    "hybrid_no_worse_than_best_single_recall_at_5": true,
+    "semantic_unique_paraphrase_recoveries_at_3": false,
+    "semantic_unique_paraphrase_recoveries": ["allocation_rollback_paraphrase"],
+    "required_unique_recoveries": 2,
+    "latency_targets": true,
+    "fallback_rate_zero": true,
+    "oracle_leakage_zero": true,
+    "offline_gate_passed": false
+  },
+  "controlled_case_recall_at_5": {"structural": 1.0, "hybrid": 1.0},
+  "live_comparison": {"run": false, "reason": "offline acceptance gate did not pass"},
+  "hybrid_promoted_to_default": false,
+  "phase_5_status": "PASS",
+  "phase_6_status": "FAIL",
+  "overall_p1_status": "FAIL"
+}

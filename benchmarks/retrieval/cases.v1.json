@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "benchmark_id": "repopilot-retrieval-challenge",
+  "version": 1,
+  "cases": [
+    {
+      "case_id": "allocation_rollback_paraphrase",
+      "split": "dev",
+      "category": "paraphrase",
+      "issue": "Undo a partially completed allocation when checkout aborts",
+      "expected_fix_files": ["src/inventory/rollback_reservations.py"],
+      "expected_symbols": ["rollback_reservations"],
+      "semantic_help_expected": true,
+      "files": {
+        "src/inventory/allocation_report.py": "def report_allocation_abort():\n    return 'allocation abort report'\n",
+        "src/inventory/rollback_reservations.py": "def rollback_reservations(items):\n    return [release_reservation(item) for item in items]\n\ndef release_reservation(item):\n    return item\n",
+        "src/inventory/catalog.py": "def list_products():\n    return []\n",
+        "src/checkout/flow.py": "from inventory.rollback_reservations import rollback_reservations\n\ndef cancel_checkout(items):\n    return rollback_reservations(items)\n",
+        "src/reports/daily.py": "def daily_report():\n    return {}\n",
+        "tests/test_inventory.py": "def test_inventory_placeholder():\n    assert True\n"
+      }
+    },
+    {
+      "case_id": "exact_invoice_symbol",
+      "split": "dev",
+      "category": "exact_identifier",
+      "issue": "parse_invoice_total rounds incorrectly",
+      "expected_fix_files": ["src/billing/parser.py"],
+      "expected_symbols": ["parse_invoice_total"],
+      "semantic_help_expected": false,
+      "files": {
+        "src/billing/parser.py": "def parse_invoice_total(raw):\n    return round(float(raw), 2)\n",
+        "src/billing/invoice_total_report.py": "def report_invoice_total():\n    return 0\n",
+        "src/billing/currency.py": "def currency_code():\n    return 'EUR'\n",
+        "src/orders/models.py": "class Order:\n    pass\n",
+        "src/api/routes.py": "def health():\n    return 'ok'\n",
+        "tests/test_parser.py": "def test_parser_placeholder():\n    assert True\n"
+      }
+    },
+    {
+      "case_id": "import_neighbor_tax",
+      "split": "dev",
+      "category": "import_neighbor",
+      "issue": "Checkout applies the wrong calculate_tax result",
+      "expected_fix_files": ["src/checkout/service.py"],
+      "expected_symbols": ["checkout_total"],
+      "semantic_help_expected": false,
+      "files": {
+        "src/tax/calculator.py": "def calculate_tax(total):\n    return total * 0.2\n",
+        "src/checkout/service.py": "from tax.calculator import calculate_tax\n\ndef checkout_total(total):\n    return total + calculate_tax(total)\n",
+        "src/checkout/calculate_tax_report.py": "def calculate_tax_report():\n    return {}\n",
+        "src/catalog/items.py": "def items():\n    return []\n",
+        "src/users/profile.py": "def profile():\n    return {}\n",
+        "tests/test_checkout.py": "def test_checkout_placeholder():\n    assert True\n"
+      }
+    },
+    {
+      "case_id": "permission_guard_paraphrase",
+      "split": "held_out",
+      "category": "paraphrase",
+      "issue": "Reject users who lack access rights to the admin operation",
+      "expected_fix_files": ["src/auth/authorize.py"],
+      "expected_symbols": ["enforce_permissions"],
+      "semantic_help_expected": true,
+      "files": {
+        "src/reports/access_rights.py": "def access_rights_report():\n    return []\n",
+        "src/auth/authorize.py": "def enforce_permissions(user, required_role):\n    return required_role in user.roles\n",
+        "src/auth/session.py": "def current_user():\n    return None\n",
+        "src/admin/operation.py": "from auth.authorize import enforce_permissions\n\ndef run_admin(user):\n    return enforce_permissions(user, 'admin')\n",
+        "src/users/models.py": "class User:\n    roles = []\n",
+        "tests/test_auth.py": "def test_auth_placeholder():\n    assert True\n"
+      }
+    },
+    {
+      "case_id": "retry_backoff_paraphrase",
+      "split": "held_out",
+      "category": "paraphrase",
+      "issue": "Wait longer between repeated attempts after service failures",
+      "expected_fix_files": ["src/client/backoff.py"],
+      "expected_symbols": ["compute_retry_backoff"],
+      "semantic_help_expected": true,
+      "files": {
+        "src/reports/repeated_attempts.py": "def repeated_attempts_report():\n    return []\n",
+        "src/client/backoff.py": "def compute_retry_backoff(attempt):\n    return min(60, 2 ** attempt)\n",
+        "src/client/request.py": "from client.backoff import compute_retry_backoff\n\ndef send_with_retry(attempt):\n    return compute_retry_backoff(attempt)\n",
+        "src/client/transport.py": "def send():\n    return True\n",
+        "src/logging/events.py": "def record_failure():\n    return None\n",
+        "tests/test_client.py": "def test_client_placeholder():\n    assert True\n"
+      }
+    },
+    {
+      "case_id": "orphan_upload_cleanup",
+      "split": "held_out",
+      "category": "cross_file_paraphrase",
+      "issue": "Clean up abandoned temporary uploads after a failed request",
+      "expected_fix_files": ["src/storage/cleanup.py"],
+      "expected_symbols": ["purge_orphaned_blobs"],
+      "semantic_help_expected": true,
+      "files": {
+        "src/reports/temporary_uploads.py": "def temporary_uploads_report():\n    return []\n",
+        "src/storage/cleanup.py": "def purge_orphaned_blobs(blob_store):\n    return blob_store.delete_orphans()\n",
+        "src/storage/uploads.py": "from storage.cleanup import purge_orphaned_blobs\n\ndef abort_upload(store):\n    return purge_orphaned_blobs(store)\n",
+        "src/storage/files.py": "def save_file(data):\n    return data\n",
+        "src/api/request.py": "def failed_request():\n    return False\n",
+        "tests/test_storage.py": "def test_storage_placeholder():\n    assert True\n"
+      }
+    },
+    {
+      "case_id": "src_phone_normalization",
+      "split": "held_out",
+      "category": "src_layout_exact",
+      "issue": "normalize_phone_number drops the country code",
+      "expected_fix_files": ["src/contacts/normalization.py"],
+      "expected_symbols": ["normalize_phone_number"],
+      "semantic_help_expected": false,
+      "files": {
+        "src/contacts/normalization.py": "def normalize_phone_number(value):\n    return value.replace(' ', '')\n",
+        "src/reports/phone_number.py": "def phone_number_report():\n    return []\n",
+        "src/contacts/models.py": "class Contact:\n    pass\n",
+        "src/contacts/importer.py": "from contacts.normalization import normalize_phone_number\n",
+        "src/api/contacts.py": "def list_contacts():\n    return []\n",
+        "tests/test_contacts.py": "def test_contacts_placeholder():\n    assert True\n"
+      }
+    },
+    {
+      "case_id": "order_serialization_exact",
+      "split": "held_out",
+      "category": "exact_identifier",
+      "issue": "serialize_order_items must preserve insertion order",
+      "expected_fix_files": ["src/orders/serializer.py"],
+      "expected_symbols": ["serialize_order_items"],
+      "semantic_help_expected": false,
+      "files": {
+        "src/orders/serializer.py": "def serialize_order_items(items):\n    return list(items)\n",
+        "src/orders/sorting.py": "def preserve_order(values):\n    return values\n",
+        "src/reports/insertion_order.py": "def insertion_order_report():\n    return []\n",
+        "src/orders/models.py": "class OrderItem:\n    pass\n",
+        "src/api/orders.py": "def list_orders():\n    return []\n",
+        "tests/test_orders.py": "def test_orders_placeholder():\n    assert True\n"
+      }
+    }
+  ]
+}

@@ -57,6 +57,7 @@ class RunSession:
             command_timeout_seconds=config.limits.command_timeout_seconds,
             issue=config.issue,
             config=config.sandbox,
+            retrieval=config.retrieval,
         )
         try:
             sandbox.start()
