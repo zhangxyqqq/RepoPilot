@@ -79,3 +79,12 @@ def test_real_world_reference_validation_cli_has_separate_paths():
     assert args.command == "real-validate"
     assert args.tasks == Path("benchmarks/real_world")
     assert args.output == Path("reports/real-world-reference")
+
+
+def test_eval_profile_validation_fails_before_output_creation(tmp_path: Path):
+    profile = tmp_path / "invalid.json"
+    profile.write_text('{"schema_version":1,"profile_id":"bad","profile_version":1,"command":"rm"}', encoding="utf-8")
+    output = tmp_path / "must-not-exist"
+    with pytest.raises(SystemExit, match="2"):
+        main(["eval", "--profile", str(profile), "--output", str(output)])
+    assert not output.exists()

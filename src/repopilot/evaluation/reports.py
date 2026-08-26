@@ -16,6 +16,10 @@ def write_reports(report: dict[str, Any], output_directory: Path) -> tuple[Path,
     lines = [
         f"# RepoPilot {report['evaluation_mode']} evaluation",
         "",
+        f"- Evaluation track: {report.get('evaluation_track', 'legacy/unavailable')}",
+        f"- Profile: {report.get('profile', {}).get('profile_id', 'unavailable')} v{report.get('profile', {}).get('profile_version', 'unavailable')}",
+        f"- Profile hash: {report.get('profile', {}).get('content_hash', 'unavailable')}",
+        f"- Taxonomy: {report.get('taxonomy', {}).get('taxonomy_id', 'unavailable')} v{report.get('taxonomy', {}).get('version', 'unavailable')}",
         f"- Model: {', '.join(models)}",
         f"- Cases: {aggregate['cases']}",
         f"- Tasks succeeded: {aggregate['tasks_succeeded']}",
@@ -26,6 +30,7 @@ def write_reports(report: dict[str, Any], output_directory: Path) -> tuple[Path,
         f"- Total tool calls: {aggregate['tool_calls_total']}",
         f"- Unnecessary tool calls: {aggregate['unnecessary_tool_calls_total']}",
         f"- Total latency: {aggregate['latency_ms_total']:.1f} ms",
+        f"- Profile acceptance: {'PASS' if report.get('profile_acceptance', {}).get('passed') else 'FAIL'}",
         "",
         "## Cases",
         "",
@@ -48,6 +53,35 @@ def write_reports(report: dict[str, Any], output_directory: Path) -> tuple[Path,
             f"{localization} | {case['tool_calls']} | {case['unnecessary_tool_calls']} | "
             f"{case['iterations']} | {case['repair_cycles']} | {case['stop_reason']} | {case['latency_ms']:.1f} |"
         )
-    lines.extend(["", "Token counts are reported when the model provider supplies them.", ""])
+    failure = aggregate.get("failure_analysis", {})
+    lines.extend([
+        "",
+        "## Failure analysis",
+        "",
+        f"- Agent behavioral failure cases: {failure.get('agent_behavioral_failure_cases', 0)}",
+        f"- Infrastructure/harness failure cases: {failure.get('infrastructure_harness_failure_cases', 0)}",
+        f"- Recovered failure cases: {failure.get('recovered_failure_cases', 0)}",
+        f"- Efficiency-only degradation cases: {failure.get('efficiency_only_degradation_cases', 0)}",
+        f"- Public-pass/hidden-fail cases: {failure.get('public_pass_hidden_fail_count', 0)}",
+        f"- Unclassified structured errors: {failure.get('unclassified_error_count', 0)}",
+        "",
+        "| Label | Incidence | Stage | Recovered/unrecovered | Evidence event IDs |",
+        "|---|---:|---|---|---|",
+    ])
+    incidence = failure.get("failure_incidence_by_label", {})
+    for label in sorted(incidence):
+        case_entries: list[str] = []
+        stages: set[str] = set()
+        recovery: set[str] = set()
+        for case in report["cases"]:
+            matches = [item for item in case.get("failure_analysis", {}).get("classifications", []) if item["label"] == label]
+            for item in matches:
+                stages.add(item["phase"])
+                recovery.add(item["recoverability"])
+                case_entries.append(f"{case['id']}:" + ",".join(item["evidence_event_ids"]))
+        lines.append(f"| {label} | {incidence[label]} | {', '.join(sorted(stages))} | {', '.join(sorted(recovery))} | {'; '.join(case_entries)} |")
+    if not incidence:
+        lines.append("| none | 0 | — | — | — |")
+    lines.extend(["", "Observed classifications are evidence-linked; manual hypotheses are kept separate and are empty unless explicitly supplied.", "", "Token counts are reported when the model provider supplies them.", ""])
     markdown_path.write_text("\n".join(lines), encoding="utf-8")
     return json_path, markdown_path

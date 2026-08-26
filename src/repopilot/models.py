@@ -4,6 +4,21 @@ from dataclasses import dataclass, field
 from typing import Any, Literal
 
 
+ExecutionState = Literal["pre_execution", "post_execution", "ambiguous_execution", "not_applicable"]
+OperationClass = Literal["model", "safe_read", "bounded_test", "non_idempotent_mutation", "policy"]
+
+
+@dataclass(frozen=True)
+class FailureMetadata:
+    code: str
+    message: str
+    retryable: bool
+    execution_state: ExecutionState
+    operation_class: OperationClass
+    injected: bool = False
+    fault_type: str | None = None
+
+
 @dataclass(frozen=True)
 class TokenUsage:
     input_tokens: int | None = None
@@ -38,6 +53,7 @@ class ModelTurn:
     action: AgentAction
     latency_ms: float
     usage: TokenUsage = TokenUsage()
+    failure: FailureMetadata | None = None
 
 
 @dataclass(frozen=True)
@@ -47,6 +63,7 @@ class ToolResult:
     latency_ms: float
     revision: int
     error: str | None = None
+    failure: FailureMetadata | None = None
 
 
 @dataclass

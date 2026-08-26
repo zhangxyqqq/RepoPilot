@@ -1,0 +1,62 @@
+{
+  "aggregate_required_fields": [
+    "cases",
+    "hidden_test_cases_passed",
+    "iterations_mean",
+    "latency_ms_total",
+    "localization_f1_mean",
+    "public_test_cases_passed",
+    "repair_cycles_total",
+    "success_rate",
+    "tasks_succeeded",
+    "token_usage",
+    "tool_calls_total",
+    "unnecessary_tool_calls_total"
+  ],
+  "case_required_fields": [
+    "changed_files",
+    "expected_fix_files",
+    "final_diff",
+    "hidden_tests",
+    "id",
+    "issue",
+    "iterations",
+    "latency_ms",
+    "localization_f1",
+    "localization_precision",
+    "localization_recall",
+    "model",
+    "public_tests",
+    "repair_cycles",
+    "stop_reason",
+    "task_success",
+    "token_usage",
+    "tool_calls",
+    "trajectory_path",
+    "unnecessary_tool_calls"
+  ],
+  "evaluation_required_fields": [
+    "aggregate",
+    "benchmark_root",
+    "cases",
+    "evaluation_mode",
+    "generated_at",
+    "schema_version"
+  ],
+  "run_required_fields": [
+    "changed_files",
+    "final_diff",
+    "final_message",
+    "final_test",
+    "iterations",
+    "latency_ms",
+    "repair_cycles",
+    "run_id",
+    "stop_reason",
+    "success",
+    "tool_calls",
+    "trajectory_path",
+    "unnecessary_tool_calls",
+    "usage"
+  ]
+}

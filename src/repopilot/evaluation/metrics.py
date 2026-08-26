@@ -3,6 +3,8 @@ from __future__ import annotations
 import re
 from typing import Any, Iterable
 
+from repopilot.evaluation.taxonomy import aggregate_failure_analysis
+
 
 def localization_metrics(
     changed_files: Iterable[str],
@@ -47,7 +49,7 @@ def aggregate(case_results: list[dict[str, Any]]) -> dict[str, Any]:
     for field in token_fields:
         values = [case["token_usage"].get(field) for case in case_results]
         tokens[field] = sum(value for value in values if value is not None) if any(value is not None for value in values) else None
-    return {
+    result = {
         "cases": total,
         "tasks_succeeded": successful,
         "success_rate": successful / total if total else 0.0,
@@ -61,3 +63,6 @@ def aggregate(case_results: list[dict[str, Any]]) -> dict[str, Any]:
         "latency_ms_total": sum(case["latency_ms"] for case in case_results),
         "token_usage": tokens,
     }
+    result["failure_analysis"] = aggregate_failure_analysis(case_results)
+    result["unclassified_error_count"] = result["failure_analysis"]["unclassified_error_count"]
+    return result

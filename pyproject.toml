@@ -9,6 +9,7 @@ description = "A small, evaluated repository coding agent"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+  "mcp>=1.27,<2",
   "openai>=1.40,<3",
 ]
 
@@ -23,6 +24,10 @@ repopilot = "repopilot.cli:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/repopilot"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"configs/evaluation" = "repopilot/configs/evaluation"
+"configs/faults" = "repopilot/configs/faults"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

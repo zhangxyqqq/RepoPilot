@@ -1,0 +1,49 @@
+{
+  "captured_at": "2026-08-26",
+  "docker_server_version": "29.1.3",
+  "as_found": {
+    "deterministic_benchmark": {
+      "hidden_test_cases_passed": 0,
+      "localization_f1_mean": 0.0,
+      "output": "reports/v2-phase0-baseline",
+      "public_test_cases_passed": 4,
+      "tasks_succeeded": 0
+    },
+    "full_test_suite": {
+      "failed": 1,
+      "failure": "tests/regression/test_benchmark_evaluation.py::test_all_scripted_benchmarks_pass_and_emit_reports",
+      "passed": 66
+    },
+    "unit_test_suite": {
+      "passed": 42,
+      "warnings": 1
+    }
+  },
+  "commands": [
+    "uv run pytest tests/unit",
+    "uv run pytest",
+    "uv run repopilot eval --benchmarks benchmarks/cases --output reports/v2-phase0-baseline --model scripted",
+    "uv run pytest tests/unit/test_patch_policy.py tests/integration/test_docker_sandbox.py",
+    "uv run repopilot eval --benchmarks benchmarks/cases --output reports/v2-phase0-restored-baseline --model scripted",
+    "uv run pytest"
+  ],
+  "restored_v1_compatibility": {
+    "deterministic_benchmark": {
+      "hidden_test_cases_passed": 12,
+      "localization_f1_mean": 1.0,
+      "output": "reports/v2-phase0-restored-baseline",
+      "public_test_cases_passed": 12,
+      "tasks_succeeded": 12,
+      "tool_calls_total": 72,
+      "unnecessary_tool_calls_total": 0
+    },
+    "docker_patch_and_security_test": {
+      "passed": 1
+    },
+    "full_test_suite": {
+      "failed": 0,
+      "passed": 67
+    }
+  },
+  "root_cause_note": "The as-found worktree contained a pre-existing explanatory string inside subprocess.run arguments. Converting it to comments restored the existing Git patch behavior before Phase 1."
+}

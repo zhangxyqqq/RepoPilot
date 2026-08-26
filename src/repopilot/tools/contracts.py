@@ -2,85 +2,18 @@ from __future__ import annotations
 
 from typing import Any
 
+from repopilot.tools.definitions import PUBLIC_TOOL_BY_NAME, provider_tool_schemas
 
-TOOL_SCHEMAS: list[dict[str, Any]] = [
-    {
-        "type": "function",
-        "name": "list_files",
-        "description": "List files and return a bounded Python AST repo map with modules, imports, symbols, signatures, and lines.",
-        "parameters": {
-            "type": "object",
-            "properties": {"path": {"type": "string", "default": "."}},
-            "additionalProperties": False,
-        },
-        "strict": False,
-    },
-    {
-        "type": "function",
-        "name": "search_code",
-        "description": "Search repository text using a literal query or bounded regular expression.",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "query": {"type": "string"},
-                "path": {"type": "string", "default": "."},
-                "regex": {"type": "boolean", "default": False},
-            },
-            "required": ["query"],
-            "additionalProperties": False,
-        },
-        "strict": False,
-    },
-    {
-        "type": "function",
-        "name": "read_file",
-        "description": "Read a bounded line range from a repository file.",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "path": {"type": "string"},
-                "start_line": {"type": "integer", "minimum": 1, "default": 1},
-                "end_line": {"type": "integer", "minimum": 1, "default": 400},
-            },
-            "required": ["path"],
-            "additionalProperties": False,
-        },
-        "strict": False,
-    },
-    {
-        "type": "function",
-        "name": "apply_patch",
-        "description": "Apply a Git diff or *** Begin Patch envelope to production files. Public test files are protected.",
-        "parameters": {
-            "type": "object",
-            "properties": {"patch": {"type": "string"}},
-            "required": ["patch"],
-            "additionalProperties": False,
-        },
-        "strict": False,
-    },
-    {
-        "type": "function",
-        "name": "run_tests",
-        "description": "Run the fixed, allowlisted pytest command for this repository.",
-        "parameters": {"type": "object", "properties": {}, "additionalProperties": False},
-        "strict": False,
-    },
-    {
-        "type": "function",
-        "name": "git_diff",
-        "description": "Inspect the current repository diff and changed-file list.",
-        "parameters": {"type": "object", "properties": {}, "additionalProperties": False},
-        "strict": False,
-    },
-]
+
+# Backward-compatible provider view, generated from the canonical catalog.
+TOOL_SCHEMAS: list[dict[str, Any]] = provider_tool_schemas()
 
 
 def validate_tool_arguments(name: str, arguments: dict[str, Any]) -> str | None:
-    schema = next((item for item in TOOL_SCHEMAS if item["name"] == name), None)
-    if schema is None:
+    definition = PUBLIC_TOOL_BY_NAME.get(name)
+    if definition is None:
         return f"unknown tool: {name}"
-    parameters = schema["parameters"]
+    parameters = definition.input_schema
     properties = parameters.get("properties", {})
     for required in parameters.get("required", []):
         if required not in arguments:

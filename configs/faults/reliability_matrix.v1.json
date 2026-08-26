@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "schedule_id": "canonical-reliability-matrix",
+  "version": 1,
+  "seed": 17,
+  "scenarios": [
+    {
+      "scenario_id": "transient-model-recovery",
+      "case_id": "validation_pipeline_order",
+      "faults": [{"boundary":"model","fault_type":"transient_provider_exception","occurrence":1}],
+      "correction": "none",
+      "expected": {"recoverable":true,"stop_reason":"tests_passed","public_pass":true,"hidden_pass":true,"taxonomy_labels":["model.provider_error"]}
+    },
+    {
+      "scenario_id": "permanent-model-stop",
+      "case_id": "validation_pipeline_order",
+      "faults": [{"boundary":"model","fault_type":"permanent_provider_exception","occurrence":1}],
+      "correction": "none",
+      "expected": {"recoverable":false,"stop_reason":"model_error","public_pass":false,"hidden_pass":false,"taxonomy_labels":["model.provider_error"]}
+    },
+    {
+      "scenario_id": "invalid-arguments-corrected",
+      "case_id": "validation_pipeline_order",
+      "faults": [{"boundary":"tool","fault_type":"validation_error","occurrence":1,"tool":"search_code"}],
+      "correction": "repeat_faulted_action",
+      "expected": {"recoverable":true,"stop_reason":"tests_passed","public_pass":true,"hidden_pass":true,"taxonomy_labels":["tool.invalid_arguments"]}
+    },
+    {
+      "scenario_id": "patch-rejection-corrected",
+      "case_id": "validation_pipeline_order",
+      "faults": [{"boundary":"tool","fault_type":"patch_rejection","occurrence":1,"tool":"apply_patch"}],
+      "correction": "repeat_faulted_action",
+      "expected": {"recoverable":true,"stop_reason":"tests_passed","public_pass":true,"hidden_pass":true,"taxonomy_labels":["edit.patch_rejected","tool.execution_error"]}
+    },
+    {
+      "scenario_id": "read-timeout-safe-retry",
+      "case_id": "validation_pipeline_order",
+      "faults": [{"boundary":"tool","fault_type":"pre_execution_timeout","occurrence":1,"tool":"read_file"}],
+      "correction": "none",
+      "expected": {"recoverable":true,"stop_reason":"tests_passed","public_pass":true,"hidden_pass":true,"taxonomy_labels":["tool.execution_timeout"]}
+    },
+    {
+      "scenario_id": "ambiguous-patch-reconcile",
+      "case_id": "validation_pipeline_order",
+      "faults": [{"boundary":"tool","fault_type":"ambiguous_response_loss_after_execution","occurrence":1,"tool":"apply_patch"}],
+      "correction": "none",
+      "expected": {"recoverable":true,"stop_reason":"tests_passed","public_pass":true,"hidden_pass":true,"taxonomy_labels":["tool.execution_error"]}
+    },
+    {
+      "scenario_id": "public-test-timeout-bounded-rerun",
+      "case_id": "validation_pipeline_order",
+      "faults": [{"boundary":"tool","fault_type":"test_timeout","occurrence":1,"tool":"run_tests"}],
+      "correction": "none",
+      "expected": {"recoverable":true,"stop_reason":"tests_passed","public_pass":true,"hidden_pass":true,"taxonomy_labels":["test.timed_out","tool.execution_timeout"]}
+    },
+    {
+      "scenario_id": "deadline-exhausted-during-retry",
+      "case_id": "validation_pipeline_order",
+      "faults": [
+        {"boundary":"model","fault_type":"transient_provider_exception","occurrence":1},
+        {"boundary":"controller","fault_type":"near_deadline","occurrence":1,"checkpoint":"before_recovery","exhaust_deadline":true}
+      ],
+      "correction": "none",
+      "expected": {"recoverable":false,"stop_reason":"total_timeout","public_pass":false,"hidden_pass":false,"taxonomy_labels":["controller.total_timeout","model.provider_error"]}
+    }
+  ]
+}

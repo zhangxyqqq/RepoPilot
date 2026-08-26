@@ -3,6 +3,7 @@ from pathlib import Path
 from repopilot.agent.loop import AgentLoop
 from repopilot.models import AgentAction, ModelTurn, TokenUsage, ToolResult
 from repopilot.trajectory import TrajectoryRecorder
+from repopilot.trajectory import TraceReader
 
 
 class FakeModel:
@@ -68,3 +69,34 @@ def test_controller_stops_after_modified_revision_passes_tests(tmp_path: Path):
     assert result.iterations == 2
     assert model.calls == 2
     assert tools.calls == ["apply_patch", "run_tests", "git_diff"]
+
+
+def test_retryable_provider_error_uses_separate_budget_not_agent_iteration(tmp_path: Path):
+    class RateLimitError(RuntimeError):
+        status_code = 429
+
+    class TransientModel(FakeModel):
+        def next_action(self, **kwargs):
+            self.calls += 1
+            if self.calls == 1:
+                raise RateLimitError("retry later")
+            return ModelTurn(next(self.actions), latency_ms=0, usage=TokenUsage())
+
+    model = TransientModel()
+    tools = FakeTools()
+    path = tmp_path / "trajectory.jsonl"
+    result = AgentLoop(
+        issue="fix the bug",
+        model=model,
+        tools=tools,
+        recorder=TrajectoryRecorder(path, run_id="provider-retry", metadata={}),
+        max_iterations=30,
+        max_repair_cycles=3,
+        total_timeout_seconds=300,
+    ).run("provider-retry")
+
+    assert result.success is True
+    assert result.iterations == 2
+    assert model.calls == 3
+    decisions = [event for event in TraceReader(path) if event["type"] == "recovery_decision"]
+    assert [event["payload"]["action"] for event in decisions] == ["retry_model"]

@@ -1,0 +1,31 @@
+{
+  "container": {
+    "capabilities_dropped": [
+      "ALL"
+    ],
+    "cpu_limit_required": true,
+    "memory_limit_required": true,
+    "network_mode": "none",
+    "no_new_privileges": true,
+    "pids_limit": 128,
+    "read_only_root_filesystem": true,
+    "user": "10001:10001"
+  },
+  "credentials_not_forwarded": [
+    "OPENAI_API_KEY",
+    "DEEPSEEK_API_KEY"
+  ],
+  "policy": {
+    "allowlisted_test_command": [
+      "python",
+      "-m",
+      "pytest",
+      "-q"
+    ],
+    "input_repository_mounted_directly": false,
+    "path_traversal_rejected": true,
+    "public_test_edits_ignored": true,
+    "sensitive_staged_files_excluded": true
+  },
+  "source_test": "tests/integration/test_docker_sandbox.py::test_sandbox_enforces_paths_and_runs_only_fixed_tests"
+}

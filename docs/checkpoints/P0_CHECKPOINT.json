@@ -1,0 +1,84 @@
+{
+  "checkpoint_schema_version": 1,
+  "milestone": "RepoPilot V2 P0 agent engineering platform",
+  "checkpoint_ref": "repopilot-v2-p0",
+  "validated_at": "2026-08-26",
+  "base_commit": "e54dbce453bbf1af841efffa44238f622497cc86",
+  "repository_state": {
+    "checkpoint_scope": "All validated Phase 0 through Phase 4 source, configuration, documentation, fixtures, and tests",
+    "excluded_unrelated_paths": [
+      ".DS_Store",
+      "src/repopilot/agent/loop.py (pre-existing explanatory comments; behavior unchanged)",
+      "src/repopilot/sandbox/repository_context.py (pre-existing explanatory comments; behavior unchanged)",
+      "src/repopilot/sandbox/sandbox_runner.py (pre-existing explanatory comments; behavior unchanged)",
+      "src/repopilot/tools/registry.py (pre-existing explanatory comments; behavior unchanged)"
+    ],
+    "readme_modified": false
+  },
+  "validation": {
+    "full_pytest": {
+      "passed": 121,
+      "failed": 0
+    },
+    "controlled_deterministic_benchmark": {
+      "track": "controlled_deterministic_infrastructure",
+      "cases": 12,
+      "tasks_succeeded": 12,
+      "public_test_cases_passed": 12,
+      "hidden_test_cases_passed": 12,
+      "localization_f1_mean": 1.0,
+      "tool_calls_total": 72,
+      "unnecessary_tool_calls_total": 0,
+      "unclassified_error_count": 0,
+      "profile_content_hash": "sha256:b0f028e3613c2f246be4b38ad56ec02f7a0da3c12736cebecd51fa7bbf099c9b"
+    },
+    "deterministic_reliability": {
+      "scenarios": 8,
+      "scenarios_passed": 8,
+      "recoverable_scenarios": 6,
+      "recoverable_scenarios_succeeded": 6,
+      "unsafe_retry_count": 0,
+      "duplicate_mutation_count": 0,
+      "revision_divergence_count": 0,
+      "budget_overshoot_count": 0,
+      "unclassified_error_count": 0,
+      "schedule_content_hash": "sha256:06ed1a4d6a8800e00ffee649d2593ee1ca6a85a5da33a9ea893d60eaa8b6c70a"
+    },
+    "mcp_parity_and_security": {
+      "selected_tests_passed": 23,
+      "failed": 0,
+      "status": "PASS"
+    },
+    "trace_taxonomy_and_profile_compatibility": {
+      "selected_tests_passed": 30,
+      "failed": 0,
+      "v1_trajectories_readable": true,
+      "v2_phase_1_trajectories_readable": true,
+      "credential_redaction": "PASS",
+      "status": "PASS"
+    }
+  },
+  "capabilities": [
+    "structured/versioned agent traces and local analytics",
+    "evaluation profiles and evidence-based failure taxonomy",
+    "canonical six-tool catalog",
+    "local stdio MCP adapter with direct/MCP parity",
+    "bounded recovery policies",
+    "deterministic failure injection and reliability evaluation",
+    "unchanged restricted Docker sandbox",
+    "unchanged 12-case controlled benchmark behavior"
+  ],
+  "content_hashes_sha256": {
+    "docs/V2_SPEC.md": "ccf0995a866887b3dff8baecafda6ad4e8c476e5af0d4131678eae64ea29d55b",
+    "configs/evaluation/default.json": "b94080813fb9542138a2ebabf9fc68facfa4f789286a77e763ff20e47aae5319",
+    "configs/evaluation/failure_taxonomy.v1.json": "b48485205a7a9c1a514662a6f5bdceb924f1c9aee0d2213ac18467f0e7298bf4",
+    "configs/evaluation/reliability.json": "fb6ab9ad1fa414f181832ae6b2da641511be0178feec70d8bf8ad54bc98fdf64",
+    "configs/faults/reliability_matrix.v1.json": "91e9b7dddc859aee3de21861ae1023840b153fe80f00f34323227bebd991c638",
+    "tests/fixtures/v1/baseline_manifest.json": "4948548d5117cc445bcf94e66a3888c123fe42ee76c7c04c5a5d3f00d7a24b1b",
+    "tests/fixtures/v1/docker_security_assertions.json": "80df79dd590658c479195b2e632130ea0e51d6f8fdd029d68f140b2493428fd3",
+    "tests/fixtures/v1/tool_schemas.json": "1cb7c4a00c8fc915500d025f4e74770e22ae3daf47afa185e61a68afde194b5a",
+    "tests/fixtures/v1/direct_tool_results.json": "6c30262e5f290ef79d8e61a64ee96ce640d62bc0f45f4590ca204fd2e9777175",
+    "tests/fixtures/v1/trajectory.jsonl": "f12c66a802427cf82603d88a282fcd1b63bdc73ae0ab4c97d0f906c092308a9a",
+    "tests/fixtures/v1/report_fields.json": "fd5bba642aa6fa0ea5136ddfd80ca3faac3e5db47979284e8261797137fa3e58"
+  }
+}

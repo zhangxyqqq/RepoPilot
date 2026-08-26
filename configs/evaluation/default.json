@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "profile_id": "controlled-default",
+  "profile_version": 1,
+  "track": "controlled",
+  "model_repetitions": 1,
+  "limits": {
+    "max_iterations": 30,
+    "max_repair_cycles": 3,
+    "command_timeout_seconds": 30,
+    "total_timeout_seconds": 300,
+    "max_observation_chars": 20000,
+    "max_patch_chars": 50000
+  },
+  "taxonomy": {
+    "taxonomy_id": "repopilot-failures",
+    "version": 1
+  },
+  "recovery_policy": {
+    "version": 1,
+    "max_model_retries": 2,
+    "max_read_only_retries": 1,
+    "max_test_timeout_retries": 0
+  },
+  "required_metrics": [
+    "task_success",
+    "public_tests",
+    "hidden_tests",
+    "localization_f1",
+    "tool_calls",
+    "latency_ms",
+    "token_usage",
+    "failure_analysis"
+  ],
+  "acceptance_thresholds": {
+    "tasks_succeeded_min": 12,
+    "public_test_cases_passed_min": 12,
+    "hidden_test_cases_passed_min": 12,
+    "localization_f1_mean_min": 1.0,
+    "unclassified_error_count_max": 0
+  }
+}

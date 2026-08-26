@@ -1,0 +1,110 @@
+{
+  "errors": [
+    {
+      "arguments": {},
+      "error": "unknown tool: missing_tool",
+      "name": "missing_tool",
+      "ok": false,
+      "revision": 0
+    },
+    {
+      "arguments": {},
+      "error": "invalid tool arguments: missing required property: path",
+      "name": "read_file",
+      "ok": false,
+      "revision": 0
+    },
+    {
+      "arguments": {
+        "path": "../../etc/passwd"
+      },
+      "error": "ValueError: path must remain inside the repository workspace",
+      "name": "read_file",
+      "ok": false,
+      "revision": 0
+    }
+  ],
+  "successes": [
+    {
+      "arguments": {},
+      "name": "list_files",
+      "observation": {
+        "count": 1,
+        "files": [
+          "module.py"
+        ],
+        "truncated": false
+      },
+      "revision": 0
+    },
+    {
+      "arguments": {
+        "query": "target"
+      },
+      "name": "search_code",
+      "observation": {
+        "matches": [
+          {
+            "line": 1,
+            "path": "module.py",
+            "text": "target = 1"
+          }
+        ],
+        "truncated": false
+      },
+      "revision": 0
+    },
+    {
+      "arguments": {
+        "path": "module.py"
+      },
+      "name": "read_file",
+      "observation": {
+        "content": "1: target = 1",
+        "end_line": 1,
+        "path": "module.py",
+        "start_line": 1,
+        "truncated": false
+      },
+      "revision": 0
+    },
+    {
+      "arguments": {
+        "patch": "fixture patch"
+      },
+      "name": "apply_patch",
+      "observation": {
+        "changed": true,
+        "ignored_paths": [],
+        "paths": [
+          "module.py"
+        ]
+      },
+      "revision": 1
+    },
+    {
+      "arguments": {},
+      "name": "run_tests",
+      "observation": {
+        "exit_code": 0,
+        "output": "1 passed",
+        "passed": true,
+        "timed_out": false,
+        "truncated": false
+      },
+      "revision": 1
+    },
+    {
+      "arguments": {},
+      "name": "git_diff",
+      "observation": {
+        "changed_files": [
+          "module.py"
+        ],
+        "diff": "diff --git a/module.py b/module.py",
+        "truncated": false
+      },
+      "revision": 1
+    }
+  ]
+}

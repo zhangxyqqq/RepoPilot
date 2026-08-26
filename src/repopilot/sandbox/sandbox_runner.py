@@ -261,8 +261,10 @@ def apply_patch(args: dict[str, Any]) -> dict[str, Any]:
         raise ValueError("patch must be a non-empty unified diff of at most 50,000 characters")
     if patch.startswith("*** Begin Patch\n"):
         return apply_patch_envelope(patch)
+
     patch, paths, ignored_paths = filter_git_patch(patch)
     patch_paths(patch)
+    # First check whether the patch applies without modifying the worktree.
     check = subprocess.run(
         ["git", "apply", "--check", "--whitespace=nowarn", "-"],
         cwd=WORKSPACE,
@@ -271,8 +273,10 @@ def apply_patch(args: dict[str, Any]) -> dict[str, Any]:
         capture_output=True,
         timeout=10,
     )
+    # Reject the patch without changing files when the dry run fails.
     if check.returncode != 0:
         raise ValueError(f"patch check failed: {check.stderr.strip()}")
+    # Apply only after the dry run succeeds in the isolated worktree.
     applied = subprocess.run(
         ["git", "apply", "--whitespace=nowarn", "-"],
         cwd=WORKSPACE,

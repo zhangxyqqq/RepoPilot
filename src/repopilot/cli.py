@@ -2,15 +2,29 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 import tempfile
+import uuid
 from dataclasses import asdict
 from pathlib import Path
 from typing import Sequence
 
+import anyio
+
 from repopilot.agent import run_agent
 from repopilot.config import RunConfig
-from repopilot.evaluation import evaluate_benchmarks, validate_real_world_references
+from repopilot.evaluation import (
+    EvaluationProfileError,
+    evaluate_benchmarks,
+    load_evaluation_profile,
+    run_reliability_evaluation,
+    validate_real_world_references,
+)
+from repopilot.evaluation.faults import FaultScheduleError
 from repopilot.llm import ProviderConfig, create_model
+from repopilot.mcp import McpToolAdapter, sanitize_mcp_value, serve_stdio
+from repopilot.session import RunSession
+from repopilot.trajectory import TraceValidationError, write_trace_summary
 
 
 def _add_provider_arguments(parser: argparse.ArgumentParser) -> None:
@@ -59,6 +73,11 @@ def build_parser() -> argparse.ArgumentParser:
     eval_parser.add_argument("--benchmarks", type=Path, default=Path("benchmarks/cases"))
     eval_parser.add_argument("--output", type=Path, default=Path("reports"))
     eval_parser.add_argument("--model", default="scripted", help="scripted or an endpoint model name")
+    eval_parser.add_argument(
+        "--profile",
+        type=Path,
+        help="validated JSON evaluation profile (default: canonical controlled profile)",
+    )
     _add_provider_arguments(eval_parser)
 
     real_parser = subparsers.add_parser(
@@ -67,12 +86,94 @@ def build_parser() -> argparse.ArgumentParser:
     )
     real_parser.add_argument("--tasks", type=Path, default=Path("benchmarks/real_world"))
     real_parser.add_argument("--output", type=Path, default=Path("reports/real-world-reference"))
+
+    trace_parser = subparsers.add_parser(
+        "trace-summary",
+        help="validate and summarize a V1 or V2 trajectory without network or Docker",
+    )
+    trace_parser.add_argument("trajectory", type=Path)
+    trace_parser.add_argument(
+        "--output",
+        type=Path,
+        help="summary directory (default: trace-summary beside the trajectory)",
+    )
+
+    mcp_parser = subparsers.add_parser(
+        "mcp-serve",
+        help="serve the six sandboxed repository tools over local stdio MCP",
+    )
+    mcp_parser.add_argument("repository", type=Path)
+    mcp_parser.add_argument("--issue", required=True)
+    mcp_parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path(tempfile.gettempdir()) / "repopilot-mcp-runs",
+        help="run artifact directory outside the input repository",
+    )
+    reliability_parser = subparsers.add_parser(
+        "reliability",
+        help="run the deterministic fault-injection and recovery matrix",
+    )
+    reliability_parser.add_argument("--benchmarks", type=Path, default=Path("benchmarks/cases"))
+    reliability_parser.add_argument("--profile", type=Path)
+    reliability_parser.add_argument("--schedule", type=Path)
+    reliability_parser.add_argument("--output", type=Path, default=Path("reports/reliability"))
     return parser
+
+
+async def _serve_mcp_command(args: argparse.Namespace) -> None:
+    run_id = f"mcp-{uuid.uuid4().hex}"
+    session = RunSession.start(
+        RunConfig(repository=args.repository, issue=str(sanitize_mcp_value(args.issue)), output_dir=args.output),
+        run_id=run_id,
+        model_metadata={"provider": "mcp", "model": "external-client", "deterministic": False},
+        expose_source_path=False,
+        transport="mcp_stdio",
+    )
+    try:
+        await serve_stdio(McpToolAdapter(session.tools, recorder=session.recorder))
+    finally:
+        session.finish_transport()
+        session.close()
 
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
+    if args.command == "reliability":
+        try:
+            report = run_reliability_evaluation(
+                args.benchmarks,
+                args.output,
+                profile_path=args.profile,
+                schedule_path=args.schedule,
+            )
+        except (EvaluationProfileError, FaultScheduleError, ValueError) as exc:
+            parser.error(str(exc))
+        print(json.dumps(report["aggregate"], indent=2, sort_keys=True))
+        print(f"JSON report: {report['report_paths']['json']}")
+        print(f"Markdown report: {report['report_paths']['markdown']}")
+        return 0 if report["profile_acceptance"]["passed"] and report["aggregate"]["scenarios_passed"] == report["aggregate"]["scenarios"] else 1
+    if args.command == "mcp-serve":
+        anyio.run(_serve_mcp_command, args)
+        return 0
+    if args.command == "trace-summary":
+        trajectory = args.trajectory.resolve()
+        output = (args.output or trajectory.parent / "trace-summary").resolve()
+        run_path = trajectory.with_name("run.json")
+        try:
+            artifact, json_path, markdown_path = write_trace_summary(
+                trajectory,
+                output,
+                run_path=run_path if run_path.exists() else None,
+            )
+        except (OSError, json.JSONDecodeError, TraceValidationError) as exc:
+            print(f"trace-summary failed: {exc}", file=sys.stderr)
+            return 2
+        print(json.dumps(artifact["trace"], indent=2, sort_keys=True))
+        print(f"JSON summary: {json_path}")
+        print(f"Markdown summary: {markdown_path}")
+        return 0
     if args.command == "real-validate":
         report = validate_real_world_references(args.tasks, args.output)
         print(json.dumps(report["aggregate"], indent=2, sort_keys=True))
@@ -91,6 +192,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(json.dumps({**asdict(result), "workspace": str(workspace)}, indent=2, sort_keys=True))
         return 0 if result.success else 1
 
+    try:
+        profile = load_evaluation_profile(args.profile)
+    except EvaluationProfileError as exc:
+        parser.error(str(exc))
     factory = None
     if args.model == "scripted":
         if args.provider != "openai" or args.base_url is not None or args.api_key_env is not None:
@@ -102,7 +207,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         except ValueError as exc:
             parser.error(str(exc))
         factory = lambda case: model
-    report = evaluate_benchmarks(args.benchmarks, args.output, model_factory=factory)
+    report = evaluate_benchmarks(args.benchmarks, args.output, model_factory=factory, profile=profile)
     print(json.dumps(report["aggregate"], indent=2, sort_keys=True))
     print(f"JSON report: {report['report_paths']['json']}")
     print(f"Markdown report: {report['report_paths']['markdown']}")

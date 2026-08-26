@@ -5,6 +5,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from repopilot.trajectory.schema import create_event
+
 
 class TrajectoryRecorder:
     def __init__(self, path: Path, *, run_id: str, metadata: dict[str, Any]):
@@ -14,15 +16,15 @@ class TrajectoryRecorder:
         self._sequence = 0
         self.record("run_started", metadata=metadata)
 
-    def record(self, event_type: str, **payload: Any) -> None:
+    def record(self, event_type: str, **payload: Any) -> dict[str, Any]:
         self._sequence += 1
-        event = {
-            "schema_version": 1,
-            "run_id": self.run_id,
-            "sequence": self._sequence,
-            "timestamp": datetime.now(timezone.utc).isoformat(),
-            "type": event_type,
-            **payload,
-        }
+        event = create_event(
+            run_id=self.run_id,
+            sequence=self._sequence,
+            timestamp=datetime.now(timezone.utc).isoformat(),
+            event_type=event_type,
+            data=payload,
+        )
         with self.path.open("a", encoding="utf-8") as handle:
             handle.write(json.dumps(event, sort_keys=True, ensure_ascii=False) + "\n")
+        return event

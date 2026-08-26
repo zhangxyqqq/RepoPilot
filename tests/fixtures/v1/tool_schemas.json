@@ -1,0 +1,112 @@
+[
+  {
+    "description": "List files and return a bounded Python AST repo map with modules, imports, symbols, signatures, and lines.",
+    "name": "list_files",
+    "parameters": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "default": ".",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "strict": false,
+    "type": "function"
+  },
+  {
+    "description": "Search repository text using a literal query or bounded regular expression.",
+    "name": "search_code",
+    "parameters": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "default": ".",
+          "type": "string"
+        },
+        "query": {
+          "type": "string"
+        },
+        "regex": {
+          "default": false,
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "query"
+      ],
+      "type": "object"
+    },
+    "strict": false,
+    "type": "function"
+  },
+  {
+    "description": "Read a bounded line range from a repository file.",
+    "name": "read_file",
+    "parameters": {
+      "additionalProperties": false,
+      "properties": {
+        "end_line": {
+          "default": 400,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "path": {
+          "type": "string"
+        },
+        "start_line": {
+          "default": 1,
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "path"
+      ],
+      "type": "object"
+    },
+    "strict": false,
+    "type": "function"
+  },
+  {
+    "description": "Apply a Git diff or *** Begin Patch envelope to production files. Public test files are protected.",
+    "name": "apply_patch",
+    "parameters": {
+      "additionalProperties": false,
+      "properties": {
+        "patch": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "patch"
+      ],
+      "type": "object"
+    },
+    "strict": false,
+    "type": "function"
+  },
+  {
+    "description": "Run the fixed, allowlisted pytest command for this repository.",
+    "name": "run_tests",
+    "parameters": {
+      "additionalProperties": false,
+      "properties": {},
+      "type": "object"
+    },
+    "strict": false,
+    "type": "function"
+  },
+  {
+    "description": "Inspect the current repository diff and changed-file list.",
+    "name": "git_diff",
+    "parameters": {
+      "additionalProperties": false,
+      "properties": {},
+      "type": "object"
+    },
+    "strict": false,
+    "type": "function"
+  }
+]
