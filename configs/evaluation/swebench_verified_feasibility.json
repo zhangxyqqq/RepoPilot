@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "profile_id": "swebench-verified-feasibility",
+  "profile_version": 1,
+  "track": "swebench_feasibility_security",
+  "dataset": {
+    "id": "princeton-nlp/SWE-bench_Verified",
+    "split": "test",
+    "candidate_inventory": "benchmarks/real_world/inventory.json"
+  },
+  "selection_frozen_at": "2026-08-26",
+  "selection_frozen_before_environment_testing": true,
+  "selection_policy": {
+    "allowed_criteria": [
+      "official environment metadata or image availability",
+      "Python repository and pytest-oriented tool compatibility",
+      "repository-family diversity",
+      "bounded local resource and trusted-test-plan size",
+      "pinned revision and fixture completeness"
+    ],
+    "forbidden_criteria": [
+      "predicted issue solvability",
+      "agent success after execution",
+      "gold-patch outcome observed after selection"
+    ],
+    "substitution_after_freeze": false
+  },
+  "candidates": [
+    {
+      "instance_id": "pallets__flask-5014",
+      "selected": true,
+      "pre_evaluation_reason": "Selected as the sole Flask-family candidate: Python/pytest repository, pinned fixtures, one FAIL_TO_PASS test, and a moderate 59-test PASS_TO_PASS oracle."
+    },
+    {
+      "instance_id": "psf__requests-5414",
+      "selected": true,
+      "pre_evaluation_reason": "Selected as the lower-resource Requests-family candidate: one FAIL_TO_PASS test and 130 PASS_TO_PASS tests, compared with the other Requests candidate's two and 185."
+    },
+    {
+      "instance_id": "psf__requests-6028",
+      "selected": false,
+      "pre_evaluation_reason": "Excluded before testing because the Requests family is already represented and this candidate has the larger trusted grading plan (two FAIL_TO_PASS and 185 PASS_TO_PASS tests)."
+    },
+    {
+      "instance_id": "pytest-dev__pytest-10051",
+      "selected": true,
+      "pre_evaluation_reason": "Selected as the lower-resource pytest-family candidate: one FAIL_TO_PASS and 15 PASS_TO_PASS tests while retaining a distinct self-hosting pytest environment."
+    },
+    {
+      "instance_id": "pytest-dev__pytest-7324",
+      "selected": false,
+      "pre_evaluation_reason": "Excluded before testing because the pytest family is already represented and this candidate has the larger trusted grading plan (three FAIL_TO_PASS and 58 PASS_TO_PASS tests)."
+    }
+  ],
+  "frozen_instance_ids": [
+    "pallets__flask-5014",
+    "psf__requests-5414",
+    "pytest-dev__pytest-10051"
+  ],
+  "runtime_security_gate": {
+    "network_mode": "none",
+    "user": "10001:10001",
+    "read_only_root_filesystem": true,
+    "capabilities_dropped": [
+      "ALL"
+    ],
+    "no_new_privileges": true,
+    "memory": "512m",
+    "cpus": "1.0",
+    "pids_limit": 128,
+    "command_timeout_seconds": 300,
+    "total_spike_timeout_seconds": 1800,
+    "writable_mounts": [
+      "/workspace",
+      "/tmp",
+      "/home/repopilot"
+    ],
+    "forbidden_mounts": [
+      "original source repository",
+      "Docker socket",
+      "host home directory",
+      "SSH agent socket",
+      "benchmark answer paths"
+    ],
+    "forwarded_credentials": false,
+    "model_selected_commands": false,
+    "model_selected_docker_flags": false
+  },
+  "model_visible_tools": [
+    "list_files",
+    "search_code",
+    "read_file",
+    "apply_patch",
+    "run_tests",
+    "git_diff"
+  ],
+  "claim_boundary": "This profile is an environment and security feasibility spike. It does not authorize or report a live agent SWE-bench solve."
+}
