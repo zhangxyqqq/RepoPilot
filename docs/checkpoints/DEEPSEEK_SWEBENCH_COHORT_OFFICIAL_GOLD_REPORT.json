@@ -1,0 +1,41 @@
+{
+  "total_instances": 3,
+  "submitted_instances": 3,
+  "completed_instances": 3,
+  "resolved_instances": 3,
+  "unresolved_instances": 0,
+  "infra_failure_instances": 0,
+  "ambiguous_failure_instances": 0,
+  "empty_patch_instances": 0,
+  "error_instances": 0,
+  "completed_ids": [
+    "matplotlib__matplotlib-22719",
+    "psf__requests-1724",
+    "pytest-dev__pytest-8399"
+  ],
+  "incomplete_ids": [],
+  "empty_patch_ids": [],
+  "submitted_ids": [
+    "matplotlib__matplotlib-22719",
+    "psf__requests-1724",
+    "pytest-dev__pytest-8399"
+  ],
+  "resolved_ids": [
+    "matplotlib__matplotlib-22719",
+    "psf__requests-1724",
+    "pytest-dev__pytest-8399"
+  ],
+  "unresolved_ids": [],
+  "infra_failure_ids": [],
+  "ambiguous_failure_ids": [],
+  "failure_reasons": {},
+  "error_ids": [],
+  "schema_version": 2,
+  "unstopped_instances": 0,
+  "unstopped_containers": [],
+  "unremoved_images": [
+    "swebench/sweb.eval.x86_64.matplotlib_1776_matplotlib-22719:latest",
+    "swebench/sweb.eval.x86_64.psf_1776_requests-1724:latest",
+    "swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-8399:latest"
+  ]
+}
