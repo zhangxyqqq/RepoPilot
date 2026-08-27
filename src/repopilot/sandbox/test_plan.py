@@ -53,8 +53,14 @@ class TrustedTestPlan:
         path = PurePosixPath(target)
         if not _TEST_TARGET.fullmatch(target) or path.is_absolute() or ".." in path.parts:
             raise ValueError("trusted pytest target must be one relative Python test file")
-        if not (target.startswith("tests/") or target.startswith("testing/")):
-            raise ValueError("trusted pytest target must remain below tests/ or testing/")
+        basename = path.name
+        test_like_name = basename.startswith("test_") or basename.endswith("_test.py")
+        within_test_tree = any(part in {"tests", "testing"} for part in path.parts[:-1])
+        root_test_file = len(path.parts) == 1 and test_like_name
+        if basename in {"conftest.py", "__init__.py"} or not test_like_name:
+            raise ValueError("trusted pytest target must be a test-named Python file")
+        if not (within_test_tree or root_test_file):
+            raise ValueError("trusted pytest target must remain in a test tree or be a root test file")
 
     @property
     def content_hash(self) -> str:

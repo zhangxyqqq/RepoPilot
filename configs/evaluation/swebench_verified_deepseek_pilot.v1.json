@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "profile_id": "swebench-verified-deepseek-fresh-pilot",
+  "profile_version": 1,
+  "track": "swebench_verified_cohort_qualification",
+  "frozen_at": "2026-08-27",
+  "selection_source": {
+    "path": "configs/evaluation/swebench_verified_deepseek_candidate_selection.v1.json",
+    "sha256": "sha256:5c566f71c4216012717e676765f2374f706350a33c08588f1fdc9bc5eba0022a",
+    "commit": "5b1d832db9741ae8e7dd12fdf68df3ff160ae290"
+  },
+  "benchmark_lineage": {
+    "swebench_package": "swebench",
+    "swebench_version": "5.0.2",
+    "harness_commit": "7a21e05772954cc81471ae19d56f436cecf43c54",
+    "reference_dataset_id": "princeton-nlp/SWE-bench_Verified",
+    "reference_dataset_revision": "c104f840cc67f8b6eec6f759ebc8b2693d585d4a",
+    "enriched_dataset_id": "SWE-bench/SWE-bench_Verified",
+    "enriched_dataset_revision": "78f471bf655a3137b2e8a75af1501690ec009ec3",
+    "split": "test"
+  },
+  "instances": [
+    {
+      "instance_id": "pytest-dev__pytest-8399",
+      "repository": "pytest-dev/pytest",
+      "base_commit": "6e7dc8bac831cd8cf7a53b08efa366bd84f0c0fe",
+      "environment_setup_commit": "634312b14a45db8d60d72016e01294284e3a18d4",
+      "issue_sha256": "sha256:2471cd247002e8cb4c9cff40999a0841dbfea96004fb15d6df9c23528395c011",
+      "image": "swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-8399@sha256:1403b263348f1da02330634d688ebf8dd61fa69f2c301203c89551889946cb0d",
+      "image_size_bytes": 1027620233,
+      "image_pull_seconds": 24.88,
+      "trusted_test_plan": {"plan_id": "swebench-public-file-pytest", "version": 1, "instance_id": "pytest-dev__pytest-8399", "command": ["python", "-m", "pytest", "-q", "testing/acceptance_test.py"], "source": "lexicographically first tracked test-like Python path at the exact base revision"},
+      "smoke_patch_path": "src/_pytest/__init__.py",
+      "oracle_hashes": {"eval_script_sha256": "d5af93f981d23eb9fad3778d06ff124310197076d55c7c6a7d6f2f31e8acb091", "gold_patch_sha256": "fcc0962e001dbc5c6c718a885b0a3369af3b018b942d3574675c51ecdc59eff2", "test_patch_sha256": "506cca658cf270e5ef62256ea4261cd6557ed8368317a97d715123486fa1ddd6", "fail_to_pass_sha256": "0f866ba3287076d81c8823bc10cd7a0a076cf5abb1691b65aa7ed918afeac338", "pass_to_pass_sha256": "5d3b3be4e18dc6635280b5352a2ef8236afb0eeea4231ad7c1d408df397e262c"}
+    },
+    {
+      "instance_id": "psf__requests-1724",
+      "repository": "psf/requests",
+      "base_commit": "1ba83c47ce7b177efe90d5f51f7760680f72eda0",
+      "environment_setup_commit": "4bceb312f1b99d36a25f2985b5606e98b6f0d8cd",
+      "issue_sha256": "sha256:eacde5d201658474274cce4558b5d2b8ae74d9fcc2ad6ddc76aaf003b2160b8a",
+      "image": "swebench/sweb.eval.x86_64.psf_1776_requests-1724@sha256:e369005d38858ea90f843d853cb8427a2681b7513b846d12a34cb8d52c00763e",
+      "image_size_bytes": 955795303,
+      "image_pull_seconds": 20.98,
+      "trusted_test_plan": {"plan_id": "swebench-public-file-pytest", "version": 1, "instance_id": "psf__requests-1724", "command": ["python", "-m", "pytest", "-q", "test_requests.py"], "source": "lexicographically first tracked test-like Python path at the exact base revision"},
+      "smoke_patch_path": "requests/__init__.py",
+      "oracle_hashes": {"eval_script_sha256": "a7dcf34c62a69a3909aa7dd7e8c52d7742da9b838b33e6c8f496c1c6702420fa", "gold_patch_sha256": "f02e7cb27f931afc59887bcd31705b7d8ad9a226b187b398262f202f605365df", "test_patch_sha256": "7b7377da0dd8c776fad717d6a658fa385c24df80f54ee9e463ae59ae9a2c306b", "fail_to_pass_sha256": "f4e5f2287d3ff430670d957b7f2f6b89b703ae0a8876477eaffec9f16d533554", "pass_to_pass_sha256": "92d54bbde2000a7594a0715b8775f703a72506dac43727161d277cc06f482778"}
+    },
+    {
+      "instance_id": "matplotlib__matplotlib-22719",
+      "repository": "matplotlib/matplotlib",
+      "base_commit": "a2a1b0a11b993fe5f8fab64b6161e99243a6393c",
+      "environment_setup_commit": "de98877e3dc45de8dd441d008f23d88738dc015d",
+      "issue_sha256": "sha256:2ffeda0f37f0b31f33acc4091c401b2ecdf32fe61756e07d1248ab2095cb77e0",
+      "image": "swebench/sweb.eval.x86_64.matplotlib_1776_matplotlib-22719@sha256:c717250d0f6b4a9c65cd719057124119671e995e35b1a5b48a613288c31b85e8",
+      "image_size_bytes": 3108363039,
+      "image_pull_seconds": 153.03,
+      "trusted_test_plan": {"plan_id": "swebench-public-file-pytest", "version": 1, "instance_id": "matplotlib__matplotlib-22719", "command": ["python", "-m", "pytest", "-q", "lib/matplotlib/tests/test_afm.py"], "source": "lexicographically first tracked test-like Python path at the exact base revision"},
+      "smoke_patch_path": "lib/matplotlib/__init__.py",
+      "oracle_hashes": {"eval_script_sha256": "2677fff9d8d7d66ea8ca4edc9294b5eda8f41c974c3fde8474c3931a5e5a8d1c", "gold_patch_sha256": "4d9894b021f03db20ff4ae1afeedb8934d3640ed88d084f57ddd64e7edeb1217", "test_patch_sha256": "4901d6d33a7cc448fd42434774e2275bf85cb35fb028b7164b42eef19878df3c", "fail_to_pass_sha256": "f579ec341cb47024988035c5dfeb8a48a58db8f4ea3b670276d1deb4f32cba9e", "pass_to_pass_sha256": "ed9b826402e02c82f57c425df525de5177e548b5f943e5c0ce7aa6efd3cc0147"}
+    }
+  ],
+  "test_plan_selection": "Lexicographically first exact-base tracked .py path whose basename starts test_ or ends _test.py and which is root-level or below a tests/testing segment; exclude conftest.py and __init__.py.",
+  "retrieval": {"strategy": "structural", "semantic_enabled": false, "hybrid_enabled": false},
+  "tool_catalog": {"version": 1, "sha256": "sha256:84aefeae76e6b1e6f48a04657765d7aa8b7216d9f55c9549f971ed32c71546d4", "names": ["list_files", "search_code", "read_file", "apply_patch", "run_tests", "git_diff"]},
+  "sandbox": {"network_mode": "none", "user": "10001:10001", "read_only_root_filesystem": true, "capabilities_dropped": ["ALL"], "no_new_privileges": true, "memory": "512m", "cpus": "1.0", "pids_limit": 128, "tool_test_timeout_seconds": 120, "total_deadline_seconds": 300, "only_staged_worktree_writable": true, "credentials_forwarded": false, "model_selected_commands": false},
+  "contamination": {"forbidden_names": ["gold.patch", "reference.patch", "test.patch", "gold_predictions.jsonl", "predictions.jsonl"], "forbidden_material": ["gold/reference patch", "test patch", "FAIL_TO_PASS oracle", "PASS_TO_PASS oracle", "expected fix file/symbol/range", "solution-bearing checkpoints", "benchmark answer directories"], "future_agent_root_excludes_qualification_artifacts": true},
+  "acquisition": {"network_permitted": true, "runtime_network_permitted": false, "method": "Pinned official image pull; copy /testbed; detached checkout of exact base object already present in image."},
+  "protocol": {"frozen_instance_order": ["pytest-dev__pytest-8399", "psf__requests-1724", "matplotlib__matplotlib-22719"], "substitution": false, "reordering": false, "model_execution": false, "agent_execution": false, "gold_material_agent_visible": false},
+  "claim_boundary": "Environment, official gold grading, security, contamination, six-tool feasibility, and local resource qualification only. No model or agent executes on any issue."
+}

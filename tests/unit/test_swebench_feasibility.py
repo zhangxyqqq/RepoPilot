@@ -39,6 +39,8 @@ def test_frozen_profile_has_exact_candidates_tools_images_and_data_only_plans() 
         ["python", "-m", "pytest", "-q", "../tests/test_x.py"],
         ["python", "-m", "pytest", "-q", "tests/test_x.py", "--collect-only"],
         ["python", "-m", "pytest", "-q", "src/module.py"],
+        ["python", "-m", "pytest", "-q", "src/test_module.py"],
+        ["python", "-m", "pytest", "-q", "tests/conftest.py"],
     ],
 )
 def test_trusted_test_plan_rejects_shell_escape_and_broadening(command: list[str]) -> None:
@@ -46,6 +48,23 @@ def test_trusted_test_plan_rejects_shell_escape_and_broadening(command: list[str
         TrustedTestPlan.from_dict(
             {"plan_id": "test", "version": 1, "instance_id": "x", "command": command, "source": "fixture"}
         )
+
+
+@pytest.mark.parametrize(
+    "target",
+    ["testing/acceptance_test.py", "test_requests.py", "lib/matplotlib/tests/test_afm.py"],
+)
+def test_trusted_test_plan_accepts_frozen_cohort_test_shapes(target: str) -> None:
+    plan = TrustedTestPlan.from_dict(
+        {
+            "plan_id": "test",
+            "version": 1,
+            "instance_id": "x",
+            "command": ["python", "-m", "pytest", "-q", target],
+            "source": "controller-owned deterministic path selection",
+        }
+    )
+    assert plan.command[-1] == target
 
 
 def test_profile_unknown_field_fails_before_runtime(tmp_path: Path) -> None:
