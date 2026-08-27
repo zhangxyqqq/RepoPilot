@@ -463,7 +463,7 @@
       "transitions": 0
     }
   },
-  "trajectory_path": "/Users/zhangxiangyun/Downloads/The_DTU_Years/2/repopilot/docs/checkpoints/P2_BEHAVIORAL_RUNS/pytest-dev__pytest-10051/trajectory.jsonl",
+  "trajectory_path": "docs/checkpoints/P2_BEHAVIORAL_RUNS/pytest-dev__pytest-10051/trajectory.jsonl",
   "unnecessary_tool_calls": 0,
   "usage": {
     "cached_tokens": 0,

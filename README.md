@@ -1,216 +1,258 @@
 # RepoPilot
 
-RepoPilot is an evaluated coding agent that takes a local Python repository plus a natural-language issue, explores the codebase, applies a patch, runs pytest inside a restricted Docker container, repairs failures, and returns an auditable diff.
+RepoPilot is a local **Agent Engineering & Evaluation Platform** for building, observing, testing, and evaluating repository-level coding agents under controlled execution. It connects an issue to bounded repository context, a single-agent tool-calling loop, six typed tools, a restricted Docker sandbox, versioned traces, evidence-based failure classification, and separate deterministic, live-model, reliability, and SWE-bench Verified evaluation tracks.
 
-The project is intentionally narrow: one capable agent, six controlled tools, one sandbox boundary, and a small hidden-test benchmark. It demonstrates repository-level agent engineering without adding RAG, memory, a UI, multi-agent orchestration, a database, or deployment infrastructure.
+```text
+issue → repository context → model decision → typed tool → restricted sandbox
+      → patch / test / bounded recovery → structured trace → evaluation
+```
 
-## What it demonstrates
+The project is designed to make agent behavior inspectable and falsifiable. It is not presented as a production service or as broad evidence of SWE-bench performance.
 
-- A real tool-calling loop: **inspect → structurally locate → plan → edit → test → repair → final diff**
-- A bounded, issue-ranked Python AST repository map for modules, imports, classes, functions, methods, and signatures
-- Repository tools with typed inputs instead of arbitrary shell access
-- Docker isolation for repository reads, writes, patching, Git inspection, and test execution
-- Append-only JSONL trajectories with actions, observations, timing, and token usage
-- Deterministic infrastructure regression plus separate live-model evaluation
-- Hidden-test scoring and behavior metrics beyond a pass/fail demo
+## What RepoPilot demonstrates
+
+- A bounded single-agent controller with typed model actions and explicit stop conditions.
+- Exactly six repository tools; no model-visible shell, Docker flags, or host paths.
+- Restricted, networkless Docker execution over a staged repository copy.
+- A canonical tool catalog shared by direct provider calls and a local stdio MCP adapter.
+- Versioned JSONL traces with local analytics, redaction, and metric reconciliation.
+- Versioned evaluation profiles and an evidence-based, multi-label failure taxonomy.
+- Bounded recovery policies tested through deterministic fault injection.
+- Structural, lexical, semantic, and hybrid retrieval experiments with a preserved negative promotion result.
+- Controlled hidden-test evaluation and separately reported SWE-bench Verified reference, feasibility, behavioral, and qualification tracks.
+- Frozen model/controller compatibility gates that measure protocol use independently from coding-task success.
 
 ## Architecture
 
 ```mermaid
-flowchart LR
-    CLI["CLI: repository + issue"] --> Stage["Filtered snapshot"]
-    Stage --> Loop["Single-agent controller"]
+flowchart TB
+    CLI["CLI / evaluation runner"] --> Loop["AgentLoop"]
     Loop <--> Model["Model adapter"]
-    Loop --> Tools["Typed tool registry"]
-    Tools --> Docker["Restricted Docker sandbox"]
-    Docker --> Map["Issue-ranked Python AST repo map"]
-    Docker --> Worktree["Isolated writable worktree"]
-    Map --> Tools
-    Loop --> Trace["Append-only JSONL trajectory"]
-    Trace --> Eval["Controlled evaluation"]
-    Real["Pinned SWE-bench Verified pilot"] --> RealCheck["Reference-integrity validation"]
-    RealCheck --> Reports
-    Eval --> Reports["JSON + Markdown reports"]
+    Loop --> Recovery["RecoveryPolicy"]
+    Loop --> Backend["ToolBackend"]
+
+    Backend --> Direct["Direct calls"]
+    Backend --> MCP["Local stdio MCP"]
+    Direct --> Registry["Canonical ToolRegistry"]
+    MCP --> Registry
+    Registry --> Docker["Restricted Docker sandbox"]
+    Docker --> Tools["Six repository tools"]
+
+    Context["Repository context"] --> Structural["Structural default"]
+    Context --> Experimental["Experimental lexical / semantic / hybrid"]
+    Structural --> Registry
+    Experimental -. "not promoted" .-> Registry
+
+    Loop --> Recorder["TraceRecorder"]
+    MCP --> Recorder
+    Recorder --> Reader["TraceReader / local analytics"]
+    Reader --> Taxonomy["Failure taxonomy"]
+    Taxonomy --> Reports["JSON + Markdown reports"]
 ```
 
-The model decides what to inspect and change. The controller owns budgets, tool dispatch, trajectory recording, the final test run, and the final diff. A model's claim that a task succeeded is never treated as evidence.
+The sandbox and canonical registry remain authoritative on both direct and MCP paths. MCP changes transport, not permissions. Semantic and hybrid retrieval exist for offline comparison but are not the default.
 
-### Agent loop
+## Agent execution loop
 
-```text
-inspect files
-    ↓
-use AST map to locate likely modules and symbols
-    ↓
-search when lexical evidence helps; read exact code
-    ↓
-state a concise plan
-    ↓
-apply a unified diff
-    ↓
-run fixed pytest command
-    ├── failure → inspect observation → revise, within repair budget
-    └── pass    → inspect final diff → finish
-```
+The controller runs an inspect → locate → plan → edit → test → recover → finalize cycle. The model proposes structured actions; the controller validates them, dispatches tools, tracks workspace revisions and budgets, records evidence, and independently collects the final test result and diff.
 
-Default limits are 30 model iterations, three failed edit/test repair cycles, a 30-second command timeout, a five-minute overall deadline, and bounded observations and patches.
+Recovery is policy-driven rather than an unrestricted retry loop. Default controller limits include 30 model iterations, three edit/test repair cycles, bounded tool timeouts, bounded observations and patches, and a five-minute soft total deadline. A model’s textual success claim is never treated as test evidence.
 
-### Repository context
-
-Lexical search alone does not tell the agent whether a match is a module, class, method, test, or import relationship. RepoPilot therefore builds a read-only structural outline whenever `list_files` runs. The implementation uses Python's standard-library `ast` parser inside the sandbox and records:
-
-- module paths and source/test roles
-- direct top-level imports
-- classes and base expressions
-- top-level functions, methods, async functions, signatures, and line numbers
-
-The extractor scans at most 5,000 Python files and parses them deterministically before applying the output budget of 100 files, 300 symbols, and 8,000 characters. Under budget pressure it ranks exact and partial issue-text matches against paths, modules, classes, functions, and methods; adds a small import-neighbor signal; prefers production code on otherwise equal evidence; and ranks relevant symbols within selected files. Stable path and source-order tie breakers make repeated maps reproducible. Small repositories that fit the budget retain traversal and source order.
-
-The map reports truncation and per-file parse failures explicitly. It is an initial localization aid, not a replacement for evidence: the agent uses `read_file` for implementations and can still use literal or regex `search_code` for configuration keys, call sites, error strings, dynamically defined names, and non-Python files. This keeps structural extraction behind the existing typed tool and Docker boundary instead of adding a seventh tool, embeddings, a vector database, or a second agent.
-
-## Controlled tools
+## Six controlled tools
 
 | Tool | Capability | Main controls |
 |---|---|---|
-| `list_files` | Enumerate files and return a bounded Python AST map | Relative paths, file/symbol/character caps, parse-error isolation |
-| `search_code` | Literal or regex code search | Query, file-size, and match caps |
-| `read_file` | Read numbered line ranges | Workspace resolution, 400-line maximum |
-| `apply_patch` | Apply a Git diff or `*** Begin Patch` envelope | Path validation, size cap, protected tests, no symlink/rename patches |
-| `run_tests` | Execute repository tests | Exact allowlist: `python -m pytest -q`, timeout |
-| `git_diff` | Return changed files and diff | Fixed Git argv, bounded output |
+| `list_files` | Enumerate files and return bounded repository context | Relative paths; file, symbol, and character limits |
+| `search_code` | Literal or regex search | Query, match, output, and file-size limits |
+| `read_file` | Read numbered line ranges | Workspace resolution and line limits |
+| `apply_patch` | Apply a validated patch | Path and size validation; protected tests; no symlink or rename patches |
+| `run_tests` | Run the controller-approved pytest command | Fixed argv policy and timeout; no model-selected shell command |
+| `git_diff` | Return changed files and a bounded diff | Fixed Git argv and bounded output |
 
-The model cannot provide raw commands, shell syntax, Docker flags, or host paths.
+Schemas, descriptions, validation rules, mutation metadata, and normalized results come from one canonical catalog. Direct providers and MCP expose the same six definitions. The model never receives arbitrary shell access, and `run_tests` remains controller- or policy-owned.
 
-## Docker security boundary
+## Security and sandbox boundary
 
-The input repository is never mounted directly. RepoPilot copies regular files into a new run directory, excluding `.git`, environment files, common credential directories, caches, and bytecode. Symbolic links are rejected in this MVP. The original repository is not modified.
+RepoPilot stages regular files into a separate run directory; it does not mount or modify the original repository. The agent sandbox uses:
 
-The sandbox uses:
+- network mode `none`;
+- a non-root UID/GID and read-only container root filesystem;
+- one staged writable repository mount;
+- all Linux capabilities dropped and `no-new-privileges`;
+- CPU, memory, PID, command-timeout, and controller-deadline bounds;
+- no Docker socket, host home, SSH agent, or forwarded API credentials;
+- host- and container-side path checks, patch validation, and protected-test policy;
+- immutable controller-owned test plans for qualified SWE-bench environments.
 
-- `--network none`
-- a non-root user
-- a read-only container root filesystem
-- one writable mount containing only the copied worktree
-- dropped Linux capabilities and `no-new-privileges`
-- memory, CPU, process, and timeout limits
-- no Docker socket, host home directory, SSH agent, or forwarded API key
+The integration suite inspects the live container configuration. This is defense in depth, not a claim that Docker is a VM-grade security boundary; repository tests still execute arbitrary code inside the container.
 
-Path checks run in both the host policy layer and the container-side runner. The integration test also inspects the running container to verify these settings.
+## MCP interoperability
 
-This is defense in depth, not a claim that Docker is a VM-grade boundary. Repository tests execute arbitrary code inside the container, and a container-runtime or kernel vulnerability remains outside RepoPilot's threat model.
+`repopilot mcp-serve` implements a local stdio MCP server over the existing registry and sandbox. It exposes exactly the six public tools above. Lifecycle helpers, raw Docker operations, arbitrary filesystem access, and model-selected test commands are not exposed.
 
-## Trajectories
+Contract tests verify direct/MCP schema parity and normalized success, error, and revision semantics. One controlled end-to-end task passed through the MCP adapter with the same final diff, public result, hidden result, final revision, six calls, and zero unnecessary calls as the direct path. A 100-call fake-backend microbenchmark measured **0.069 ms median** and **0.108 ms p95** adapter overhead per call. Those numbers are adapter-only local microbenchmark evidence; they exclude model, Docker, and sandbox execution time.
 
-Every run writes `trajectory.jsonl` and a summarized `run.json`. Events include:
+RepoPilot does not implement remote MCP transport, production MCP deployment, or arbitrary third-party MCP tool installation.
 
-- model and run configuration
-- iteration and repair-cycle progression
-- every tool call and its validated arguments
-- observations, structured errors, and workspace revisions
-- public test output, exit status, timeout status, and latency
-- model/tool latency and total wall-clock latency
-- input, output, cached, and reasoning tokens when the provider reports them
-- final stop reason, changed files, test state, and success state
+## Observability and traces
 
-### Concise example
+Each run writes an append-only `trajectory.jsonl` plus a reconciled `run.json`. The V2 event envelope includes:
 
-The deterministic `arithmetic_edge_case` trajectory is representative:
+- schema, run, trace, event, span, and parent-span identifiers;
+- model, tool, controller, run, and evaluation phases;
+- normalized status and structured error metadata;
+- iteration, duration, workspace revision before/after, and event origin;
+- provider-reported input, output, cached, and reasoning tokens when available;
+- final status, stop reason, changed files, and test state.
+
+The streaming reader validates V2 events and normalizes historical V1 trajectories. Local analytics derive tool counts, model/tool latency, token usage, workspace revisions, final state, and stop reason, then reconcile them with `run.json`. `trace-summary` emits deterministic JSON and Markdown. Redaction covers credential-shaped keys and common secret patterns before artifacts are written.
+
+This is local structured observability, not distributed tracing or OpenTelemetry.
+
+## Evaluation profiles and failure taxonomy
+
+Evaluation profiles are versioned, data-only JSON. Defaults resolve before execution; unknown fields and invalid values fail before sandbox startup. Reports record the profile identity, resolved configuration, and content hash.
+
+The versioned taxonomy covers setup, model, tool, policy, retrieval, edit, test, controller, and evaluation/harness failures. A result may retain multiple simultaneous labels. Each classification records phase, observable signal, recoverability, outcome impact, attribution confidence, and evidence event IDs.
+
+The evidence model keeps four concepts separate:
+
+- **observable fact:** something directly present in a trace or report;
+- **deterministic classification:** a reproducible rule over trace evidence;
+- **benchmark-oracle classification:** a conclusion requiring hidden/reference data;
+- **manual hypothesis:** a possible explanation that is not treated as fact.
+
+Validated controlled runs produced zero false task-failure labels and zero unclassified structured errors. That is scoped evidence for the frozen fixtures and rules, not a promise of complete classification for arbitrary future failures.
+
+## Reliability and recovery
+
+Recovery decisions use operation class, retryability, execution state, remaining deadline, retry budget, and workspace revision. The policy distinguishes:
+
+- a bounded retry for a known pre-execution safe-read failure;
+- returning rejected or invalid actions to the model without automatic replay;
+- bounded provider retry only for retryable pre-execution failures;
+- policy-controlled test-timeout handling;
+- immediate stop for exhausted or non-recoverable conditions;
+- reconciliation rather than replay when a mutation may already have executed.
+
+The ambiguous mutation case is the central state-safety example:
 
 ```text
-1  list_files   → AST map locates safe_divide in calculator.py at line 1
-2  search_code  → lexical match confirms the safe_divide definition
-3  read_file    → denominator <= 0 rejects valid negative values
-4  PLAN         → change only the zero check, then test
-5  apply_patch  → calculator.py modified; public-test edit ignored by policy
-6  run_tests    → 2 public tests passed; controller stops further exploration
-   git_diff     → controller records one changed production file
-   hidden eval  → negative-denominator test passed
+apply_patch may have executed, but its response was lost
+    → do not replay the mutation
+    → inspect workspace revision and git_diff
+    → confirm repository state
+    → continue without a duplicate edit
 ```
 
-## Evaluation methodology
+The frozen deterministic reliability matrix passed **8/8 expected scenarios**: **6/6 declared recoverable scenarios recovered**, and **2/2 declared non-recoverable scenarios stopped as expected**. Unsafe retries, duplicate mutations, revision divergence, budget overshoots, and unclassified errors were all zero. This establishes behavior only for the injected scenarios; it is not a production reliability or availability claim.
 
-The benchmark contains 12 small, synthetic Python repositories. The original four remain unchanged as a historical baseline:
+## Repository context and retrieval experiment
 
-1. arithmetic edge-case handling
-2. configuration precedence
-3. retry off-by-one semantics
-4. whitespace normalization
+The default `list_files` context is an issue-ranked Python AST map containing modules, imports, classes, functions, methods, signatures, source/test roles, and line numbers. It is bounded and deterministic; `search_code` and `read_file` remain available for exact evidence.
 
-Eight harder cases add pagination boundaries, shipping thresholds, falsey feature-flag overrides, validation-pipeline ordering, cache invalidation, atomic reservation rollback, tax-exemption routing, and inherited permission composition. They use flat multi-module and `src/`-layout packages, cross-file behavior, classes, inheritance, and plausible distractors. Their issue text describes symptoms without naming the reference fix file or exact symbol. Every new buggy fixture fails both its public reproducer and hidden suite before repair; corpus tests independently apply each reference patch and require both suites to pass.
+RepoPilot also implements lexical retrieval, local semantic retrieval, and hybrid rank fusion. Embeddings use a bounded ephemeral cache; there is no vector database, persistent retrieval service, or remote embedding API.
 
-Each case contains an issue, an unmodified buggy repository, expected localization metadata, public tests, and hidden tests. The agent sees the issue and staged repository only. Hidden tests and solution scripts stay outside the mounted worktree; hidden tests run in a fresh sandbox after the agent stops.
+The frozen eight-case offline comparison produced:
 
-Two modes serve different purposes:
+| Strategy | R@1 | R@3 | R@5 | MRR |
+|---|---:|---:|---:|---:|
+| Structural | 0.375 | 0.625 | 1.000 | 0.573 |
+| Semantic | 0.375 | 0.750 | 1.000 | 0.604 |
+| Hybrid | 0.375 | 0.625 | 1.000 | 0.594 |
 
-- **Deterministic regression:** a scripted model drives known tool actions. This validates orchestration, sandboxing, patching, trajectories, metrics, hidden-test injection, and report generation. It is not a measure of model intelligence.
-- **Live model:** a configured network provider chooses actions through the same controller. This measures actual end-to-end agent behavior and is saved separately because model output and latency can vary.
+Semantic retrieval improved MRR and uniquely recovered one predeclared paraphrase case at R@3. Promotion required two unique recoveries. The Phase 6 gate therefore **failed**: no live structural-versus-hybrid comparison ran, no held-out tuning followed the result, and structural retrieval remained the default. The negative result is preserved in [P1_CHECKPOINT.json](docs/checkpoints/P1_CHECKPOINT.json).
 
-Metrics include task success, public and hidden pytest results, changed-file localization precision/recall/F1, total and conservatively unnecessary tool calls, iterations, repair cycles, latency, provider-reported tokens, and stop reason.
+## SWE-bench Verified integration
 
-An unnecessary call is conservatively defined as an exact repeat against an unchanged revision, an invalid or rejected call, a no-op patch, or non-diff tool use after the first observed passing test state.
+RepoPilot keeps real-world evidence in separate tracks because they answer different questions.
 
-### Real-world pilot track
+### Reference integrity
 
-A separate five-task pilot records genuine [SWE-bench Verified](https://huggingface.co/datasets/princeton-nlp/SWE-bench_Verified) instances from Flask, Requests, and pytest. Each definition preserves the upstream repository, immutable base commit, original issue description, gold patch, upstream test patch, FAIL_TO_PASS and PASS_TO_PASS directives, environment-setup commit, difficulty, and defensible changed-file metadata. It does not modify or replace the 12 controlled cases.
+Five pinned SWE-bench Verified definitions passed **5/5** checkout and reference/test-patch integrity validation. This verifies benchmark plumbing and immutable revisions, not agent behavior or task resolution.
 
-`repopilot real-validate` fetches each exact revision into a temporary directory, verifies the resolved commit, checks and applies the gold patch, checks the upstream test patch against that result, and compiles changed Python files. The temporary checkout is removed afterward. Network is required only to acquire the public revision; agent sandbox execution still requires no network.
+### First feasibility cohort
 
-This lightweight gate is deliberately called **reference integrity**, not behavioral success. It also emits an official-format `gold-predictions.jsonl` so the exact subset can be handed to SWE-bench without translating patches manually. The official SWE-bench harness uses repository- and instance-specific Docker environments and remains the authority for FAIL_TO_PASS/PASS_TO_PASS grading. RepoPilot does not reproduce that large CI matrix internally, and no real-world live-agent task is claimed as solved yet. See the [official harness documentation](https://www.swebench.com/SWE-bench/reference/harness/).
+Three instances were frozen before qualification. Flask and pytest passed gold, security, contamination, trusted-plan, and six-tool checks; a Requests instance failed the official gold/environment gate. Result: **2/3 feasible**. No failed instance was replaced.
 
-## Model providers
+### First behavioral pilot
 
-RepoPilot keeps provider construction outside the agent loop. All network backends use the same system prompt, six tools, controller budgets, trajectories, and evaluation code:
+Two authorized instances received exactly one frozen `mistral:7b` attempt each. Result: **0/2 resolved**, with two empty predictions. The model emitted plan-only behavior and made **zero model-originated tool calls**; four recorded calls were controller-owned final test/diff collection. There were no reruns, substitutions, or post-result tuning. This diagnosed a tool-initiation incompatibility; two tasks are not a meaningful estimate of general coding ability.
 
-- `openai` uses the official OpenAI endpoint and the SDK's normal `OPENAI_API_KEY` handling. It remains the default for backward compatibility.
-- `openai_compatible` targets a configurable HTTP(S) API root implementing `/v1/responses` and function tools, such as a compatible local inference server. It never inherits `OPENAI_API_KEY`; use `--api-key-env` only when that endpoint has its own credential.
-- `deepseek` uses the official DeepSeek Chat Completions tool-calling API at `https://api.deepseek.com`. It accepts `deepseek-v4-pro` and `deepseek-v4-flash`, reads only `DEEPSEEK_API_KEY`, and uses documented non-thinking tool mode so provider-specific reasoning state does not leak into the agent controller. The adapter translates RepoPilot's neutral history into native assistant tool-call and tool-result messages.
+This remains useful historical development evidence, but it is superseded as RepoPilot's latest external behavioral evidence by the fresh DeepSeek Cohort 2 pilot below.
 
-Provider-reported input, output, cached, and reasoning usage is recorded when present. For DeepSeek, `prompt_tokens`, `completion_tokens`, `prompt_cache_hit_tokens`, and reported reasoning tokens map directly to those fields. Missing usage remains JSON `null`; RepoPilot does not estimate token counts. The DeepSeek adapter has been exercised against the official live API; the generic compatible adapter remains validated with fakes only.
+### Fresh DeepSeek cohort qualification
+
+A new three-task cohort was selected from ten unused candidates before environment testing. Official gold grading passed **3/3**, and security and contamination gates passed. The frozen qualification result was **1/3 — STOP PILOT**:
+
+- pytest was rejected because the frozen test plan encountered warning-policy failure behavior;
+- Requests was rejected because its frozen suite required httpbin/network access;
+- Matplotlib qualified.
+
+The failed tasks were not replaced or retuned. **DeepSeek was not run.** Details are in the [qualification checkpoint](docs/checkpoints/DEEPSEEK_SWEBENCH_COHORT_QUALIFICATION.md).
+
+### Fresh Cohort 2 qualification and behavioral pilot
+
+Cohort 2 began with a fresh, frozen pool of 17 unused SWE-bench Verified instances across nine repository families. A uniform environment-only pre-screen considered pinned image availability, exact-base reproducibility, local image size, and whether one of at most five hash-ranked tracked test files passed under the unchanged networkless sandbox. It did not use gold patches, expected-fix metadata, difficulty labels, prior model outcomes, or solve-likelihood judgments. **7/17** instances were eligible.
+
+Five instances were then selected by a frozen deterministic hash ordering, with at most two from one repository family. All five passed exact-base staging, trusted test plans, the six-tool environment smoke, security and contamination gates, and official gold sanity: **5/5 qualified and 5/5 gold-resolved**. No failed candidate was substituted and the cohort was frozen before DeepSeek ran.
+
+Each qualified instance received exactly one `deepseek-v4-pro` attempt under the unchanged prompt, six tools, structural retrieval, 30-iteration controller budget, recovery policy, sandbox, and official SWE-bench harness. There were no reruns, substitutions, post-hoc tuning, or manual patch repairs.
+
+| Frozen instance | Official result | F2P | P2P | Controller outcome |
+|---|---|---:|---:|---|
+| `mwaskom__seaborn-3187` | Unresolved; empty patch | unavailable | unavailable | `iteration_limit` |
+| `pydata__xarray-6938` | Unresolved; empty patch | unavailable | unavailable | `iteration_limit` |
+| `pylint-dev__pylint-7277` | **Resolved** | 1/1 | 122/122 | `tests_passed` |
+| `sphinx-doc__sphinx-8551` | **Resolved** | 1/1 | 32/32 | `tests_passed` |
+| `sphinx-doc__sphinx-9230` | **Resolved** | 1/1 | 44/44 | `tests_passed` |
+
+**RepoPilot resolved 3/5 tasks in a frozen five-instance SWE-bench Verified behavioral pilot with official grading.** Both unresolved attempts exhausted the frozen 30-iteration budget and produced empty patches. The evidence supports those observable facts; it does not support a stronger root-cause claim. Empty predictions provide no patch for the official harness to execute, so their F2P/P2P counts are unavailable rather than inferred.
+
+This five-task pilot is external behavioral evidence, not an estimate of broad SWE-bench Verified performance. It is not a 60% general solve-rate claim, a leaderboard comparison, or production-readiness evidence. The frozen [qualification](docs/checkpoints/DEEPSEEK_SWEBENCH_COHORT2_QUALIFICATION.md) and [behavioral report](docs/checkpoints/DEEPSEEK_SWEBENCH_COHORT2_BEHAVIORAL.md) preserve the full protocol and limitations.
+
+RepoPilot therefore demonstrates SWE-bench reference validation, selective environment qualification, security/contamination gating, prediction export, official grading integration, and frozen one-shot behavioral evaluation. Broad SWE-bench performance is not established.
+
+## Model/controller compatibility
+
+The first behavioral pilot showed that a valid environment and nominal tool-capable endpoint do not guarantee that a model will operate the controller protocol. RepoPilot therefore added a frozen 12-case gate covering tool initiation, action validity, sequencing, observation handling, correction, state awareness, and finalization.
+
+| Frozen gate | `mistral:7b` | `deepseek-v4-pro` |
+|---|---:|---:|
+| Strict decision | **NOT COMPATIBLE** | **NOT COMPATIBLE** |
+| First valid tool-call rate | 0% | 100% |
+| Protocol-complete rate | 0/12 | 9/12 (75%) |
+| Plan-only loop rate | 83.3% | 0% |
+| Successful finalization | 2/12 | 12/12 |
+
+Mistral produced 43 plan actions, two final actions, and zero model tool calls; the plan-only behavior reproduced outside SWE-bench. DeepSeek initiated tools in every tool-required case and had no plan-only loops, but missed three exact sequence-conformance requirements. The predeclared strict threshold was at least 80%, so its permanent strict verdict remains **NOT COMPATIBLE**.
+
+A separately frozen evidence review classified DeepSeek’s three misses as non-safety-critical for a tightly bounded pilot and returned **ADMITTED FOR SMALL BEHAVIORAL PILOT**. That is a distinct decision, not an adjusted threshold or compatibility pass. The first fresh cohort then failed qualification and stopped before execution; the independently selected Cohort 2 later qualified 5/5 and produced the separately reported 3/5 behavioral result. Neither event revises the strict 9/12 verdict.
+
+These gates measure compatibility with RepoPilot’s protocol, not general model quality or software-engineering intelligence.
 
 ## Measured results
 
-### A. Deterministic/reference infrastructure validation
+| Track | Measured result | What it establishes | What it does not establish |
+|---|---|---|---|
+| Controlled deterministic benchmark | 12/12 task, public, and hidden success; localization F1 1.00; 72 calls; 0 unnecessary | Controller, tools, sandbox, traces, hidden scoring, and reports | Model intelligence |
+| Controlled DeepSeek coding run | 12/12 task/public/hidden; F1 1.00; 80 calls, 1 unnecessary | One frozen live-model run on small synthetic tasks | Strict protocol compatibility or broad coding performance |
+| MCP parity/security | 23 selected tests passed; one direct/MCP task matched; 0.069 ms median adapter-only overhead | Local stdio contract and behavior parity | Remote or production MCP deployment |
+| Reliability matrix | 8/8 scenarios; 6/6 recoverable; all unsafe-state counters zero | Frozen injected recovery behavior | Availability under arbitrary failures |
+| Retrieval experiment | Semantic MRR 0.604 vs structural 0.573; promotion gate failed | Reproducible offline comparison and negative-result discipline | Live task improvement |
+| SWE-bench reference integrity | 5/5 | Pinned checkout and reference/test-patch applicability | Agent solves |
+| First SWE-bench feasibility | 2/3 | Two sandbox-compatible environments | General environment coverage |
+| First SWE-bench behavioral pilot | 0/2; empty predictions; zero model tool calls | Diagnosed Mistral tool-initiation failure | Meaningful coding-capability estimate |
+| Mistral compatibility | NOT COMPATIBLE; 0/12 protocol complete | Protocol mismatch under the frozen gate | General model ranking |
+| DeepSeek strict compatibility | **NOT COMPATIBLE; 9/12 (75%), threshold ≥80%** | Stronger tool use but failed exact frozen threshold | A compatibility pass |
+| DeepSeek behavioral admission | ADMITTED FOR SMALL BEHAVIORAL PILOT | No safety/reliability-critical deviation in reviewed evidence | SWE-bench success |
+| Earlier fresh DeepSeek cohort | Gold 3/3; qualification 1/3; **STOP PILOT** | Qualification gates correctly blocked execution | DeepSeek behavioral SWE-bench evidence |
+| Fresh Cohort 2 qualification | **5/5 qualified; 5/5 official gold sanity** from a frozen 17-instance pool with 7/17 pre-screen eligible | Five reproducible, security-gated environments selected without solve evidence | Agent task success or general environment coverage |
+| Fresh Cohort 2 behavioral | **3/5 officially resolved**; one attempt per task; no reruns, substitutions, tuning, or manual repair | External one-shot behavioral evidence on this frozen subset | A 60% general solve rate, leaderboard comparability, or production readiness |
 
-| Track | Scope | Result | What it establishes |
-|---|---:|---:|---|
-| Controlled deterministic | 12 tasks | 12/12 public and hidden; F1 1.00; 72 calls; 0 unnecessary; 12.58s | Controller, tools, sandbox, patches, hidden evaluation, and reports |
-| Ranked-context stress | 252 Python files | relevant module and symbol retained within 8-file/8-symbol/1,500-character caps | Deterministic prioritization under tested budget pressure |
+The deterministic and live-model success rates are intentionally not merged.
 
-### B. DeepSeek controlled live-agent evaluation
-
-On 2026-08-15, `deepseek-v4-pro` ran against the official `https://api.deepseek.com` Chat Completions endpoint in documented non-thinking tool mode. A one-case `arithmetic_edge_case` smoke run passed public and hidden tests before the unchanged 12-case corpus was run once. The full run achieved 12/12 task, public-test, and hidden-test success with mean localization precision, recall, and F1 of 1.00. It used 80 tool calls, including one rejected patch call, 68 model/controller iterations, no failed-test repair cycles, and 139.32 seconds of summed per-task latency. Every task stopped with `tests_passed`.
-
-| Case | Task/public/hidden | Loc. P/R/F1 | Calls (unnecessary) | Iterations | Repairs | Latency s | Input/cached/output tokens |
-|---|---:|---:|---:|---:|---:|---:|---:|
-| arithmetic_edge_case | pass/pass/pass | 1.00/1.00/1.00 | 5 (0) | 4 | 0 | 9.21 | 4,658/3,968/237 |
-| config_precedence | pass/pass/pass | 1.00/1.00/1.00 | 6 (0) | 5 | 0 | 8.97 | 6,651/5,632/357 |
-| inherited_permission_union | pass/pass/pass | 1.00/1.00/1.00 | 6 (0) | 5 | 0 | 10.90 | 7,880/6,400/501 |
-| layered_feature_flags | pass/pass/pass | 1.00/1.00/1.00 | 7 (0) | 6 | 0 | 12.52 | 9,375/7,808/543 |
-| pagination_exact_multiple | pass/pass/pass | 1.00/1.00/1.00 | 7 (0) | 6 | 0 | 12.04 | 9,196/7,680/466 |
-| reservation_rollback | pass/pass/pass | 1.00/1.00/1.00 | 9 (1) | 8 | 0 | 18.64 | 15,928/13,568/896 |
-| retry_off_by_one | pass/pass/pass | 1.00/1.00/1.00 | 6 (0) | 5 | 0 | 8.33 | 6,617/5,504/315 |
-| settings_cache_invalidation | pass/pass/pass | 1.00/1.00/1.00 | 7 (0) | 6 | 0 | 11.87 | 10,510/8,704/518 |
-| shipping_threshold | pass/pass/pass | 1.00/1.00/1.00 | 5 (0) | 4 | 0 | 7.95 | 5,570/4,480/317 |
-| string_normalization | pass/pass/pass | 1.00/1.00/1.00 | 6 (0) | 5 | 0 | 9.25 | 6,258/5,248/322 |
-| tax_exemption_routing | pass/pass/pass | 1.00/1.00/1.00 | 7 (0) | 6 | 0 | 13.27 | 9,720/8,192/612 |
-| validation_pipeline_order | pass/pass/pass | 1.00/1.00/1.00 | 9 (0) | 8 | 0 | 16.35 | 15,015/12,672/764 |
-| **Total/mean** | **12/12/12** | **1.00/1.00/1.00 mean** | **80 (1)** | **5.67 mean** | **0** | **139.32** | **107,378/89,856/5,848** |
-
-Reasoning tokens were not reported and remain `null`. At the official `deepseek-v4-pro` prices visible on the evaluation date—$0.003625/M cache-hit input tokens, $0.435/M cache-miss input tokens, and $0.87/M output tokens—the full run calculates to approximately **$0.01304**. Including the separate smoke run (4,388 input, 2,816 cached, 220 output) gives 111,766 input, 92,672 cached, and 6,068 output tokens and an approximate combined cost of **$0.01392**. This is a calculation from API-reported usage, not an independent billing-ledger measurement.
-
-The only unnecessary call was an initially rejected `reservation_rollback` patch whose quoted context did not match. The unchanged workspace rejected it, the next patch applied cleanly, and both test suites passed. This is recorded as tool-error recovery, not a failed-test repair cycle or a task rerun. The model did not emit the requested `PLAN:` text before editing; this instruction-following limitation did not bypass the controller or affect evaluation scoring.
-
-A historical OpenAI `gpt-5.6-terra` run on the original four-task corpus achieved 4/4 public and hidden success, localization F1 1.00, 24 calls, and zero unnecessary calls. It was measured on 2026-08-15 before the 12-task expansion and is retained only as historical evidence, not as a provider comparison.
-
-### C. Real-world SWE-bench reference/integration validation
-
-| Track | Scope | Result | What it establishes |
-|---|---:|---:|---|
-| Reference integrity | 5 SWE-bench Verified tasks | 5/5 | Immutable checkout and gold/test-patch applicability; not behavioral success |
-
-The five real-world tasks were not run with the live agent. No SWE-bench Verified task is claimed as solved by DeepSeek or any other live RepoPilot run.
-
-## Reproduce it
+## Reproduce
 
 Requirements: Python 3.11+, Docker with a running daemon, and `uv`.
 
@@ -219,7 +261,7 @@ uv sync --extra dev
 uv run pytest
 ```
 
-Run the deterministic benchmark and write isolated reports:
+Run the deterministic controlled benchmark:
 
 ```bash
 uv run repopilot eval \
@@ -228,7 +270,43 @@ uv run repopilot eval \
   --model scripted
 ```
 
-Validate the five pinned real-world definitions. This performs public Git checkout and reference-integrity checks, not official SWE-bench behavioral grading:
+Run RepoPilot on a local Python/pytest repository. Credentials remain in the host process and are not forwarded into Docker:
+
+```bash
+export OPENAI_API_KEY="your-host-only-value"
+uv run repopilot run /absolute/path/to/repository \
+  --issue "Describe the bug and expected behavior" \
+  --provider openai \
+  --model YOUR_MODEL \
+  --output /absolute/path/outside-the-repository/repopilot-runs
+```
+
+Validate and summarize a V1 or V2 trace:
+
+```bash
+uv run repopilot trace-summary /absolute/path/to/trajectory.jsonl \
+  --output reports/trace-summary
+```
+
+Serve the six tools over local stdio MCP:
+
+```bash
+uv run repopilot mcp-serve /absolute/path/to/repository \
+  --issue "Describe the task" \
+  --output /absolute/path/outside-the-repository/mcp-runs
+```
+
+Run the deterministic reliability matrix and offline retrieval comparison:
+
+```bash
+uv run repopilot reliability --output reports/reliability
+
+uv run repopilot retrieval-eval \
+  --strategies structural lexical semantic hybrid \
+  --output reports/retrieval
+```
+
+Validate the five pinned real-world definitions. This uses network access for public checkout and validates reference integrity; it is not a behavioral SWE-bench run:
 
 ```bash
 uv run repopilot real-validate \
@@ -236,68 +314,35 @@ uv run repopilot real-validate \
   --output reports/real-world-reference
 ```
 
-Run a live evaluation. `OPENAI_API_KEY` remains in the host process and is never forwarded to Docker:
+Run the frozen local model/controller compatibility profile:
 
 ```bash
-export OPENAI_API_KEY="..."
-uv run repopilot eval \
-  --benchmarks benchmarks/cases \
-  --output reports/live-gpt-5.6-terra \
-  --provider openai \
-  --model gpt-5.6-terra
+uv run python -m repopilot.evaluation.model_compatibility \
+  --profile configs/evaluation/model_compatibility.json \
+  --output reports/model-compatibility
 ```
 
-Point the same agent at an already-running OpenAI-compatible local endpoint. The model value must match the endpoint's served model name:
-
-```bash
-uv run repopilot run /absolute/path/to/repository \
-  --issue "Describe the bug and expected behavior" \
-  --provider openai_compatible \
-  --base-url http://127.0.0.1:8000/v1 \
-  --model local-code-model \
-  --output /absolute/path/outside-the-repository/repopilot-runs
-```
-
-For an authenticated compatible endpoint, export a separate key and add `--api-key-env LOCAL_MODEL_API_KEY`. RepoPilot does not download, launch, or configure the inference server or model weights.
-
-Use the official DeepSeek endpoint independently of OpenAI credentials:
-
-```bash
-export DEEPSEEK_API_KEY="..."
-uv run repopilot run /absolute/path/to/repository \
-  --issue "Describe the bug and expected behavior" \
-  --provider deepseek \
-  --model deepseek-v4-pro \
-  --output /absolute/path/outside-the-repository/repopilot-runs
-```
-
-The key is accepted only through `DEEPSEEK_API_KEY`; it is not a CLI value and is not included in model metadata, trajectories, or reports. `deepseek-v4-flash` can be selected by changing only `--model`.
-
-Run against another local Python/pytest repository:
-
-```bash
-uv run repopilot run /absolute/path/to/repository \
-  --issue "Describe the bug and expected behavior" \
-  --model gpt-5.6-terra \
-  --output /absolute/path/outside-the-repository/repopilot-runs
-```
-
-Output directories contain the isolated worktree, JSONL trajectory, run summary, and JSON/Markdown evaluation reports. Runtime outputs are Git-ignored because they contain machine-specific paths and full repository observations.
+The compatibility command is a synthetic protocol gate, not a coding benchmark. The frozen SWE-bench behavioral pilots are preserved checkpoint workflows rather than a general-purpose CLI benchmark command.
 
 ## Design trade-offs and limitations
 
-- **Python/pytest only:** one fixed test profile keeps the command boundary understandable. Other languages require separately reviewed images and allowlists.
-- **Syntactic repository map:** Python AST extraction requires parseable source, sees imports rather than runtime call graphs, and uses a simple `src`/`lib` module-root convention. Parse errors are isolated and reported; dynamic relationships still require search and reading.
-- **Bounded ranked context:** the stress fixture covers 252 Python files, not arbitrarily large monorepositories. Only the first 5,000 Python files are candidates, scoring is lexical/structural rather than semantic, and dynamic relationships still require search and reading.
-- **Docker, not a VM:** appropriate for this portfolio benchmark, not for executing deliberately hostile code on a sensitive host.
-- **Working-tree snapshots:** `.git` history and repository symlinks are intentionally unavailable to the agent.
-- **Protected tests:** autonomous patches cannot modify files under `tests/` or standard Python test filenames. This preserves evaluation integrity but means test-authoring tasks are outside the MVP.
-- **Secret handling:** host credentials are excluded and not forwarded, but secrets committed in ordinary source files could still be read and sent to the configured model provider.
-- **Small controlled benchmark:** useful for deterministic regression and architecture discussion, but not evidence of broad real-world coding-agent performance.
-- **Five-task real-world pilot:** task provenance and gold patches are validated, but official SWE-bench behavioral grading and live-agent execution have not been run. Reference integrity must not be interpreted as five solved issues.
-- **Localization ceiling:** all pre-map cases already changed exactly one expected file, so this benchmark can verify no regression but cannot demonstrate higher localization F1. Larger multi-module cases are needed to measure that hypothesis.
-- **Live nondeterminism:** model behavior, latency, and token usage can change between runs; reports preserve the exact model identifier and trajectory.
-- **Conservative tool metric:** the unnecessary-call heuristic catches clear waste but cannot prove that every unique exploration step was necessary.
-- **Single process:** there is no distributed execution, persistence service, resume protocol, or production control plane by design.
+- RepoPilot is a local, single-agent Python/pytest-oriented system, not a production service.
+- It has no distributed execution, persistent memory, database, UI, Kubernetes layer, or production deployment claim.
+- MCP is local stdio only; the direct path remains the normal internal controller path.
+- Structural retrieval remains the default. Semantic/hybrid retrieval was implemented but failed its promotion gate.
+- The controlled benchmark is small and scripted evaluation validates infrastructure, not intelligence.
+- Reliability evidence is limited to the eight deterministic injected scenarios.
+- External behavioral evidence now exists: RepoPilot resolved 3/5 tasks in the frozen Cohort 2 pilot under official grading, but five tasks and one attempt each provide no variance estimate or broad solve-rate evidence.
+- Two Cohort 2 attempts exhausted the frozen 30-iteration budget without editing and produced empty patches; no unsupported root cause is inferred.
+- SWE-bench environment compatibility remains selective under the strict networkless sandbox and trusted-plan boundary: an earlier fresh cohort stopped at 1/3 qualification even though Cohort 2 later qualified 5/5.
+- The first behavioral pilot remains historical evidence: it resolved 0/2 because the frozen local Mistral model did not initiate tools, and it is superseded as the latest behavioral result by Cohort 2.
+- DeepSeek's strict compatibility verdict remains **NOT COMPATIBLE at 9/12**. Its separate behavioral-admission decision remains **ADMITTED FOR SMALL BEHAVIORAL PILOT**; neither decision is retroactively changed by the 3/5 result.
+- Synchronous provider calls can finish after the soft controller deadline when already in flight. RepoPilot does not claim hard cancellation.
+- Local embeddings use an ephemeral bounded cache; there is no vector database or remote embedding service.
+- Docker isolation is not equivalent to a VM-grade security boundary.
 
-RepoPilot isolates provider wire formats behind small adapters: OpenAI and compatible local servers use the Responses function-calling interface, while DeepSeek uses its official OpenAI-compatible Chat Completions tool-calling interface. Orchestration and evaluation remain independent of provider response objects.
+## Project scope and non-goals
+
+The current milestone deliberately excludes multi-agent orchestration, persistent memory, arbitrary shell access, remote MCP, dashboards, databases, broad language support, distributed infrastructure, Kubernetes, and a UI. Future ideas in [V2_SPEC.md](docs/V2_SPEC.md) are design context only; the claims above describe only implemented and measured behavior.
+
+The repository is frozen for the current job-search milestone. Negative results and stopped gates are retained as engineering evidence rather than rewritten as successes.

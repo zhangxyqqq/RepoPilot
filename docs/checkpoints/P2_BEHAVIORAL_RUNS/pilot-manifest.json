@@ -7,14 +7,14 @@
     {
       "instance_id": "pallets__flask-5014",
       "model_executed": true,
-      "run_directory": "/Users/zhangxiangyun/Downloads/The_DTU_Years/2/repopilot/docs/checkpoints/P2_BEHAVIORAL_RUNS/pallets__flask-5014",
+      "run_directory": "docs/checkpoints/P2_BEHAVIORAL_RUNS/pallets__flask-5014",
       "run_id": "p2-behavioral-pallets__flask-5014-0131b778",
       "status": "prediction_generated"
     },
     {
       "instance_id": "pytest-dev__pytest-10051",
       "model_executed": true,
-      "run_directory": "/Users/zhangxiangyun/Downloads/The_DTU_Years/2/repopilot/docs/checkpoints/P2_BEHAVIORAL_RUNS/pytest-dev__pytest-10051",
+      "run_directory": "docs/checkpoints/P2_BEHAVIORAL_RUNS/pytest-dev__pytest-10051",
       "run_id": "p2-behavioral-pytest-dev__pytest-10051-f50b8fcc",
       "status": "prediction_generated"
     }
@@ -24,7 +24,7 @@
     "model": "mistral:7b",
     "passed": true
   },
-  "prediction_path": "/Users/zhangxiangyun/Downloads/The_DTU_Years/2/repopilot/docs/checkpoints/P2_BEHAVIORAL_RUNS/predictions.jsonl",
+  "prediction_path": "docs/checkpoints/P2_BEHAVIORAL_RUNS/predictions.jsonl",
   "profile_content_hash": "sha256:1e1c57e076515772c0caabfe7faf0b51427c8a589283dff55c6fd946d250bfd2",
   "profile_path": "/private/tmp/repopilot-p2-behavioral-runtime-c67ff06/configs/evaluation/swebench_verified_behavioral_pilot.json",
   "schema_version": 1,

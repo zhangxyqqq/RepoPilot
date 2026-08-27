@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "repopilot"
 version = "0.1.0"
-description = "A small, evaluated repository coding agent"
+description = "A local agent engineering and evaluation platform for repository coding agents"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
