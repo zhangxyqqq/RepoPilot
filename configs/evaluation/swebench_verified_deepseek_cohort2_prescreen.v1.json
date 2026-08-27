@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "prescreen_id": "repopilot-deepseek-swebench-cohort2-prescreen",
+  "version": 1,
+  "frozen_at": "2026-08-27",
+  "frozen_before_prescreen_execution": true,
+  "claim_boundary": "Candidate discovery and environment-only screening rules. No gold/test patch, expected fix metadata, model output, issue difficulty, or solve likelihood influenced the pool or rules.",
+  "benchmark_lineage": {
+    "swebench_package": "swebench",
+    "swebench_version": "5.0.2",
+    "harness_commit": "7a21e05772954cc81471ae19d56f436cecf43c54",
+    "reference_dataset": "princeton-nlp/SWE-bench_Verified@c104f840cc67f8b6eec6f759ebc8b2693d585d4a",
+    "enriched_dataset": "SWE-bench/SWE-bench_Verified@78f471bf655a3137b2e8a75af1501690ec009ec3",
+    "split": "test"
+  },
+  "excluded_instance_ids": [
+    "pallets__flask-5014", "psf__requests-5414", "psf__requests-6028", "pytest-dev__pytest-10051", "pytest-dev__pytest-7324", "pytest-dev__pytest-8399", "psf__requests-1724", "matplotlib__matplotlib-22719",
+    "astropy__astropy-13453", "mwaskom__seaborn-3069", "pydata__xarray-4629", "pylint-dev__pylint-4970", "scikit-learn__scikit-learn-13779", "sphinx-doc__sphinx-8459", "sympy__sympy-23262"
+  ],
+  "pool_policy": {
+    "eligible_families": ["astropy/astropy", "matplotlib/matplotlib", "mwaskom/seaborn", "pydata/xarray", "pylint-dev/pylint", "pytest-dev/pytest", "scikit-learn/scikit-learn", "sphinx-doc/sphinx", "sympy/sympy"],
+    "algorithm": "For each eligible family, select the two non-excluded instances with smallest SHA-256 of UTF-8 repopilot-cohort2-pool-v1 + NUL + instance_id; retain all available instances when a family has fewer than two.",
+    "forbidden_inputs": ["gold/reference patch", "test patch", "expected fix file or symbol", "patch size", "difficulty", "model solve history", "leaderboard result", "post-screen outcome"]
+  },
+  "prescreen_rules": {
+    "eligibility": [
+      "pinned official image resolves and can be acquired without rebuilding or changing benchmark lineage",
+      "image-reported architecture is linux/amd64 and local image size is at most 12 GiB",
+      "exact base commit object exists in the image and can be checked out into a disposable worktree",
+      "at least one deterministic controller-owned test target passes under the unchanged networkless security profile",
+      "test execution finishes within 120 seconds and needs no shell, arbitrary arguments, external HTTP service, or daemon"
+    ],
+    "test_target_algorithm": "From exact-base tracked files, retain relative .py paths with a basename beginning test_ or ending _test.py, located at repository root or below a tests/testing segment; exclude conftest.py and __init__.py. Rank by SHA-256 of UTF-8 repopilot-cohort2-test-plan-v1 + NUL + instance_id + NUL + path. Try at most the first five, each as exact argv python -m pytest -q <path>. Freeze the first passing target. If none passes, reject.",
+    "rejection": [
+      "missing or mutable-only official image",
+      "image exceeds frozen local size bound or exact base cannot be reproduced",
+      "no eligible tracked pytest target",
+      "all five deterministic targets fail or time out under network-none runtime",
+      "target requires external network, unavailable daemon, shell fragment, traversal, absolute host path, or model-selected arguments"
+    ],
+    "security_profile": {"network_mode": "none", "user": "10001:10001", "read_only_root_filesystem": true, "capabilities_dropped": ["ALL"], "no_new_privileges": true, "memory": "512m", "cpus": "1.0", "pids_limit": 128, "test_timeout_seconds": 120},
+    "lesson_boundary": "Cohort 1 warning-policy and external-http failures justify uniform environment screening only; they do not justify inspecting gold outcomes, issue difficulty, or model solve probability."
+  },
+  "selection_policy": {
+    "algorithm": "Order passing candidates by SHA-256 of UTF-8 repopilot-cohort2-selection-v1 + NUL + instance_id; greedily select the first five while allowing at most two instances per repository family.",
+    "selected_count": 5,
+    "substitution_after_freeze": false,
+    "reordering_after_freeze": false
+  },
+  "cohort_gate": {"5": "READY FOR DEEPSEEK BEHAVIORAL PILOT", "4": "READY FOR DEEPSEEK BEHAVIORAL PILOT using only the four qualified frozen instances", "3": "REVIEW PARTIAL COHORT — stop before model execution", "0-2": "STOP PILOT"},
+  "candidates": [
+    {"instance_id":"astropy__astropy-14365","repo":"astropy/astropy","base_commit":"7269fa3e33e8d02485a647da91a5a2a60a06af61","environment_setup_commit":"5f74eacbcc7fff707a44d8eb58adaa514cb7dcb5","version":"5.1","image_tag":"swebench/sweb.eval.x86_64.astropy_1776_astropy-14365:latest","issue_sha256":"sha256:615252d5c44819451977588671ce903d3a21c41a8bf011738e2aee39218d56c6"},
+    {"instance_id":"astropy__astropy-14096","repo":"astropy/astropy","base_commit":"1a4462d72eb03f30dc83a879b1dd57aac8b2c18b","environment_setup_commit":"5f74eacbcc7fff707a44d8eb58adaa514cb7dcb5","version":"5.1","image_tag":"swebench/sweb.eval.x86_64.astropy_1776_astropy-14096:latest","issue_sha256":"sha256:938971021e89cd882f6ea33d61202fe7aa0091d7be4748b100ddc7e164db90cd"},
+    {"instance_id":"matplotlib__matplotlib-20826","repo":"matplotlib/matplotlib","base_commit":"a0d2e399729d36499a1924e5ca5bc067c8396810","environment_setup_commit":"f93c0a3dcb82feed0262d758626c90d4002685f3","version":"3.4","image_tag":"swebench/sweb.eval.x86_64.matplotlib_1776_matplotlib-20826:latest","issue_sha256":"sha256:881edf60640e55712a3d98f4ab4da1ef4c7e1976c75cb152ed0507cc5522d216"},
+    {"instance_id":"matplotlib__matplotlib-20676","repo":"matplotlib/matplotlib","base_commit":"6786f437df54ca7780a047203cbcfaa1db8dc542","environment_setup_commit":"f93c0a3dcb82feed0262d758626c90d4002685f3","version":"3.4","image_tag":"swebench/sweb.eval.x86_64.matplotlib_1776_matplotlib-20676:latest","issue_sha256":"sha256:c201ac5236b0a5eb57faa1768a12c67f0132074a5538d82feb717a62af9ad01d"},
+    {"instance_id":"mwaskom__seaborn-3187","repo":"mwaskom/seaborn","base_commit":"22cdfb0c93f8ec78492d87edb810f10cb7f57a31","environment_setup_commit":"d25872b0fc99dbf7e666a91f59bd4ed125186aa1","version":"0.12","image_tag":"swebench/sweb.eval.x86_64.mwaskom_1776_seaborn-3187:latest","issue_sha256":"sha256:72157e71b5c0ed5d58d66a7eeb30ed7b2fb237374183b9ebee200f5d58abd77b"},
+    {"instance_id":"pydata__xarray-6938","repo":"pydata/xarray","base_commit":"c4e40d991c28be51de9ac560ce895ac7f9b14924","environment_setup_commit":"50ea159bfd0872635ebf4281e741f3c87f0bef6b","version":"2022.06","image_tag":"swebench/sweb.eval.x86_64.pydata_1776_xarray-6938:latest","issue_sha256":"sha256:80200279ed4af4b8b73e3d9bf2ec5a39dbded0c3e337b1b944253fd7b7b04248"},
+    {"instance_id":"pydata__xarray-7229","repo":"pydata/xarray","base_commit":"3aa75c8d00a4a2d4acf10d80f76b937cadb666b7","environment_setup_commit":"087ebbb78668bdf5d2d41c3b2553e3f29ce75be1","version":"2022.09","image_tag":"swebench/sweb.eval.x86_64.pydata_1776_xarray-7229:latest","issue_sha256":"sha256:1755ba7fe03d6f5917886ea3d5f0e5116a78593b08596ad9d394c5ccbb7f26aa"},
+    {"instance_id":"pylint-dev__pylint-7277","repo":"pylint-dev/pylint","base_commit":"684a1d6aa0a6791e20078bc524f97c8906332390","environment_setup_commit":"e90702074e68e20dc8e5df5013ee3ecf22139c3e","version":"2.15","image_tag":"swebench/sweb.eval.x86_64.pylint-dev_1776_pylint-7277:latest","issue_sha256":"sha256:dc1d852f34bf1341c1a0ba290aba65e3cd34b15cc2060f5c96e5eaa4fdf946d5"},
+    {"instance_id":"pylint-dev__pylint-4661","repo":"pylint-dev/pylint","base_commit":"1d1619ef913b99b06647d2030bddff4800abdf63","environment_setup_commit":"bc95cd34071ec2e71de5bca8ff95cc9b88e23814","version":"2.10","image_tag":"swebench/sweb.eval.x86_64.pylint-dev_1776_pylint-4661:latest","issue_sha256":"sha256:9888ff5d07c438e865ef06f4e23337fdf555c438756ab3d74e75abea222cb932"},
+    {"instance_id":"pytest-dev__pytest-6202","repo":"pytest-dev/pytest","base_commit":"3a668ea6ff24b0c8f00498c3144c63bac561d925","environment_setup_commit":"f36ea240fe3579f945bf5d6cc41b5e45a572249d","version":"5.2","image_tag":"swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-6202:latest","issue_sha256":"sha256:5a155e2295b1a561c0bb815941a93974af85fe064020a90a98d80a10930867bc"},
+    {"instance_id":"pytest-dev__pytest-5809","repo":"pytest-dev/pytest","base_commit":"8aba863a634f40560e25055d179220f0eefabe9a","environment_setup_commit":"d5843f89d3c008ddcb431adbc335b080a79e617e","version":"4.6","image_tag":"swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-5809:latest","issue_sha256":"sha256:22a2be85d2560116244c4051221d1ab5109fa7476651aac4e4ee8e26e4b8e6f1"},
+    {"instance_id":"scikit-learn__scikit-learn-13135","repo":"scikit-learn/scikit-learn","base_commit":"a061ada48efccf0845acae17009553e01764452b","environment_setup_commit":"7813f7efb5b2012412888b69e73d76f2df2b50b6","version":"0.21","image_tag":"swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-13135:latest","issue_sha256":"sha256:582b6fe37fa8edbe272dd4ea41164cad281e24f1b7c1970a33a900e93b8180df"},
+    {"instance_id":"scikit-learn__scikit-learn-26194","repo":"scikit-learn/scikit-learn","base_commit":"e886ce4e1444c61b865e7839c9cff5464ee20ace","environment_setup_commit":"1e8a5b833d1b58f3ab84099c4582239af854b23a","version":"1.3","image_tag":"swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-26194:latest","issue_sha256":"sha256:55520f2fb243de6275b76da65b6d282fcbfcbfdd7806865b90f6aa1885675038"},
+    {"instance_id":"sphinx-doc__sphinx-8551","repo":"sphinx-doc/sphinx","base_commit":"57ed10c68057c96491acbd3e62254ccfaf9e3861","environment_setup_commit":"3f560cd67239f75840cc7a439ab54d8509c855f6","version":"3.4","image_tag":"swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-8551:latest","issue_sha256":"sha256:59b1b15138bca3802f81a94c49ced00a098c6dc015474f0a7c06967bc623d7b6"},
+    {"instance_id":"sphinx-doc__sphinx-9230","repo":"sphinx-doc/sphinx","base_commit":"567ff22716ac258b9edd2c1711d766b440ac0b11","environment_setup_commit":"9a2c3c4a1559e37e95fdee88c128bb116642c897","version":"4.1","image_tag":"swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-9230:latest","issue_sha256":"sha256:e814405fe0885a2284bec4dfdf1efa5bd0386117d02410e9ad0ec98c0e1712ab"},
+    {"instance_id":"sympy__sympy-16450","repo":"sympy/sympy","base_commit":"aefdd023dc4f73c441953ed51f5f05a076f0862f","environment_setup_commit":"70381f282f2d9d039da860e391fe51649df2779d","version":"1.5","image_tag":"swebench/sweb.eval.x86_64.sympy_1776_sympy-16450:latest","issue_sha256":"sha256:b52fc0b413e314219a9e63f3137553f66603fecadc83cc12f34a4136d03bcd60"},
+    {"instance_id":"sympy__sympy-17139","repo":"sympy/sympy","base_commit":"1d3327b8e90a186df6972991963a5ae87053259d","environment_setup_commit":"70381f282f2d9d039da860e391fe51649df2779d","version":"1.5","image_tag":"swebench/sweb.eval.x86_64.sympy_1776_sympy-17139:latest","issue_sha256":"sha256:17e532f00dac2a0e2aae1ca47a21c4be3cc3d4686da16dfc58ed0d69f6c02334"}
+  ]
+}
