@@ -1,0 +1,338 @@
+{
+  "case_id": "sequence-full-cycle",
+  "category": "tool_sequencing",
+  "changed_files": [
+    "settings.py"
+  ],
+  "completable": true,
+  "contamination": {
+    "answer_files_absent": true,
+    "passed": true,
+    "swebench_instance_ids_absent": true
+  },
+  "deadline_diagnostics": {
+    "active_operation_completion_ms": 9077.518000005512,
+    "artifact_completion_ms": 9144.568957999581,
+    "cancellation_initiation_ms": null,
+    "cleanup_completion_ms": 9137.167667009635,
+    "configured_deadline_ms": 60000,
+    "controller_checkpoints_ms": {
+      "before_iteration": [
+        308.4448750014417,
+        2366.016916988883,
+        4105.153499986045,
+        5249.695208010962,
+        7253.340208000736
+      ],
+      "controller_started": [
+        308.43591698794626
+      ],
+      "finalization_completed": [
+        9078.917208011262
+      ],
+      "finalization_started": [
+        8962.112749984954
+      ]
+    },
+    "controller_return_ms": 9079.446291987551,
+    "deadline_detection_ms": null,
+    "hard_cancellation_supported": false,
+    "process_exit_ms": 9144.568957999581,
+    "provider_and_tool_operations": [
+      {
+        "completed_ms": 2238.608124986058,
+        "duration_ms": 1930.1409169856925,
+        "operation": "model",
+        "started_ms": 308.46720800036564
+      },
+      {
+        "completed_ms": 2365.0636250094976,
+        "duration_ms": 125.00254201586358,
+        "operation": "tool",
+        "started_ms": 2240.061082993634,
+        "tool": "list_files"
+      },
+      {
+        "completed_ms": 3962.093374982942,
+        "duration_ms": 1596.0587919980753,
+        "operation": "model",
+        "started_ms": 2366.0345829848666
+      },
+      {
+        "completed_ms": 4104.1727919946425,
+        "duration_ms": 141.22179200057872,
+        "operation": "tool",
+        "started_ms": 3962.9509999940637,
+        "tool": "read_file"
+      },
+      {
+        "completed_ms": 5145.006208011182,
+        "duration_ms": 1039.8320830136072,
+        "operation": "model",
+        "started_ms": 4105.174124997575
+      },
+      {
+        "completed_ms": 5248.989291983889,
+        "duration_ms": 103.3834999834653,
+        "operation": "tool",
+        "started_ms": 5145.605792000424,
+        "tool": "read_file"
+      },
+      {
+        "completed_ms": 7151.0224170051515,
+        "duration_ms": 1901.3114590197802,
+        "operation": "model",
+        "started_ms": 5249.710957985371
+      },
+      {
+        "completed_ms": 7252.693582995562,
+        "duration_ms": 101.02608299348503,
+        "operation": "tool",
+        "started_ms": 7151.667500002077,
+        "tool": "apply_patch"
+      },
+      {
+        "completed_ms": 8688.286124990555,
+        "duration_ms": 1434.9311249970924,
+        "operation": "model",
+        "started_ms": 7253.354999993462
+      },
+      {
+        "completed_ms": 8960.57545801159,
+        "duration_ms": 271.2455000146292,
+        "operation": "tool",
+        "started_ms": 8689.32995799696,
+        "tool": "run_tests"
+      },
+      {
+        "completed_ms": 9077.518000005512,
+        "duration_ms": 115.39654200896621,
+        "operation": "tool",
+        "started_ms": 8962.121457996545,
+        "tool": "git_diff"
+      }
+    ]
+  },
+  "iterations": 5,
+  "latency_ms": 9078.92191701103,
+  "ordered_milestones": [
+    "list_files",
+    "read_file",
+    "apply_patch",
+    "run_tests",
+    "accepted_terminal"
+  ],
+  "repair_cycles": 0,
+  "required_tools": [
+    "list_files",
+    "read_file",
+    "apply_patch",
+    "run_tests"
+  ],
+  "run_id": "compat-sequence-full-cycle-24145109",
+  "score": {
+    "action_counts": {
+      "tool": 5
+    },
+    "changed_files": [
+      "settings.py"
+    ],
+    "correction_after_failed_tests": null,
+    "correction_after_structured_error": null,
+    "duplicate_mutation_attempts": 0,
+    "failure_analysis": {
+      "classifications": [],
+      "evidence_availability": "trace_only",
+      "historical_missing_evidence": true,
+      "injected_faults": [],
+      "manual_hypotheses": [],
+      "observed_facts": [],
+      "recovery_decisions": [],
+      "taxonomy": {
+        "schema_version": 1,
+        "source": "/private/tmp/repopilot-deepseek-compat-runtime-3f37e7f/configs/evaluation/failure_taxonomy.v1.json",
+        "taxonomy_id": "repopilot-failures",
+        "version": 1
+      },
+      "terminal_reason": {
+        "classification": "non_failure",
+        "evidence_event_ids": [
+          "c5eee647bdf953389193bad1e2191a06"
+        ],
+        "stop_reason": "tests_passed"
+      },
+      "unclassified_error_count": 0,
+      "unclassified_error_event_ids": []
+    },
+    "first_valid_tool_call": true,
+    "invalid_argument_calls": 0,
+    "malformed_actions": 0,
+    "milestones_observed": [
+      "list_files",
+      "read_file",
+      "read_file",
+      "apply_patch",
+      "passed_model_test",
+      "run_tests",
+      "accepted_terminal"
+    ],
+    "model_final": false,
+    "model_test_calls": 1,
+    "model_tool_calls": 5,
+    "model_tool_names": [
+      "list_files",
+      "read_file",
+      "read_file",
+      "apply_patch",
+      "run_tests"
+    ],
+    "model_turns": 5,
+    "plan_only_loop": false,
+    "plan_only_responses_before_first_tool": 0,
+    "premature_final": false,
+    "protocol_complete": true,
+    "repeated_identical_tool_calls": 0,
+    "required_tool_coverage": true,
+    "state_revision_aware": null,
+    "stop_reason": "tests_passed",
+    "successful_finalization": true,
+    "time_to_first_valid_tool_call_ms": 2364.621,
+    "tool_selection_correct_calls": 5,
+    "unknown_tool_calls": 0,
+    "unnecessary_tool_calls": 0,
+    "unsafe_retry_count": 0,
+    "valid_structured_actions": 5
+  },
+  "security": {
+    "assertions": {
+      "canonical_tools": true,
+      "capabilities_dropped": true,
+      "cpu_bounded": true,
+      "credentials_absent": true,
+      "memory_bounded": true,
+      "network_none": true,
+      "no_new_privileges": true,
+      "non_root": true,
+      "only_workspace_bind_mounted": true,
+      "pids_bounded": true,
+      "read_only_root": true,
+      "workspace_writable": true
+    },
+    "passed": true,
+    "passed_count": 12,
+    "total_count": 12
+  },
+  "stop_reason": "tests_passed",
+  "success": true,
+  "tool_calls": 6,
+  "trace_reconciliation": {
+    "available": true,
+    "checks": {
+      "final_status": {
+        "actual": "ok",
+        "expected": "ok",
+        "match": true
+      },
+      "run_latency_ms": {
+        "actual": 9078.92191701103,
+        "expected": 9078.92191701103,
+        "match": true
+      },
+      "stop_reason": {
+        "actual": "tests_passed",
+        "expected": "tests_passed",
+        "match": true
+      },
+      "token_usage": {
+        "actual": {
+          "cached_tokens": 7040,
+          "input_tokens": 8612,
+          "output_tokens": 332,
+          "reasoning_tokens": null
+        },
+        "expected": {
+          "cached_tokens": 7040,
+          "input_tokens": 8612,
+          "output_tokens": 332,
+          "reasoning_tokens": null
+        },
+        "match": true
+      },
+      "tool_count": {
+        "actual": 6,
+        "expected": 6,
+        "match": true
+      }
+    },
+    "passed": true
+  },
+  "trace_summary": {
+    "complete": true,
+    "errors": {
+      "by_code": {},
+      "total": 0
+    },
+    "event_count": 24,
+    "final": {
+      "status": "ok",
+      "stop_reason": "tests_passed",
+      "success": true
+    },
+    "latency_ms": {
+      "model": 7902.057708037319,
+      "run": 9078.92191701103,
+      "tool": 856.2187069910578
+    },
+    "phase_counts": {
+      "controller": 11,
+      "model": 5,
+      "run": 2,
+      "tool": 6
+    },
+    "reader_issues": [],
+    "run_id": "compat-sequence-full-cycle-24145109",
+    "source_schema_versions": [
+      2
+    ],
+    "status_counts": {
+      "in_progress": 1,
+      "ok": 23
+    },
+    "summary_schema_version": 1,
+    "token_usage": {
+      "cached_tokens": 7040,
+      "input_tokens": 8612,
+      "output_tokens": 332,
+      "reasoning_tokens": null
+    },
+    "tool_calls": {
+      "by_name": {
+        "apply_patch": 1,
+        "git_diff": 1,
+        "list_files": 1,
+        "read_file": 2,
+        "run_tests": 1
+      },
+      "by_status": {
+        "ok": 6
+      },
+      "total": 6
+    },
+    "trace_id": "c97c595c58135377ad87f2dd56db6ae4",
+    "workspace_revisions": {
+      "final": 1,
+      "observed": [
+        0,
+        1
+      ],
+      "transitions": 1
+    }
+  },
+  "unnecessary_tool_calls": 0,
+  "usage": {
+    "cached_tokens": 7040,
+    "input_tokens": 8612,
+    "output_tokens": 332,
+    "reasoning_tokens": null
+  }
+}

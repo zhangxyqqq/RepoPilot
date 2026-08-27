@@ -457,6 +457,11 @@ def _aggregate(cases: list[dict[str, Any]], gate: Mapping[str, Any]) -> dict[str
     tool_calls = sum(case["score"]["model_tool_calls"] for case in cases)
     correct_calls = sum(case["score"]["tool_selection_correct_calls"] for case in cases)
     first_times = [case["score"]["time_to_first_valid_tool_call_ms"] for case in requiring if case["score"]["time_to_first_valid_tool_call_ms"] is not None]
+
+    def usage_total(field: str) -> int | None:
+        values = [case["usage"].get(field) for case in cases]
+        return None if any(value is None for value in values) else sum(int(value) for value in values)
+
     aggregate = {
         "cases": len(cases),
         "first_valid_tool_call_rate": sum(case["score"]["first_valid_tool_call"] for case in requiring) / len(requiring),
@@ -480,10 +485,10 @@ def _aggregate(cases: list[dict[str, Any]], gate: Mapping[str, Any]) -> dict[str
         "total_timeout_rate": sum(case["score"]["stop_reason"] == "total_timeout" for case in cases) / len(cases),
         "protocol_complete_success_rate": sum(case["score"]["protocol_complete"] for case in cases) / len(cases),
         "unsafe_retry_count": sum(case["score"]["unsafe_retry_count"] for case in cases),
-        "input_tokens": sum(int(case["usage"].get("input_tokens") or 0) for case in cases),
-        "output_tokens": sum(int(case["usage"].get("output_tokens") or 0) for case in cases),
-        "cached_tokens": sum(int(case["usage"].get("cached_tokens") or 0) for case in cases),
-        "reasoning_tokens": sum(int(case["usage"].get("reasoning_tokens") or 0) for case in cases),
+        "input_tokens": usage_total("input_tokens"),
+        "output_tokens": usage_total("output_tokens"),
+        "cached_tokens": usage_total("cached_tokens"),
+        "reasoning_tokens": usage_total("reasoning_tokens"),
         "model_latency_ms": sum(case["trace_summary"]["latency_ms"]["model"] for case in cases),
         "tool_latency_ms": sum(case["trace_summary"]["latency_ms"]["tool"] for case in cases),
         "total_latency_ms": sum(case["latency_ms"] for case in cases),

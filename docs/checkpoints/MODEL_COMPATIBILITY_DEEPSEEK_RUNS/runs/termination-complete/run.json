@@ -1,0 +1,277 @@
+{
+  "case_id": "termination-complete",
+  "category": "termination",
+  "changed_files": [],
+  "completable": true,
+  "contamination": {
+    "answer_files_absent": true,
+    "passed": true,
+    "swebench_instance_ids_absent": true
+  },
+  "deadline_diagnostics": {
+    "active_operation_completion_ms": 3285.5327500146814,
+    "artifact_completion_ms": 3350.7964580203407,
+    "cancellation_initiation_ms": null,
+    "cleanup_completion_ms": 3345.958292018622,
+    "configured_deadline_ms": 60000,
+    "controller_checkpoints_ms": {
+      "before_iteration": [
+        293.1090000201948,
+        1819.6470830007456
+      ],
+      "controller_started": [
+        293.1012920162175
+      ],
+      "finalization_completed": [
+        3286.8439170124475
+      ],
+      "finalization_started": [
+        2954.8906670243014
+      ]
+    },
+    "controller_return_ms": 3287.2665830072947,
+    "deadline_detection_ms": null,
+    "hard_cancellation_supported": false,
+    "process_exit_ms": 3350.7964580203407,
+    "provider_and_tool_operations": [
+      {
+        "completed_ms": 1679.9180830130354,
+        "duration_ms": 1386.7907499952707,
+        "operation": "model",
+        "started_ms": 293.1273330177646
+      },
+      {
+        "completed_ms": 1817.701833002502,
+        "duration_ms": 136.17083299322985,
+        "operation": "tool",
+        "started_ms": 1681.5310000092722,
+        "tool": "read_file"
+      },
+      {
+        "completed_ms": 2954.1970420104917,
+        "duration_ms": 1134.4999170105439,
+        "operation": "model",
+        "started_ms": 1819.6971249999478
+      },
+      {
+        "completed_ms": 3181.5690000075847,
+        "duration_ms": 226.6762499930337,
+        "operation": "tool",
+        "started_ms": 2954.892750014551,
+        "tool": "run_tests"
+      },
+      {
+        "completed_ms": 3285.5327500146814,
+        "duration_ms": 102.47433299082331,
+        "operation": "tool",
+        "started_ms": 3183.058417023858,
+        "tool": "git_diff"
+      }
+    ]
+  },
+  "iterations": 2,
+  "latency_ms": 3286.850708012935,
+  "ordered_milestones": [
+    "read_file",
+    "model_final"
+  ],
+  "repair_cycles": 0,
+  "required_tools": [
+    "read_file"
+  ],
+  "run_id": "compat-termination-complete-96bf6049",
+  "score": {
+    "action_counts": {
+      "final": 1,
+      "tool": 1
+    },
+    "changed_files": [],
+    "correction_after_failed_tests": null,
+    "correction_after_structured_error": null,
+    "duplicate_mutation_attempts": 0,
+    "failure_analysis": {
+      "classifications": [],
+      "evidence_availability": "trace_only",
+      "historical_missing_evidence": true,
+      "injected_faults": [],
+      "manual_hypotheses": [],
+      "observed_facts": [],
+      "recovery_decisions": [],
+      "taxonomy": {
+        "schema_version": 1,
+        "source": "/private/tmp/repopilot-deepseek-compat-runtime-3f37e7f/configs/evaluation/failure_taxonomy.v1.json",
+        "taxonomy_id": "repopilot-failures",
+        "version": 1
+      },
+      "terminal_reason": {
+        "classification": "non_failure",
+        "evidence_event_ids": [
+          "97ed9b39cc4c5bdeabd7b5a9b0ba3679"
+        ],
+        "stop_reason": "model_final"
+      },
+      "unclassified_error_count": 0,
+      "unclassified_error_event_ids": []
+    },
+    "first_valid_tool_call": true,
+    "invalid_argument_calls": 0,
+    "malformed_actions": 0,
+    "milestones_observed": [
+      "read_file",
+      "model_final",
+      "bounded_stop",
+      "accepted_terminal"
+    ],
+    "model_final": true,
+    "model_test_calls": 0,
+    "model_tool_calls": 1,
+    "model_tool_names": [
+      "read_file"
+    ],
+    "model_turns": 2,
+    "plan_only_loop": false,
+    "plan_only_responses_before_first_tool": 0,
+    "premature_final": false,
+    "protocol_complete": true,
+    "repeated_identical_tool_calls": 0,
+    "required_tool_coverage": true,
+    "state_revision_aware": null,
+    "stop_reason": "model_final",
+    "successful_finalization": true,
+    "time_to_first_valid_tool_call_ms": 1817.5030000000002,
+    "tool_selection_correct_calls": 1,
+    "unknown_tool_calls": 0,
+    "unnecessary_tool_calls": 0,
+    "unsafe_retry_count": 0,
+    "valid_structured_actions": 2
+  },
+  "security": {
+    "assertions": {
+      "canonical_tools": true,
+      "capabilities_dropped": true,
+      "cpu_bounded": true,
+      "credentials_absent": true,
+      "memory_bounded": true,
+      "network_none": true,
+      "no_new_privileges": true,
+      "non_root": true,
+      "only_workspace_bind_mounted": true,
+      "pids_bounded": true,
+      "read_only_root": true,
+      "workspace_writable": true
+    },
+    "passed": true,
+    "passed_count": 12,
+    "total_count": 12
+  },
+  "stop_reason": "model_final",
+  "success": true,
+  "tool_calls": 3,
+  "trace_reconciliation": {
+    "available": true,
+    "checks": {
+      "final_status": {
+        "actual": "ok",
+        "expected": "ok",
+        "match": true
+      },
+      "run_latency_ms": {
+        "actual": 3286.850708012935,
+        "expected": 3286.850708012935,
+        "match": true
+      },
+      "stop_reason": {
+        "actual": "model_final",
+        "expected": "model_final",
+        "match": true
+      },
+      "token_usage": {
+        "actual": {
+          "cached_tokens": 1536,
+          "input_tokens": 1752,
+          "output_tokens": 51,
+          "reasoning_tokens": null
+        },
+        "expected": {
+          "cached_tokens": 1536,
+          "input_tokens": 1752,
+          "output_tokens": 51,
+          "reasoning_tokens": null
+        },
+        "match": true
+      },
+      "tool_count": {
+        "actual": 3,
+        "expected": 3,
+        "match": true
+      }
+    },
+    "passed": true
+  },
+  "trace_summary": {
+    "complete": true,
+    "errors": {
+      "by_code": {},
+      "total": 0
+    },
+    "event_count": 12,
+    "final": {
+      "status": "ok",
+      "stop_reason": "model_final",
+      "success": true
+    },
+    "latency_ms": {
+      "model": 2521.1643330112565,
+      "run": 3286.850708012935,
+      "tool": 464.7057510155719
+    },
+    "phase_counts": {
+      "controller": 5,
+      "model": 2,
+      "run": 2,
+      "tool": 3
+    },
+    "reader_issues": [],
+    "run_id": "compat-termination-complete-96bf6049",
+    "source_schema_versions": [
+      2
+    ],
+    "status_counts": {
+      "in_progress": 1,
+      "ok": 11
+    },
+    "summary_schema_version": 1,
+    "token_usage": {
+      "cached_tokens": 1536,
+      "input_tokens": 1752,
+      "output_tokens": 51,
+      "reasoning_tokens": null
+    },
+    "tool_calls": {
+      "by_name": {
+        "git_diff": 1,
+        "read_file": 1,
+        "run_tests": 1
+      },
+      "by_status": {
+        "ok": 3
+      },
+      "total": 3
+    },
+    "trace_id": "4a863d85ceea5e1f8bb9eb3da9bd5abf",
+    "workspace_revisions": {
+      "final": 0,
+      "observed": [
+        0
+      ],
+      "transitions": 0
+    }
+  },
+  "unnecessary_tool_calls": 0,
+  "usage": {
+    "cached_tokens": 1536,
+    "input_tokens": 1752,
+    "output_tokens": 51,
+    "reasoning_tokens": null
+  }
+}

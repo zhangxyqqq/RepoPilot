@@ -10,6 +10,7 @@ from repopilot.evaluation.model_compatibility import (
     SWE_BENCH_CONTAMINATED_IDS,
     _compatibility_model,
     _comparison_provider,
+    _aggregate,
     corpus_hash,
     load_corpus,
     load_profile,
@@ -148,3 +149,51 @@ def test_comparison_rejects_non_predeclared_provider_or_model(provider: str, mod
     )
     with pytest.raises(ValueError, match="permits only"):
         _comparison_provider(profile, config)
+
+
+def test_aggregate_does_not_estimate_missing_provider_token_fields() -> None:
+    profile = load_profile(PROFILE)
+    cases = [
+        {
+            "required_tools": ["read_file"],
+            "completable": True,
+            "latency_ms": 1.0,
+            "usage": {
+                "input_tokens": 10,
+                "output_tokens": 2,
+                "cached_tokens": 4,
+                "reasoning_tokens": None,
+            },
+            "trace_summary": {"latency_ms": {"model": 0.5, "tool": 0.5}},
+            "score": {
+                "model_turns": 1,
+                "malformed_actions": 0,
+                "model_tool_calls": 0,
+                "tool_selection_correct_calls": 0,
+                "required_tool_coverage": False,
+                "first_valid_tool_call": False,
+                "time_to_first_valid_tool_call_ms": None,
+                "plan_only_responses_before_first_tool": 0,
+                "unknown_tool_calls": 0,
+                "invalid_argument_calls": 0,
+                "unnecessary_tool_calls": 0,
+                "repeated_identical_tool_calls": 0,
+                "duplicate_mutation_attempts": 0,
+                "correction_after_structured_error": None,
+                "correction_after_failed_tests": None,
+                "successful_finalization": True,
+                "premature_final": False,
+                "plan_only_loop": False,
+                "stop_reason": "model_final",
+                "protocol_complete": True,
+                "unsafe_retry_count": 0,
+            },
+        }
+    ]
+
+    aggregate = _aggregate(cases, profile["admission_gate"])
+
+    assert aggregate["input_tokens"] == 10
+    assert aggregate["cached_tokens"] == 4
+    assert aggregate["output_tokens"] == 2
+    assert aggregate["reasoning_tokens"] is None
