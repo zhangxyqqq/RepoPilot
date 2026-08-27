@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import shutil
 import subprocess
 import tempfile
@@ -24,6 +25,8 @@ from repopilot.evaluation.faults import (
     ReliabilityScenario,
 )
 from repopilot.evaluation.taxonomy import classify_failures
+from repopilot.llm import ProviderConfig, create_model
+from repopilot.llm.deepseek_adapter import DEEPSEEK_BASE_URL
 from repopilot.llm.openai_adapter import OpenAICompatibleModel
 from repopilot.llm.prompting import SYSTEM_PROMPT
 from repopilot.models import ModelTurn, RunResult, ToolResult
@@ -499,18 +502,92 @@ def _aggregate(cases: list[dict[str, Any]], gate: Mapping[str, Any]) -> dict[str
     return aggregate
 
 
-def run_compatibility(profile_path: Path, output: Path, *, project_root: Path | None = None) -> dict[str, Any]:
+def _comparison_provider(
+    profile: Mapping[str, Any],
+    provider_config: ProviderConfig | None,
+) -> dict[str, Any]:
+    if provider_config is None:
+        return dict(profile["provider"])
+    provider_config.validate()
+    if provider_config.provider != "deepseek" or provider_config.model != "deepseek-v4-pro":
+        raise ValueError("the frozen comparison permits only the previously validated deepseek-v4-pro configuration")
+    return {
+        "provider": "deepseek",
+        "endpoint_owner": "official DeepSeek",
+        "endpoint": DEEPSEEK_BASE_URL,
+        "endpoint_api": "Chat Completions",
+        "model": provider_config.model,
+        "thinking_mode": "disabled",
+        "sdk_timeout_seconds": profile["provider"]["sdk_timeout_seconds"],
+        "sdk_retry_limit": profile["provider"]["sdk_retry_limit"],
+        "temperature": None,
+        "random_seed": None,
+        "repetitions_per_case": 1,
+        "credentials_required": True,
+    }
+
+
+def _compatibility_model(
+    profile: Mapping[str, Any],
+    provider_config: ProviderConfig | None,
+    *,
+    environ: Mapping[str, str] | None = None,
+    client: Any | None = None,
+) -> tuple[Any, dict[str, Any]]:
+    descriptor = _comparison_provider(profile, provider_config)
+    if provider_config is None:
+        from openai import OpenAI
+
+        provider = profile["provider"]
+        compatible_client = client or OpenAI(
+            base_url=provider["endpoint"],
+            api_key="not-required",
+            timeout=provider["sdk_timeout_seconds"],
+            max_retries=provider["sdk_retry_limit"],
+        )
+        return OpenAICompatibleModel(
+            provider["model"],
+            base_url=provider["endpoint"],
+            api_key="not-required",
+            client=compatible_client,
+        ), descriptor
+    environment = os.environ if environ is None else environ
+    api_key = environment.get("DEEPSEEK_API_KEY")
+    if not api_key:
+        raise ValueError("DEEPSEEK_API_KEY is required for the deepseek provider")
+    if client is None:
+        from openai import OpenAI
+
+        client = OpenAI(
+            api_key=api_key,
+            base_url=DEEPSEEK_BASE_URL,
+            timeout=profile["provider"]["sdk_timeout_seconds"],
+            max_retries=profile["provider"]["sdk_retry_limit"],
+        )
+    return create_model(provider_config, environ=environment, client=client), descriptor
+
+
+def run_compatibility(
+    profile_path: Path,
+    output: Path,
+    *,
+    project_root: Path | None = None,
+    provider_config: ProviderConfig | None = None,
+    environ: Mapping[str, str] | None = None,
+    client: Any | None = None,
+) -> dict[str, Any]:
     root = (project_root or Path(__file__).resolve().parents[3]).resolve()
     profile = load_profile(profile_path, project_root=root)
     output = output.resolve()
     if output.exists():
         raise FileExistsError(f"compatibility output already exists: {output}")
     output.mkdir(parents=True)
-    from openai import OpenAI
-
-    provider = profile["provider"]
-    client = OpenAI(base_url=provider["endpoint"], api_key="not-required", timeout=provider["sdk_timeout_seconds"], max_retries=provider["sdk_retry_limit"])
-    base_model = OpenAICompatibleModel(provider["model"], base_url=provider["endpoint"], api_key="not-required", client=client)
+    base_model, execution_provider = _compatibility_model(
+        profile,
+        provider_config,
+        environ=environ,
+        client=client,
+    )
     case_results: list[dict[str, Any]] = []
     infrastructure_failures: list[dict[str, str]] = []
     for case in profile["cases"]:
@@ -644,7 +721,7 @@ def run_compatibility(profile_path: Path, output: Path, *, project_root: Path | 
             "profile_id": profile["profile_id"], "profile_version": profile["profile_version"],
             "content_hash": profile["content_hash"], "corpus_hash": profile["corpus"]["content_hash"],
         },
-        "provider": profile["provider"],
+        "provider": execution_provider,
         "admission_gate": profile["admission_gate"],
         "cases": case_results,
         "aggregate": aggregate,
@@ -660,7 +737,11 @@ def run_compatibility(profile_path: Path, output: Path, *, project_root: Path | 
             "cancellation_supported": False,
             "hard_deadline_claim": False,
         },
-        "optional_second_model": {"evaluated": False, "reason": "No comparison run predeclared; no model was downloaded."},
+        "comparison_context": {
+            "frozen_baseline_provider": profile["provider"],
+            "execution_provider": execution_provider,
+            "frozen_profile_unchanged": True,
+        },
         "known_limitations": [
             "Twelve synthetic cases measure protocol interoperability, not coding ability.",
             "One repetition does not measure variance.",
@@ -676,8 +757,18 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--profile", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--project-root", type=Path)
+    parser.add_argument("--provider", choices=("deepseek",))
+    parser.add_argument("--model")
     args = parser.parse_args(argv)
-    report = run_compatibility(args.profile.resolve(), args.output.resolve(), project_root=args.project_root)
+    if (args.provider is None) != (args.model is None):
+        parser.error("--provider and --model must be supplied together")
+    provider_config = ProviderConfig(provider=args.provider, model=args.model) if args.provider else None
+    report = run_compatibility(
+        args.profile.resolve(),
+        args.output.resolve(),
+        project_root=args.project_root,
+        provider_config=provider_config,
+    )
     print(json.dumps({"decision": report["compatibility_decision"], "aggregate": report["aggregate"]}, indent=2, sort_keys=True))
     return 0 if report["compatibility_decision"] == "COMPATIBLE" else 1
 

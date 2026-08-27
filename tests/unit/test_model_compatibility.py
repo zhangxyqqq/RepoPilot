@@ -8,10 +8,13 @@ import pytest
 from repopilot.evaluation.model_compatibility import (
     DECISIONS,
     SWE_BENCH_CONTAMINATED_IDS,
+    _compatibility_model,
+    _comparison_provider,
     corpus_hash,
     load_corpus,
     load_profile,
 )
+from repopilot.llm import ProviderConfig
 
 
 CORPUS = Path("benchmarks/model_compatibility/cases.v1.json")
@@ -77,3 +80,71 @@ def test_profile_preserves_no_hard_deadline_claim() -> None:
     assert profile["deadline_diagnostics"]["hard_cancellation_supported"] is False
     assert profile["deadline_diagnostics"]["measure_cleanup_completion"] is True
     assert profile["deadline_diagnostics"]["measure_artifact_completion"] is True
+
+
+def test_deepseek_comparison_changes_only_execution_provider() -> None:
+    profile = load_profile(PROFILE)
+    before = {
+        "content_hash": profile["content_hash"],
+        "corpus_hash": profile["corpus"]["content_hash"],
+        "controller": profile["controller"],
+        "protocol": profile["agent_protocol"],
+        "gate": profile["admission_gate"],
+    }
+
+    descriptor = _comparison_provider(
+        profile,
+        ProviderConfig(provider="deepseek", model="deepseek-v4-pro"),
+    )
+
+    assert descriptor == {
+        "provider": "deepseek",
+        "endpoint_owner": "official DeepSeek",
+        "endpoint": "https://api.deepseek.com",
+        "endpoint_api": "Chat Completions",
+        "model": "deepseek-v4-pro",
+        "thinking_mode": "disabled",
+        "sdk_timeout_seconds": 60,
+        "sdk_retry_limit": 0,
+        "temperature": None,
+        "random_seed": None,
+        "repetitions_per_case": 1,
+        "credentials_required": True,
+    }
+    assert before == {
+        "content_hash": profile["content_hash"],
+        "corpus_hash": profile["corpus"]["content_hash"],
+        "controller": profile["controller"],
+        "protocol": profile["agent_protocol"],
+        "gate": profile["admission_gate"],
+    }
+
+
+def test_deepseek_comparison_model_metadata_never_contains_credential() -> None:
+    profile = load_profile(PROFILE)
+    credential = "deepseek-comparison-secret"
+    model, descriptor = _compatibility_model(
+        profile,
+        ProviderConfig(provider="deepseek", model="deepseek-v4-pro"),
+        environ={"DEEPSEEK_API_KEY": credential},
+        client=object(),
+    )
+
+    assert model.metadata == {"provider": "deepseek", "model": "deepseek-v4-pro", "deterministic": False}
+    assert credential not in json.dumps(model.metadata)
+    assert credential not in json.dumps(descriptor)
+
+
+@pytest.mark.parametrize(
+    "provider,model",
+    [("deepseek", "deepseek-v4-flash"), ("openai_compatible", "deepseek-v4-pro")],
+)
+def test_comparison_rejects_non_predeclared_provider_or_model(provider: str, model: str) -> None:
+    profile = load_profile(PROFILE)
+    config = ProviderConfig(
+        provider=provider,
+        model=model,
+        base_url="http://127.0.0.1:8000/v1" if provider == "openai_compatible" else None,
+    )
+    with pytest.raises(ValueError, match="permits only"):
+        _comparison_provider(profile, config)
