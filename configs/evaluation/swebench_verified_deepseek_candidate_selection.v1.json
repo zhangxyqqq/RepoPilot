@@ -1,0 +1,198 @@
+{
+  "schema_version": 1,
+  "selection_id": "repopilot-deepseek-swebench-verified-fresh-cohort",
+  "selection_version": 1,
+  "frozen_at": "2026-08-27",
+  "frozen_before_environment_testing": true,
+  "claim_boundary": "Candidate discovery and deterministic cohort selection only. No environment result, gold patch, solve likelihood, model output, or behavioral result influenced selection.",
+  "benchmark_lineage": {
+    "swebench_package": "swebench",
+    "swebench_version": "5.0.2",
+    "harness_commit": "7a21e05772954cc81471ae19d56f436cecf43c54",
+    "reference_dataset_id": "princeton-nlp/SWE-bench_Verified",
+    "reference_dataset_revision": "c104f840cc67f8b6eec6f759ebc8b2693d585d4a",
+    "enriched_dataset_id": "SWE-bench/SWE-bench_Verified",
+    "enriched_dataset_revision": "78f471bf655a3137b2e8a75af1501690ec009ec3",
+    "split": "test",
+    "dataset_rows": 500
+  },
+  "excluded_instance_ids": [
+    "pallets__flask-5014",
+    "psf__requests-5414",
+    "psf__requests-6028",
+    "pytest-dev__pytest-10051",
+    "pytest-dev__pytest-7324"
+  ],
+  "selection_policy": {
+    "required": [
+      "genuine membership in the pinned SWE-bench Verified split",
+      "instance ID absent from all previously used RepoPilot SWE-bench cohorts and gold/debug evidence",
+      "Python repository compatible with controller-owned pytest execution",
+      "official per-instance image identifier present in pinned enriched metadata",
+      "full base and environment-setup commits present",
+      "repository-family diversity"
+    ],
+    "forbidden": [
+      "issue simplicity or apparent difficulty",
+      "patch size or patch location",
+      "gold or test patch content",
+      "expected fix files, symbols, or ranges",
+      "predicted DeepSeek solve probability",
+      "project familiarity",
+      "post-hoc environment or gold success"
+    ],
+    "eligible_repository_families": [
+      "astropy/astropy",
+      "matplotlib/matplotlib",
+      "mwaskom/seaborn",
+      "psf/requests",
+      "pydata/xarray",
+      "pylint-dev/pylint",
+      "pytest-dev/pytest",
+      "scikit-learn/scikit-learn",
+      "sphinx-doc/sphinx",
+      "sympy/sympy"
+    ],
+    "ineligible_family_reasons": {
+      "django/django": "The current RepoPilot trusted test-plan surface is pytest-oriented rather than Django's custom runtests harness.",
+      "pallets/flask": "The pinned Verified split contains only the permanently excluded Flask 5014 instance."
+    },
+    "pool_algorithm": "For each eligible repository family, choose the unused instance with lexicographically smallest SHA-256 of UTF-8 bytes: repopilot-deepseek-fresh-pool-v1 + NUL + instance_id.",
+    "selection_algorithm": "Order the ten pool entries by SHA-256 of UTF-8 bytes: repopilot-deepseek-fresh-selection-v1 + NUL + instance_id; freeze the first three.",
+    "substitution_after_freeze": false,
+    "reordering_after_freeze": false
+  },
+  "candidate_pool": [
+    {
+      "instance_id": "astropy__astropy-13453",
+      "repo": "astropy/astropy",
+      "base_commit": "19cc80471739bcb67b7e8099246b391c355023ee",
+      "environment_setup_commit": "cdf311e0714e611d48b0a31eb1f0e2cbffab7f23",
+      "version": "5.0",
+      "image_tag_from_pinned_dataset": "swebench/sweb.eval.x86_64.astropy_1776_astropy-13453:latest",
+      "issue_sha256": "sha256:be929904c3062b54da2fa3ad7de338bd7f1f41a5aa48e64bec41f244d6e17c5a",
+      "pool_rank_sha256": "sha256:202e9078ee1f278690e2e6208404cec56773ee7499926a363b06f7039431fd7e",
+      "selection_rank_sha256": "sha256:f25036c47727f77088911a1acdf018639ef7ed73c2c46761f8b7ff50426590f4",
+      "selected": false
+    },
+    {
+      "instance_id": "matplotlib__matplotlib-22719",
+      "repo": "matplotlib/matplotlib",
+      "base_commit": "a2a1b0a11b993fe5f8fab64b6161e99243a6393c",
+      "environment_setup_commit": "de98877e3dc45de8dd441d008f23d88738dc015d",
+      "version": "3.5",
+      "image_tag_from_pinned_dataset": "swebench/sweb.eval.x86_64.matplotlib_1776_matplotlib-22719:latest",
+      "issue_sha256": "sha256:2ffeda0f37f0b31f33acc4091c401b2ecdf32fe61756e07d1248ab2095cb77e0",
+      "pool_rank_sha256": "sha256:00af3531fd8ec494eac5ae97fcac726b39df002531d64549aec4f97b41e5c1f1",
+      "selection_rank_sha256": "sha256:5a2c6ce3657ee8d1e53dc2e79ef62483fdae734558a9a15889b46253eadf1ada",
+      "selected": true
+    },
+    {
+      "instance_id": "mwaskom__seaborn-3069",
+      "repo": "mwaskom/seaborn",
+      "base_commit": "54cab15bdacfaa05a88fbc5502a5b322d99f148e",
+      "environment_setup_commit": "d25872b0fc99dbf7e666a91f59bd4ed125186aa1",
+      "version": "0.12",
+      "image_tag_from_pinned_dataset": "swebench/sweb.eval.x86_64.mwaskom_1776_seaborn-3069:latest",
+      "issue_sha256": "sha256:739f9b2e6297497555d4d850e066137b282ad7c5bbcdee814e957ef0f81a9b1e",
+      "pool_rank_sha256": "sha256:7652ebe468da59c344ea06a70f2fa06f78f514101c04bcc736a0f5f5fb1b694e",
+      "selection_rank_sha256": "sha256:78877b5683fc67232d9e7671bc9bf6af38fdff660d958c5bf3231d783b816ffc",
+      "selected": false
+    },
+    {
+      "instance_id": "psf__requests-1724",
+      "repo": "psf/requests",
+      "base_commit": "1ba83c47ce7b177efe90d5f51f7760680f72eda0",
+      "environment_setup_commit": "4bceb312f1b99d36a25f2985b5606e98b6f0d8cd",
+      "version": "2.0",
+      "image_tag_from_pinned_dataset": "swebench/sweb.eval.x86_64.psf_1776_requests-1724:latest",
+      "issue_sha256": "sha256:eacde5d201658474274cce4558b5d2b8ae74d9fcc2ad6ddc76aaf003b2160b8a",
+      "pool_rank_sha256": "sha256:0b90634fac3d319791b2f16ec134b2ee2d09dfd52a875e1845689781bf981357",
+      "selection_rank_sha256": "sha256:4972e1d2d76d71ed5873f00220c6b973a47e07d15f77b611455929829036bb97",
+      "selected": true
+    },
+    {
+      "instance_id": "pydata__xarray-4629",
+      "repo": "pydata/xarray",
+      "base_commit": "a41edc7bf5302f2ea327943c0c48c532b12009bc",
+      "environment_setup_commit": "1c198a191127c601d091213c4b3292a8bb3054e1",
+      "version": "0.12",
+      "image_tag_from_pinned_dataset": "swebench/sweb.eval.x86_64.pydata_1776_xarray-4629:latest",
+      "issue_sha256": "sha256:f688557a88966226d7977917ae86e312dc52434d7ef61cd02b7d655d24d9f816",
+      "pool_rank_sha256": "sha256:103246635016913b1dd9e84cf4670d2b2a8029d5f43fb5cd1720b1822a5753c0",
+      "selection_rank_sha256": "sha256:cbeb22ab42a4cbc06382e32a00969b712c6c71077b53b900acad47a178463835",
+      "selected": false
+    },
+    {
+      "instance_id": "pylint-dev__pylint-4970",
+      "repo": "pylint-dev/pylint",
+      "base_commit": "40cc2ffd7887959157aaf469e09585ec2be7f528",
+      "environment_setup_commit": "bc95cd34071ec2e71de5bca8ff95cc9b88e23814",
+      "version": "2.10",
+      "image_tag_from_pinned_dataset": "swebench/sweb.eval.x86_64.pylint-dev_1776_pylint-4970:latest",
+      "issue_sha256": "sha256:194295749557b085970e22cc0886d8d0d772e77521bf3b3af55f43f90a3d65ee",
+      "pool_rank_sha256": "sha256:16f2acbae099f15cbb79e925bcf25047d89ae3009da54904602f0282ff809260",
+      "selection_rank_sha256": "sha256:9b1cc6b8b7ac2bcba8a14dfc084eebda289abe2380ea052a6ac2e2b0105ad907",
+      "selected": false
+    },
+    {
+      "instance_id": "pytest-dev__pytest-8399",
+      "repo": "pytest-dev/pytest",
+      "base_commit": "6e7dc8bac831cd8cf7a53b08efa366bd84f0c0fe",
+      "environment_setup_commit": "634312b14a45db8d60d72016e01294284e3a18d4",
+      "version": "6.3",
+      "image_tag_from_pinned_dataset": "swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-8399:latest",
+      "issue_sha256": "sha256:2471cd247002e8cb4c9cff40999a0841dbfea96004fb15d6df9c23528395c011",
+      "pool_rank_sha256": "sha256:0bb32cb7bc01e76b0da381edd4038ba1a87460b8fffe39cbc1ecf96bb2cb09fe",
+      "selection_rank_sha256": "sha256:078add479872ab13a8e127b42c83016f143d340e8297da36cbd2cf5cae38db81",
+      "selected": true
+    },
+    {
+      "instance_id": "scikit-learn__scikit-learn-13779",
+      "repo": "scikit-learn/scikit-learn",
+      "base_commit": "b34751b7ed02b2cfcc36037fb729d4360480a299",
+      "environment_setup_commit": "7e85a6d1f038bbb932b36f18d75df6be937ed00d",
+      "version": "0.22",
+      "image_tag_from_pinned_dataset": "swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-13779:latest",
+      "issue_sha256": "sha256:d32c6ecdfaf0eeb42a35e7cb05bd03fc034571aaef7c7743a452422c2bcdc6bc",
+      "pool_rank_sha256": "sha256:001a77761d06b971cbda843f8a0b1189314c2eb046f516c53f4f1b70b4477673",
+      "selection_rank_sha256": "sha256:c84ed231a5357774f42b3575acf1471f6a7a2da0c75d7deff8b87191e3614a3d",
+      "selected": false
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-8459",
+      "repo": "sphinx-doc/sphinx",
+      "base_commit": "68aa4fb29e7dfe521749e1e14f750d7afabb3481",
+      "environment_setup_commit": "3f560cd67239f75840cc7a439ab54d8509c855f6",
+      "version": "3.4",
+      "image_tag_from_pinned_dataset": "swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-8459:latest",
+      "issue_sha256": "sha256:5a7af99001528e86ff4d88a9bf03e4b87b08c1c4907ef4230d6dfa05a3375018",
+      "pool_rank_sha256": "sha256:000450e677dd3be79e0df14143423dabe8d1ce63450a0a3ec142c9186bcc1328",
+      "selection_rank_sha256": "sha256:9507e6719683c97d6d838102e9540db114c6d9dc31b422453fefa28e91a0f335",
+      "selected": false
+    },
+    {
+      "instance_id": "sympy__sympy-23262",
+      "repo": "sympy/sympy",
+      "base_commit": "fdc707f73a65a429935c01532cd3970d3355eab6",
+      "environment_setup_commit": "9a6104eab0ea7ac191a09c24f3e2d79dcd66bda5",
+      "version": "1.11",
+      "image_tag_from_pinned_dataset": "swebench/sweb.eval.x86_64.sympy_1776_sympy-23262:latest",
+      "issue_sha256": "sha256:c0c0ac5aecba195d382f82e1b5d1519cc8053e29b967bdc2805137079c9fd3b7",
+      "pool_rank_sha256": "sha256:07e3bf1b8d948887e92a4c0b2418394cec17ce7858220397c435a2eca563e0f4",
+      "selection_rank_sha256": "sha256:7c74e937d360b2908dd8f1048e25dfe6b54edc2b8f14739c6e7a278adaa995bf",
+      "selected": false
+    }
+  ],
+  "frozen_instance_ids": [
+    "pytest-dev__pytest-8399",
+    "psf__requests-1724",
+    "matplotlib__matplotlib-22719"
+  ],
+  "post_freeze_rules": {
+    "failed_instance_replacement": false,
+    "reordering_from_environment_results": false,
+    "gold_patch_inspection_for_selection": false,
+    "model_execution": false
+  }
+}
