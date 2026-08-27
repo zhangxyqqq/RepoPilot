@@ -1,0 +1,891 @@
+{
+  "aggregate_behavior": {
+    "duplicate_mutations": 0,
+    "iterations": 107,
+    "latency_ms": {
+      "agent_wall": 677096.5592479624,
+      "model": 617476.8587519357,
+      "tool": 59252.36183410743,
+      "trusted_test": 20761.74891804112
+    },
+    "malformed_action_events": 1,
+    "model_turns": 106,
+    "provider_error_events": 1,
+    "recovery_decisions": 17,
+    "rejected_tool_calls": 15,
+    "repair_cycles": 0,
+    "repeated_identical_calls_same_revision": 0,
+    "tool_calls": 113,
+    "tool_calls_by_name": {
+      "apply_patch": 3,
+      "git_diff": 5,
+      "list_files": 5,
+      "read_file": 52,
+      "run_tests": 7,
+      "search_code": 41
+    },
+    "unnecessary_tool_calls": 19
+  },
+  "artifact_index": {
+    "global_preflight": "docs/checkpoints/DEEPSEEK_SWEBENCH_COHORT2_BEHAVIORAL_RUNS/global-preflight.json",
+    "pilot_manifest": "docs/checkpoints/DEEPSEEK_SWEBENCH_COHORT2_BEHAVIORAL_RUNS/pilot-manifest.json",
+    "predictions": "docs/checkpoints/DEEPSEEK_SWEBENCH_COHORT2_BEHAVIORAL_RUNS/predictions.jsonl",
+    "runs_root": "docs/checkpoints/DEEPSEEK_SWEBENCH_COHORT2_BEHAVIORAL_RUNS/runs"
+  },
+  "checkpoint_id": "deepseek-swebench-cohort2-behavioral",
+  "claim_boundary": "Exactly five one-shot DeepSeek attempts on a prequalified frozen subset. This is not representative of all SWE-bench Verified, not a leaderboard comparison, and not a production claim.",
+  "compatibility_interpretation": {
+    "malformed_actions": "One invalid-JSON tool-argument response occurred on Xarray; the controller returned structured evidence and continued, but the run ended without a patch at iteration limit.",
+    "operational_assessment": "The separate small-pilot admission was operationally reasonable: all runs initiated tools, three resolved, and no safety/state-discipline counter failed. The frozen strict verdict remains unchanged.",
+    "prior_deviation_patch_without_read": "Did not recur on the three mutations: the edited target was read before apply_patch.",
+    "prior_deviation_read_before_initial_test": "A comparable read-before-test pattern occurred in two of the three resolved runs, but these real tasks had no frozen test-first milestone and both officially resolved; it is not classified as a failure.",
+    "prior_deviation_search_instead_of_list": "Did not recur at initiation: all five used list_files first.",
+    "tool_initiation": "5/5 began with a valid list_files call; no plan-only pre-tool loop.",
+    "unsafe_mutations": 0
+  },
+  "created_at": "2026-08-27",
+  "decision": "BEHAVIORAL PILOT COMPLETE \u2014 3/5 RESOLVED",
+  "frozen_configuration": {
+    "cohort_content_hash": "sha256:f6c2a0fbc45432b7e688679ac04dcd89f4dcb777193e78df664dc2dc87789156",
+    "controller": {
+      "max_iterations": 30,
+      "max_repair_cycles": 3,
+      "recovery_policy": {
+        "max_model_retries": 2,
+        "max_read_only_retries": 1,
+        "max_test_timeout_retries": 0
+      },
+      "total_timeout_seconds": 300,
+      "trusted_test_timeout_seconds": 120
+    },
+    "dataset_revisions": {
+      "enriched": "78f471bf655a3137b2e8a75af1501690ec009ec3",
+      "reference": "c104f840cc67f8b6eec6f759ebc8b2693d585d4a"
+    },
+    "harness_commit": "7a21e05772954cc81471ae19d56f436cecf43c54",
+    "instance_order": [
+      "mwaskom__seaborn-3187",
+      "pydata__xarray-6938",
+      "pylint-dev__pylint-7277",
+      "sphinx-doc__sphinx-8551",
+      "sphinx-doc__sphinx-9230"
+    ],
+    "profile": "configs/evaluation/swebench_verified_deepseek_cohort2.v1.json",
+    "profile_sha256": "sha256:5373c1dbc76765f301f2fc33b93c840b65fd779e513470ec27f872773ee3a36d",
+    "provider": {
+      "model": "deepseek-v4-pro",
+      "provider": "deepseek",
+      "sdk_retry_limit": 0,
+      "sdk_timeout_seconds": 60,
+      "thinking": "disabled"
+    },
+    "qualification_commit": "083f349429d6a0bd9a22442ab4d05b002f2747ab",
+    "qualification_tag": "repopilot-v2-deepseek-swebench-cohort2",
+    "retrieval": "structural",
+    "system_prompt_sha256": "sha256:f310a0a46501849ed020e8165a741163c14fac81501c595901e5850c8687ee04",
+    "taxonomy_sha256": "sha256:3e52b575bbe735979fe4e0538f91f3e072e3108eed6a2e87c4338fa5f37992eb",
+    "tool_catalog_sha256": "sha256:84aefeae76e6b1e6f48a04657765d7aa8b7216d9f55c9549f971ed32c71546d4"
+  },
+  "frozen_decisions_preserved": {
+    "behavioral_admission": "ADMITTED FOR SMALL BEHAVIORAL PILOT",
+    "strict_compatibility": "NOT COMPATIBLE \u2014 9/12 under the frozen >=80% gate"
+  },
+  "instances": [
+    {
+      "agent": {
+        "action_counts": {
+          "final": 0,
+          "plan": 0,
+          "tool": 30
+        },
+        "finalization": {
+          "controller_calls": 2,
+          "final_message": "Model error: APITimeoutError: Request timed out.",
+          "trusted_test_passed": true
+        },
+        "iterations": 30,
+        "model_turns": 30,
+        "repair_cycles": 0,
+        "stop_reason": "iteration_limit"
+      },
+      "artifacts": {
+        "official_grading": null,
+        "patch": "docs/checkpoints/DEEPSEEK_SWEBENCH_COHORT2_BEHAVIORAL_RUNS/runs/mwaskom__seaborn-3187/model.patch",
+        "prediction": "docs/checkpoints/DEEPSEEK_SWEBENCH_COHORT2_BEHAVIORAL_RUNS/runs/mwaskom__seaborn-3187/prediction.jsonl",
+        "run": "docs/checkpoints/DEEPSEEK_SWEBENCH_COHORT2_BEHAVIORAL_RUNS/runs/mwaskom__seaborn-3187/run.json",
+        "trace": "docs/checkpoints/DEEPSEEK_SWEBENCH_COHORT2_BEHAVIORAL_RUNS/runs/mwaskom__seaborn-3187/trajectory.jsonl"
+      },
+      "estimated_api_cost_usd": 0.036418461,
+      "instance_id": "mwaskom__seaborn-3187",
+      "latency_ms": {
+        "agent_wall": 243411.56970799784,
+        "model": 232185.58941592346,
+        "official_harness": null,
+        "tool": 11129.420834011398,
+        "trusted_test": 2743.161708000116
+      },
+      "non_empty_patch": false,
+      "official_grading": {
+        "fail_to_pass": {
+          "failed": null,
+          "passed": 0,
+          "total": null
+        },
+        "failure": "empty prediction; official harness has no patch to execute",
+        "harness_executed": false,
+        "infra_failure": false,
+        "pass_to_pass": {
+          "failed": null,
+          "passed": 0,
+          "total": null
+        },
+        "report_available": false,
+        "resolved": false
+      },
+      "outcome": "unresolved",
+      "prediction_produced": true,
+      "state": {
+        "changed_files": [],
+        "duplicate_mutations": 0,
+        "recovery_decisions": 7,
+        "recovery_outcomes": 7,
+        "revision_divergence": false,
+        "workspace_revisions": {
+          "final": 0,
+          "observed": [
+            0
+          ],
+          "transitions": 0
+        }
+      },
+      "taxonomy_classifications": [
+        {
+          "attribution_confidence": "deterministic_rule",
+          "evidence_event_ids": [
+            "3adf621c8a3251019dc8ecd38b05c80e"
+          ],
+          "fault_origin": "natural",
+          "label": "controller.iteration_limit",
+          "observable_signal": "controller iteration limit reached",
+          "outcome_impact": "task_failure",
+          "phase": "controller",
+          "recoverability": "non_retryable"
+        },
+        {
+          "attribution_confidence": "deterministic_rule",
+          "evidence_event_ids": [
+            "0ef0a568c0f254b7acd1ec9306d83c4d"
+          ],
+          "fault_origin": "natural",
+          "label": "model.provider_error",
+          "observable_signal": "provider boundary returned an error",
+          "outcome_impact": "task_failure",
+          "phase": "model",
+          "recoverability": "recovered"
+        },
+        {
+          "attribution_confidence": "deterministic_rule",
+          "evidence_event_ids": [
+            "3eb623a9c248557aacc6d84fca6bbddb"
+          ],
+          "fault_origin": "natural",
+          "label": "retrieval.context_truncated",
+          "observable_signal": "repository context was truncated",
+          "outcome_impact": "informational",
+          "phase": "retrieval",
+          "recoverability": "unknown"
+        },
+        {
+          "attribution_confidence": "deterministic_rule",
+          "evidence_event_ids": [
+            "043eb439c23154a79d52afb5bfcfc643",
+            "0f4cd62b9da45398911ed3da4ab2f58a",
+            "2a2b68fe280556929500a240fa7fb3f7",
+            "6effd177596d55778ac7e91bc45fe35a",
+            "a3f88d5817f85b199a6288a74ac0d117",
+            "bec749f6ee0853efb009c672e09cf130"
+          ],
+          "fault_origin": "natural",
+          "label": "tool.execution_error",
+          "observable_signal": "tool execution returned an error",
+          "outcome_impact": "task_failure",
+          "phase": "tool",
+          "recoverability": "recovered"
+        }
+      ],
+      "tools": {
+        "by_name": {
+          "git_diff": 1,
+          "list_files": 1,
+          "read_file": 16,
+          "run_tests": 1,
+          "search_code": 13
+        },
+        "by_origin": {
+          "controller": 2,
+          "model": 30
+        },
+        "rejected": 6,
+        "repeated_same_revision": 0,
+        "time_to_first_model_tool_call_ms": 3167.7650000000003,
+        "total": 32,
+        "unnecessary": 6
+      },
+      "unclassified_error_count": 0,
+      "unresolved_observable_evidence": [
+        {
+          "evidence": "model.patch is empty",
+          "signal": "no patch"
+        },
+        {
+          "evidence_event_ids": [
+            "3adf621c8a3251019dc8ecd38b05c80e"
+          ],
+          "signal": "iteration_limit"
+        },
+        {
+          "evidence": "official harness cannot execute an empty prediction; no outcome was inferred from trusted tests",
+          "signal": "official F2P/P2P unavailable"
+        }
+      ],
+      "usage": {
+        "cache_miss_input_tokens": 55447,
+        "cached_input_tokens": 1247232,
+        "input_tokens": 1302679,
+        "output_tokens": 8940,
+        "reasoning_tokens": null
+      }
+    },
+    {
+      "agent": {
+        "action_counts": {
+          "final": 0,
+          "plan": 0,
+          "tool": 29
+        },
+        "finalization": {
+          "controller_calls": 2,
+          "final_message": "Model error: ValueError: DeepSeek returned invalid JSON arguments for run_tests",
+          "trusted_test_passed": true
+        },
+        "iterations": 30,
+        "model_turns": 29,
+        "repair_cycles": 0,
+        "stop_reason": "iteration_limit"
+      },
+      "artifacts": {
+        "official_grading": null,
+        "patch": "docs/checkpoints/DEEPSEEK_SWEBENCH_COHORT2_BEHAVIORAL_RUNS/runs/pydata__xarray-6938/model.patch",
+        "prediction": "docs/checkpoints/DEEPSEEK_SWEBENCH_COHORT2_BEHAVIORAL_RUNS/runs/pydata__xarray-6938/prediction.jsonl",
+        "run": "docs/checkpoints/DEEPSEEK_SWEBENCH_COHORT2_BEHAVIORAL_RUNS/runs/pydata__xarray-6938/run.json",
+        "trace": "docs/checkpoints/DEEPSEEK_SWEBENCH_COHORT2_BEHAVIORAL_RUNS/runs/pydata__xarray-6938/trajectory.jsonl"
+      },
+      "estimated_api_cost_usd": 0.035162036,
+      "instance_id": "pydata__xarray-6938",
+      "latency_ms": {
+        "agent_wall": 200374.5881659852,
+        "model": 179802.61550098658,
+        "official_harness": null,
+        "tool": 20506.797251087846,
+        "trusted_test": 11463.765084015904
+      },
+      "non_empty_patch": false,
+      "official_grading": {
+        "fail_to_pass": {
+          "failed": null,
+          "passed": 0,
+          "total": null
+        },
+        "failure": "empty prediction; official harness has no patch to execute",
+        "harness_executed": false,
+        "infra_failure": false,
+        "pass_to_pass": {
+          "failed": null,
+          "passed": 0,
+          "total": null
+        },
+        "report_available": false,
+        "resolved": false
+      },
+      "outcome": "unresolved",
+      "prediction_produced": true,
+      "state": {
+        "changed_files": [],
+        "duplicate_mutations": 0,
+        "recovery_decisions": 6,
+        "recovery_outcomes": 6,
+        "revision_divergence": false,
+        "workspace_revisions": {
+          "final": 0,
+          "observed": [
+            0
+          ],
+          "transitions": 0
+        }
+      },
+      "taxonomy_classifications": [
+        {
+          "attribution_confidence": "deterministic_rule",
+          "evidence_event_ids": [
+            "57fea26d13325fab8237941c5ed3b219"
+          ],
+          "fault_origin": "natural",
+          "label": "controller.iteration_limit",
+          "observable_signal": "controller iteration limit reached",
+          "outcome_impact": "task_failure",
+          "phase": "controller",
+          "recoverability": "non_retryable"
+        },
+        {
+          "attribution_confidence": "deterministic_rule",
+          "evidence_event_ids": [
+            "22277a0d469158e098c01682ae9103b7"
+          ],
+          "fault_origin": "natural",
+          "label": "model.malformed_output",
+          "observable_signal": "model output could not be parsed",
+          "outcome_impact": "task_failure",
+          "phase": "model",
+          "recoverability": "recovered"
+        },
+        {
+          "attribution_confidence": "deterministic_rule",
+          "evidence_event_ids": [
+            "0d6e3b400d245098b791406f34969eed"
+          ],
+          "fault_origin": "natural",
+          "label": "retrieval.context_truncated",
+          "observable_signal": "repository context was truncated",
+          "outcome_impact": "informational",
+          "phase": "retrieval",
+          "recoverability": "unknown"
+        },
+        {
+          "attribution_confidence": "deterministic_rule",
+          "evidence_event_ids": [
+            "087995a399245280ad514c61b0e1fbc2",
+            "b1107213337d5dabb7b4975ae71368e6",
+            "d1d190302c0b5f699060db2b7a53fe41",
+            "d4f095369de45fee9714c4c2818db9cc",
+            "ef8d200c796c5697bf57b96c0965ed23"
+          ],
+          "fault_origin": "natural",
+          "label": "tool.execution_error",
+          "observable_signal": "tool execution returned an error",
+          "outcome_impact": "task_failure",
+          "phase": "tool",
+          "recoverability": "recovered"
+        }
+      ],
+      "tools": {
+        "by_name": {
+          "git_diff": 1,
+          "list_files": 1,
+          "read_file": 15,
+          "run_tests": 1,
+          "search_code": 13
+        },
+        "by_origin": {
+          "controller": 2,
+          "model": 29
+        },
+        "rejected": 5,
+        "repeated_same_revision": 0,
+        "time_to_first_model_tool_call_ms": 3334.006,
+        "total": 31,
+        "unnecessary": 5
+      },
+      "unclassified_error_count": 0,
+      "unresolved_observable_evidence": [
+        {
+          "evidence": "model.patch is empty",
+          "signal": "no patch"
+        },
+        {
+          "evidence_event_ids": [
+            "57fea26d13325fab8237941c5ed3b219"
+          ],
+          "signal": "iteration_limit"
+        },
+        {
+          "evidence": "official harness cannot execute an empty prediction; no outcome was inferred from trusted tests",
+          "signal": "official F2P/P2P unavailable"
+        }
+      ],
+      "usage": {
+        "cache_miss_input_tokens": 50770,
+        "cached_input_tokens": 1194752,
+        "input_tokens": 1245522,
+        "output_tokens": 10053,
+        "reasoning_tokens": null
+      }
+    },
+    {
+      "agent": {
+        "action_counts": {
+          "final": 0,
+          "plan": 0,
+          "tool": 5
+        },
+        "finalization": {
+          "controller_calls": 1,
+          "final_message": "Configured tests passed on the modified revision.",
+          "trusted_test_passed": true
+        },
+        "iterations": 5,
+        "model_turns": 5,
+        "repair_cycles": 0,
+        "stop_reason": "tests_passed"
+      },
+      "artifacts": {
+        "official_grading": "docs/checkpoints/DEEPSEEK_SWEBENCH_COHORT2_BEHAVIORAL_RUNS/runs/pylint-dev__pylint-7277/official-grading",
+        "patch": "docs/checkpoints/DEEPSEEK_SWEBENCH_COHORT2_BEHAVIORAL_RUNS/runs/pylint-dev__pylint-7277/model.patch",
+        "prediction": "docs/checkpoints/DEEPSEEK_SWEBENCH_COHORT2_BEHAVIORAL_RUNS/runs/pylint-dev__pylint-7277/prediction.jsonl",
+        "run": "docs/checkpoints/DEEPSEEK_SWEBENCH_COHORT2_BEHAVIORAL_RUNS/runs/pylint-dev__pylint-7277/run.json",
+        "trace": "docs/checkpoints/DEEPSEEK_SWEBENCH_COHORT2_BEHAVIORAL_RUNS/runs/pylint-dev__pylint-7277/trajectory.jsonl"
+      },
+      "estimated_api_cost_usd": 0.132265752,
+      "instance_id": "pylint-dev__pylint-7277",
+      "latency_ms": {
+        "agent_wall": 28969.826290995115,
+        "model": 22557.70462504006,
+        "official_harness": 45573.144666006556,
+        "tool": 6347.281332971761,
+        "trusted_test": 1796.2191670085303
+      },
+      "non_empty_patch": true,
+      "official_grading": {
+        "fail_to_pass": {
+          "failed": 0,
+          "passed": 1,
+          "total": 1
+        },
+        "harness_executed": true,
+        "harness_exit_code": 0,
+        "harness_wall_ms": 45573.144666006556,
+        "infra_failure": false,
+        "pass_to_pass": {
+          "failed": 0,
+          "passed": 122,
+          "total": 122
+        },
+        "patch_successfully_applied": true,
+        "report_available": true,
+        "resolved": true
+      },
+      "outcome": "resolved",
+      "prediction_produced": true,
+      "state": {
+        "changed_files": [
+          "pylint/__init__.py"
+        ],
+        "duplicate_mutations": 0,
+        "recovery_decisions": 0,
+        "recovery_outcomes": 0,
+        "revision_divergence": false,
+        "workspace_revisions": {
+          "final": 1,
+          "observed": [
+            0,
+            1
+          ],
+          "transitions": 1
+        }
+      },
+      "taxonomy_classifications": [
+        {
+          "attribution_confidence": "deterministic_rule",
+          "evidence_event_ids": [
+            "636ae73c11c658ac94a57011d2ded8ab"
+          ],
+          "fault_origin": "natural",
+          "label": "retrieval.context_truncated",
+          "observable_signal": "repository context was truncated",
+          "outcome_impact": "informational",
+          "phase": "retrieval",
+          "recoverability": "unknown"
+        }
+      ],
+      "tools": {
+        "by_name": {
+          "apply_patch": 1,
+          "git_diff": 1,
+          "list_files": 1,
+          "read_file": 2,
+          "run_tests": 1
+        },
+        "by_origin": {
+          "controller": 1,
+          "model": 5
+        },
+        "rejected": 0,
+        "repeated_same_revision": 0,
+        "time_to_first_model_tool_call_ms": 4960.428,
+        "total": 6,
+        "unnecessary": 0
+      },
+      "unclassified_error_count": 0,
+      "unresolved_observable_evidence": [],
+      "usage": {
+        "cache_miss_input_tokens": 295622,
+        "cached_input_tokens": 887424,
+        "input_tokens": 1183046,
+        "output_tokens": 521,
+        "reasoning_tokens": null
+      }
+    },
+    {
+      "agent": {
+        "action_counts": {
+          "final": 0,
+          "plan": 0,
+          "tool": 20
+        },
+        "finalization": {
+          "controller_calls": 1,
+          "final_message": "Configured tests passed on the modified revision.",
+          "trusted_test_passed": true
+        },
+        "iterations": 20,
+        "model_turns": 20,
+        "repair_cycles": 0,
+        "stop_reason": "tests_passed"
+      },
+      "artifacts": {
+        "official_grading": "docs/checkpoints/DEEPSEEK_SWEBENCH_COHORT2_BEHAVIORAL_RUNS/runs/sphinx-doc__sphinx-8551/official-grading",
+        "patch": "docs/checkpoints/DEEPSEEK_SWEBENCH_COHORT2_BEHAVIORAL_RUNS/runs/sphinx-doc__sphinx-8551/model.patch",
+        "prediction": "docs/checkpoints/DEEPSEEK_SWEBENCH_COHORT2_BEHAVIORAL_RUNS/runs/sphinx-doc__sphinx-8551/prediction.jsonl",
+        "run": "docs/checkpoints/DEEPSEEK_SWEBENCH_COHORT2_BEHAVIORAL_RUNS/runs/sphinx-doc__sphinx-8551/run.json",
+        "trace": "docs/checkpoints/DEEPSEEK_SWEBENCH_COHORT2_BEHAVIORAL_RUNS/runs/sphinx-doc__sphinx-8551/trajectory.jsonl"
+      },
+      "estimated_api_cost_usd": 0.056084753,
+      "instance_id": "sphinx-doc__sphinx-8551",
+      "latency_ms": {
+        "agent_wall": 94294.19570800383,
+        "model": 85767.53608498257,
+        "official_harness": 22753.053166001337,
+        "tool": 8458.062000019709,
+        "trusted_test": 1557.0578750048298
+      },
+      "non_empty_patch": true,
+      "official_grading": {
+        "fail_to_pass": {
+          "failed": 0,
+          "passed": 1,
+          "total": 1
+        },
+        "harness_executed": true,
+        "harness_exit_code": 0,
+        "harness_wall_ms": 22753.053166001337,
+        "infra_failure": false,
+        "pass_to_pass": {
+          "failed": 0,
+          "passed": 32,
+          "total": 32
+        },
+        "patch_successfully_applied": true,
+        "report_available": true,
+        "resolved": true
+      },
+      "outcome": "resolved",
+      "prediction_produced": true,
+      "state": {
+        "changed_files": [
+          "sphinx/domains/python.py"
+        ],
+        "duplicate_mutations": 0,
+        "recovery_decisions": 1,
+        "recovery_outcomes": 1,
+        "revision_divergence": false,
+        "workspace_revisions": {
+          "final": 1,
+          "observed": [
+            0,
+            1
+          ],
+          "transitions": 1
+        }
+      },
+      "taxonomy_classifications": [
+        {
+          "attribution_confidence": "deterministic_rule",
+          "evidence_event_ids": [
+            "6ced5888dd275e5eba6e5d32b8e5215e"
+          ],
+          "fault_origin": "natural",
+          "label": "retrieval.context_truncated",
+          "observable_signal": "repository context was truncated",
+          "outcome_impact": "informational",
+          "phase": "retrieval",
+          "recoverability": "unknown"
+        },
+        {
+          "attribution_confidence": "deterministic_rule",
+          "evidence_event_ids": [
+            "ce9b1c809d0f5406a890fc89a32c3049"
+          ],
+          "fault_origin": "natural",
+          "label": "tool.execution_error",
+          "observable_signal": "tool execution returned an error",
+          "outcome_impact": "task_failure",
+          "phase": "tool",
+          "recoverability": "recovered"
+        }
+      ],
+      "tools": {
+        "by_name": {
+          "apply_patch": 1,
+          "git_diff": 1,
+          "list_files": 1,
+          "read_file": 12,
+          "run_tests": 1,
+          "search_code": 5
+        },
+        "by_origin": {
+          "controller": 1,
+          "model": 20
+        },
+        "rejected": 1,
+        "repeated_same_revision": 0,
+        "time_to_first_model_tool_call_ms": 3450.6679999999997,
+        "total": 21,
+        "unnecessary": 1
+      },
+      "unclassified_error_count": 0,
+      "unresolved_observable_evidence": [],
+      "usage": {
+        "cache_miss_input_tokens": 106145,
+        "cached_input_tokens": 1742336,
+        "input_tokens": 1848481,
+        "output_tokens": 4133,
+        "reasoning_tokens": null
+      }
+    },
+    {
+      "agent": {
+        "action_counts": {
+          "final": 0,
+          "plan": 0,
+          "tool": 22
+        },
+        "finalization": {
+          "controller_calls": 1,
+          "final_message": "Configured tests passed on the modified revision.",
+          "trusted_test_passed": true
+        },
+        "iterations": 22,
+        "model_turns": 22,
+        "repair_cycles": 0,
+        "stop_reason": "tests_passed"
+      },
+      "artifacts": {
+        "official_grading": "docs/checkpoints/DEEPSEEK_SWEBENCH_COHORT2_BEHAVIORAL_RUNS/runs/sphinx-doc__sphinx-9230/official-grading",
+        "patch": "docs/checkpoints/DEEPSEEK_SWEBENCH_COHORT2_BEHAVIORAL_RUNS/runs/sphinx-doc__sphinx-9230/model.patch",
+        "prediction": "docs/checkpoints/DEEPSEEK_SWEBENCH_COHORT2_BEHAVIORAL_RUNS/runs/sphinx-doc__sphinx-9230/prediction.jsonl",
+        "run": "docs/checkpoints/DEEPSEEK_SWEBENCH_COHORT2_BEHAVIORAL_RUNS/runs/sphinx-doc__sphinx-9230/run.json",
+        "trace": "docs/checkpoints/DEEPSEEK_SWEBENCH_COHORT2_BEHAVIORAL_RUNS/runs/sphinx-doc__sphinx-9230/trajectory.jsonl"
+      },
+      "estimated_api_cost_usd": 0.055725762,
+      "instance_id": "sphinx-doc__sphinx-9230",
+      "latency_ms": {
+        "agent_wall": 110046.37937498046,
+        "model": 97163.41312500299,
+        "official_harness": 24610.304874979192,
+        "tool": 12810.800416016718,
+        "trusted_test": 3201.545084011741
+      },
+      "non_empty_patch": true,
+      "official_grading": {
+        "fail_to_pass": {
+          "failed": 0,
+          "passed": 1,
+          "total": 1
+        },
+        "harness_executed": true,
+        "harness_exit_code": 0,
+        "harness_wall_ms": 24610.304874979192,
+        "infra_failure": false,
+        "pass_to_pass": {
+          "failed": 0,
+          "passed": 44,
+          "total": 44
+        },
+        "patch_successfully_applied": true,
+        "report_available": true,
+        "resolved": true
+      },
+      "outcome": "resolved",
+      "prediction_produced": true,
+      "state": {
+        "changed_files": [
+          "sphinx/util/docfields.py"
+        ],
+        "duplicate_mutations": 0,
+        "recovery_decisions": 3,
+        "recovery_outcomes": 3,
+        "revision_divergence": false,
+        "workspace_revisions": {
+          "final": 1,
+          "observed": [
+            0,
+            1
+          ],
+          "transitions": 1
+        }
+      },
+      "taxonomy_classifications": [
+        {
+          "attribution_confidence": "deterministic_rule",
+          "evidence_event_ids": [
+            "7963ecfda4e85806b00ee491878035c9"
+          ],
+          "fault_origin": "natural",
+          "label": "retrieval.context_truncated",
+          "observable_signal": "repository context was truncated",
+          "outcome_impact": "informational",
+          "phase": "retrieval",
+          "recoverability": "unknown"
+        },
+        {
+          "attribution_confidence": "deterministic_rule",
+          "evidence_event_ids": [
+            "84e58924b3385fe2a08824badacfcfa0",
+            "e3b68cf46f775e328a4d6751f703d2f0"
+          ],
+          "fault_origin": "natural",
+          "label": "tool.execution_error",
+          "observable_signal": "tool execution returned an error",
+          "outcome_impact": "task_failure",
+          "phase": "tool",
+          "recoverability": "recovered"
+        },
+        {
+          "attribution_confidence": "deterministic_rule",
+          "evidence_event_ids": [
+            "4755ee348b8057feb6dde07b3fb50a03"
+          ],
+          "fault_origin": "natural",
+          "label": "tool.invalid_arguments",
+          "observable_signal": "tool arguments failed validation",
+          "outcome_impact": "efficiency_degradation",
+          "phase": "tool",
+          "recoverability": "recovered"
+        }
+      ],
+      "tools": {
+        "by_name": {
+          "apply_patch": 1,
+          "git_diff": 1,
+          "list_files": 1,
+          "read_file": 7,
+          "run_tests": 3,
+          "search_code": 10
+        },
+        "by_origin": {
+          "controller": 1,
+          "model": 22
+        },
+        "rejected": 3,
+        "repeated_same_revision": 0,
+        "time_to_first_model_tool_call_ms": 3635.748,
+        "total": 23,
+        "unnecessary": 7
+      },
+      "unclassified_error_count": 0,
+      "unresolved_observable_evidence": [],
+      "usage": {
+        "cache_miss_input_tokens": 103332,
+        "cached_input_tokens": 1972224,
+        "input_tokens": 2075556,
+        "output_tokens": 4169,
+        "reasoning_tokens": null
+      }
+    }
+  ],
+  "known_limitations": [
+    "Five selected tasks are not representative of SWE-bench Verified and must not be extrapolated.",
+    "One attempt per task provides no variance estimate.",
+    "The trusted per-run test plans were environment gates, not authoritative SWE-bench grading; both empty-patch runs passed those tests at base revision.",
+    "Two tasks produced no patch, so official F2P/P2P test counts are unavailable rather than inferred failures.",
+    "The trace taxonomy reports context truncation as an observable efficiency signal on all five runs; this is not asserted as a root cause.",
+    "Resource and latency figures are local Docker Desktop measurements under AMD64 emulation on ARM64, not production-scale claims."
+  ],
+  "preservation": {
+    "cv_modified": false,
+    "historical_results_modified": false,
+    "readme_modified_by_experiment": false,
+    "readme_sha256": "sha256:63e0d21274ed5096ddae477f73ad16bdd4b7b4b647119f21c2239a36404d0d79"
+  },
+  "protocol": {
+    "attempts": 5,
+    "attempts_per_instance": 1,
+    "historical_behavioral_reruns": 0,
+    "manual_intervention": false,
+    "post_hoc_tuning": false,
+    "reruns": 0,
+    "substitutions": 0
+  },
+  "regression": {
+    "controlled_deterministic": "12/12 task/public/hidden; localization F1 1.0; 72 calls; 0 unnecessary",
+    "credential_scan": "PASS: zero tracked-file hits and zero generated-artifact hits",
+    "explicit_mcp_security_trace_taxonomy_slice": "36/36 PASS",
+    "full_pytest": "181/181 PASS",
+    "prior_checkpoint_integrity": "PASS: no pre-existing checkpoint file changed",
+    "reference_integrity": "5/5 PASS; live_agent_tasks_succeeded remains null by track design",
+    "reliability": "8/8; 6/6 recoverable; 0 unsafe retries, duplicate mutations, revision divergence, budget overshoots, or unclassified errors",
+    "structural_retrieval": "default preserved; 8 cases; recall@5 1.0"
+  },
+  "result": {
+    "denominator": 5,
+    "empty_patches": 2,
+    "harness_failures": 0,
+    "percentage_for_this_frozen_cohort_only": 60.0,
+    "raw": "3/5",
+    "resolved": 3
+  },
+  "schema_version": 1,
+  "security_reliability_counters": {
+    "additional_preflight_assertions": {
+      "failures": 0,
+      "inconclusive": 5,
+      "validated_passed": 25,
+      "total": 30
+    },
+    "budget_overshoots": 0,
+    "contamination_assertions": {
+      "failures": 0,
+      "passed": 50,
+      "total": 50
+    },
+    "credential_leakage_hits": 0,
+    "duplicate_mutations": 0,
+    "harness_infrastructure_failures": 0,
+    "preflight_probe_caveat": "The per-run protected-test probe used a nonexistent test path and therefore only demonstrated rejection, not the specific protected-test rejection branch. Protected-test integrity remains evidenced by the unchanged frozen sandbox source, prior qualification, and passing post-pilot Docker/policy regression; the weak probe is not treated as standalone proof.",
+    "revision_divergence": 0,
+    "sandbox_security_assertions": {
+      "failures": 0,
+      "passed": 80,
+      "total": 80
+    },
+    "unclassified_errors": 0,
+    "unsafe_retries": 0
+  },
+  "track": "swebench_verified_deepseek_cohort2_behavioral",
+  "usage_and_cost": {
+    "cache_miss_input_tokens": 611316,
+    "cached_input_tokens": 7043968,
+    "estimated_api_cost_usd": 0.315656764,
+    "input_tokens": 7655284,
+    "output_tokens": 27816,
+    "pricing": {
+      "cache_miss_input_per_million_usd": 0.435,
+      "cached_input_per_million_usd": 0.003625,
+      "model": "deepseek-v4-pro",
+      "output_per_million_usd": 0.87,
+      "retrieved_at": "2026-08-27",
+      "source": "https://api-docs.deepseek.com/quick_start/pricing/"
+    },
+    "qualification": "Calculated only from provider-reported token usage and documented rates; not an independent billing-ledger measurement.",
+    "reasoning_tokens": null
+  }
+}

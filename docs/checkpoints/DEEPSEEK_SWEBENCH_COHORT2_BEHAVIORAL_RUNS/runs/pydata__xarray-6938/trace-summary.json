@@ -1,0 +1,66 @@
+{
+  "complete": true,
+  "errors": {
+    "by_code": {
+      "malformed_output": 1,
+      "tool_error": 5
+    },
+    "total": 6
+  },
+  "event_count": 75,
+  "final": {
+    "status": "ok",
+    "stop_reason": "iteration_limit",
+    "success": true
+  },
+  "latency_ms": {
+    "model": 179802.61550098658,
+    "run": 200374.5881659852,
+    "tool": 20506.797251087846
+  },
+  "phase_counts": {
+    "controller": 12,
+    "model": 30,
+    "run": 2,
+    "tool": 31
+  },
+  "reader_issues": [],
+  "run_id": "deepseek-cohort2-pydata__xarray-6938-e622e75b",
+  "source_schema_versions": [
+    2
+  ],
+  "status_counts": {
+    "error": 6,
+    "in_progress": 1,
+    "ok": 68
+  },
+  "summary_schema_version": 1,
+  "token_usage": {
+    "cached_tokens": 1194752,
+    "input_tokens": 1245522,
+    "output_tokens": 10053,
+    "reasoning_tokens": null
+  },
+  "tool_calls": {
+    "by_name": {
+      "git_diff": 1,
+      "list_files": 1,
+      "read_file": 15,
+      "run_tests": 1,
+      "search_code": 13
+    },
+    "by_status": {
+      "error": 5,
+      "ok": 26
+    },
+    "total": 31
+  },
+  "trace_id": "fd08d08ca0ab5f61a08a4819deb26ca8",
+  "workspace_revisions": {
+    "final": 0,
+    "observed": [
+      0
+    ],
+    "transitions": 0
+  }
+}

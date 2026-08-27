@@ -1,0 +1,66 @@
+{
+  "complete": true,
+  "errors": {
+    "by_code": {
+      "provider_error": 1,
+      "tool_error": 6
+    },
+    "total": 7
+  },
+  "event_count": 79,
+  "final": {
+    "status": "ok",
+    "stop_reason": "iteration_limit",
+    "success": true
+  },
+  "latency_ms": {
+    "model": 232185.58941592346,
+    "run": 243411.56970799784,
+    "tool": 11129.420834011398
+  },
+  "phase_counts": {
+    "controller": 14,
+    "model": 31,
+    "run": 2,
+    "tool": 32
+  },
+  "reader_issues": [],
+  "run_id": "deepseek-cohort2-mwaskom__seaborn-3187-858bc7e0",
+  "source_schema_versions": [
+    2
+  ],
+  "status_counts": {
+    "error": 7,
+    "in_progress": 1,
+    "ok": 71
+  },
+  "summary_schema_version": 1,
+  "token_usage": {
+    "cached_tokens": 1247232,
+    "input_tokens": 1302679,
+    "output_tokens": 8940,
+    "reasoning_tokens": null
+  },
+  "tool_calls": {
+    "by_name": {
+      "git_diff": 1,
+      "list_files": 1,
+      "read_file": 16,
+      "run_tests": 1,
+      "search_code": 13
+    },
+    "by_status": {
+      "error": 6,
+      "ok": 26
+    },
+    "total": 32
+  },
+  "trace_id": "a0817a70e8f450d1a5dcc9d46f43b670",
+  "workspace_revisions": {
+    "final": 0,
+    "observed": [
+      0
+    ],
+    "transitions": 0
+  }
+}

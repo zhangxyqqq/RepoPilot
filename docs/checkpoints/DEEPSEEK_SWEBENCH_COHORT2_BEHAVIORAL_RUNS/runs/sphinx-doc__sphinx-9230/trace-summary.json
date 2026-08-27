@@ -1,0 +1,70 @@
+{
+  "complete": true,
+  "errors": {
+    "by_code": {
+      "invalid_arguments": 1,
+      "tool_error": 2
+    },
+    "total": 3
+  },
+  "event_count": 53,
+  "final": {
+    "status": "ok",
+    "stop_reason": "tests_passed",
+    "success": true
+  },
+  "latency_ms": {
+    "model": 97163.41312500299,
+    "run": 110046.37937498046,
+    "tool": 12810.800416016718
+  },
+  "phase_counts": {
+    "controller": 6,
+    "model": 22,
+    "run": 2,
+    "tool": 23
+  },
+  "reader_issues": [],
+  "run_id": "deepseek-cohort2-sphinx-doc__sphinx-9230-67bdfcb5",
+  "source_schema_versions": [
+    2
+  ],
+  "status_counts": {
+    "error": 2,
+    "in_progress": 1,
+    "ok": 49,
+    "rejected": 1
+  },
+  "summary_schema_version": 1,
+  "token_usage": {
+    "cached_tokens": 1972224,
+    "input_tokens": 2075556,
+    "output_tokens": 4169,
+    "reasoning_tokens": null
+  },
+  "tool_calls": {
+    "by_name": {
+      "apply_patch": 1,
+      "git_diff": 1,
+      "list_files": 1,
+      "read_file": 7,
+      "run_tests": 3,
+      "search_code": 10
+    },
+    "by_status": {
+      "error": 2,
+      "ok": 20,
+      "rejected": 1
+    },
+    "total": 23
+  },
+  "trace_id": "687d9c0f7b765afea9c28f0be299e376",
+  "workspace_revisions": {
+    "final": 1,
+    "observed": [
+      0,
+      1
+    ],
+    "transitions": 1
+  }
+}

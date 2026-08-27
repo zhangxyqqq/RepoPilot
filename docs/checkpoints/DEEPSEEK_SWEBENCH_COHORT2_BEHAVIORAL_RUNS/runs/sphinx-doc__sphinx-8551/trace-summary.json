@@ -1,0 +1,67 @@
+{
+  "complete": true,
+  "errors": {
+    "by_code": {
+      "tool_error": 1
+    },
+    "total": 1
+  },
+  "event_count": 45,
+  "final": {
+    "status": "ok",
+    "stop_reason": "tests_passed",
+    "success": true
+  },
+  "latency_ms": {
+    "model": 85767.53608498257,
+    "run": 94294.19570800383,
+    "tool": 8458.062000019709
+  },
+  "phase_counts": {
+    "controller": 2,
+    "model": 20,
+    "run": 2,
+    "tool": 21
+  },
+  "reader_issues": [],
+  "run_id": "deepseek-cohort2-sphinx-doc__sphinx-8551-44031ae7",
+  "source_schema_versions": [
+    2
+  ],
+  "status_counts": {
+    "error": 1,
+    "in_progress": 1,
+    "ok": 43
+  },
+  "summary_schema_version": 1,
+  "token_usage": {
+    "cached_tokens": 1742336,
+    "input_tokens": 1848481,
+    "output_tokens": 4133,
+    "reasoning_tokens": null
+  },
+  "tool_calls": {
+    "by_name": {
+      "apply_patch": 1,
+      "git_diff": 1,
+      "list_files": 1,
+      "read_file": 12,
+      "run_tests": 1,
+      "search_code": 5
+    },
+    "by_status": {
+      "error": 1,
+      "ok": 20
+    },
+    "total": 21
+  },
+  "trace_id": "d586b0e9d4815eb9bd88d7ecdbb8ccea",
+  "workspace_revisions": {
+    "final": 1,
+    "observed": [
+      0,
+      1
+    ],
+    "transitions": 1
+  }
+}

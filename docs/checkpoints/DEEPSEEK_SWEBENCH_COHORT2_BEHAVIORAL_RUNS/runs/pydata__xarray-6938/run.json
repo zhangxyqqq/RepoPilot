@@ -1,0 +1,576 @@
+{
+  "base_commit": "c4e40d991c28be51de9ac560ce895ac7f9b14924",
+  "behavior_metrics": {
+    "action_counts": {
+      "final": 0,
+      "plan": 0,
+      "tool": 29
+    },
+    "controller_finalization_calls": 2,
+    "duplicate_mutations": 0,
+    "malformed_actions": 1,
+    "model_errors": 1,
+    "model_turns": 29,
+    "plan_only_before_first_tool": false,
+    "recovery_decisions": 6,
+    "recovery_outcomes": 6,
+    "rejected_tool_calls": 5,
+    "repeated_identical_calls_same_revision": 0,
+    "test_latency_ms": 11463.765084015904,
+    "time_to_first_model_tool_call_ms": 3334.006,
+    "tool_calls_by_origin": {
+      "controller": 2,
+      "model": 29
+    }
+  },
+  "changed_files": [],
+  "credential_leakage_hits": 0,
+  "failure_analysis": {
+    "classifications": [
+      {
+        "attribution_confidence": "deterministic_rule",
+        "evidence_event_ids": [
+          "57fea26d13325fab8237941c5ed3b219"
+        ],
+        "fault_origin": "natural",
+        "label": "controller.iteration_limit",
+        "observable_signal": "controller iteration limit reached",
+        "outcome_impact": "task_failure",
+        "phase": "controller",
+        "recoverability": "non_retryable"
+      },
+      {
+        "attribution_confidence": "deterministic_rule",
+        "evidence_event_ids": [
+          "22277a0d469158e098c01682ae9103b7"
+        ],
+        "fault_origin": "natural",
+        "label": "model.malformed_output",
+        "observable_signal": "model output could not be parsed",
+        "outcome_impact": "task_failure",
+        "phase": "model",
+        "recoverability": "recovered"
+      },
+      {
+        "attribution_confidence": "deterministic_rule",
+        "evidence_event_ids": [
+          "0d6e3b400d245098b791406f34969eed"
+        ],
+        "fault_origin": "natural",
+        "label": "retrieval.context_truncated",
+        "observable_signal": "repository context was truncated",
+        "outcome_impact": "informational",
+        "phase": "retrieval",
+        "recoverability": "unknown"
+      },
+      {
+        "attribution_confidence": "deterministic_rule",
+        "evidence_event_ids": [
+          "087995a399245280ad514c61b0e1fbc2",
+          "b1107213337d5dabb7b4975ae71368e6",
+          "d1d190302c0b5f699060db2b7a53fe41",
+          "d4f095369de45fee9714c4c2818db9cc",
+          "ef8d200c796c5697bf57b96c0965ed23"
+        ],
+        "fault_origin": "natural",
+        "label": "tool.execution_error",
+        "observable_signal": "tool execution returned an error",
+        "outcome_impact": "task_failure",
+        "phase": "tool",
+        "recoverability": "recovered"
+      }
+    ],
+    "evidence_availability": "complete",
+    "historical_missing_evidence": false,
+    "injected_faults": [],
+    "manual_hypotheses": [],
+    "observed_facts": [
+      {
+        "evidence_event_ids": [
+          "57fea26d13325fab8237941c5ed3b219"
+        ],
+        "fact": "controller iteration limit reached",
+        "source": "observed_trace_or_evaluation_fact"
+      },
+      {
+        "evidence_event_ids": [
+          "22277a0d469158e098c01682ae9103b7"
+        ],
+        "fact": "model output could not be parsed",
+        "source": "observed_trace_or_evaluation_fact"
+      },
+      {
+        "evidence_event_ids": [
+          "0d6e3b400d245098b791406f34969eed"
+        ],
+        "fact": "repository context was truncated",
+        "source": "observed_trace_or_evaluation_fact"
+      },
+      {
+        "evidence_event_ids": [
+          "087995a399245280ad514c61b0e1fbc2",
+          "b1107213337d5dabb7b4975ae71368e6",
+          "d1d190302c0b5f699060db2b7a53fe41",
+          "d4f095369de45fee9714c4c2818db9cc",
+          "ef8d200c796c5697bf57b96c0965ed23"
+        ],
+        "fact": "tool execution returned an error",
+        "source": "observed_trace_or_evaluation_fact"
+      }
+    ],
+    "recovery_decisions": [
+      {
+        "action": "return_to_model",
+        "attempt": 1,
+        "event_id": "d94296631dfd5259adf725658b11d667",
+        "evidence_event_ids": [
+          "d1d190302c0b5f699060db2b7a53fe41"
+        ],
+        "execution_state": "post_execution",
+        "fault_type": null,
+        "injected": false,
+        "operation_class": "safe_read",
+        "policy_version": 1,
+        "reason": "failure evidence is returned without automatic replay",
+        "remaining_deadline_ms": 276667.6062500046,
+        "remaining_retry_budget": 1,
+        "retryable": false,
+        "revision_after": 0,
+        "revision_before": 0,
+        "unsafe": false
+      },
+      {
+        "action": "return_to_model",
+        "attempt": 1,
+        "event_id": "46548a0daa1f55a4b037ed87edcfaec1",
+        "evidence_event_ids": [
+          "ef8d200c796c5697bf57b96c0965ed23"
+        ],
+        "execution_state": "post_execution",
+        "fault_type": null,
+        "injected": false,
+        "operation_class": "safe_read",
+        "policy_version": 1,
+        "reason": "failure evidence is returned without automatic replay",
+        "remaining_deadline_ms": 228170.76254202402,
+        "remaining_retry_budget": 1,
+        "retryable": false,
+        "revision_after": 0,
+        "revision_before": 0,
+        "unsafe": false
+      },
+      {
+        "action": "return_to_model",
+        "attempt": 1,
+        "event_id": "5ae2a41b7d4e5a768f77f293fe440bab",
+        "evidence_event_ids": [
+          "b1107213337d5dabb7b4975ae71368e6"
+        ],
+        "execution_state": "post_execution",
+        "fault_type": null,
+        "injected": false,
+        "operation_class": "safe_read",
+        "policy_version": 1,
+        "reason": "failure evidence is returned without automatic replay",
+        "remaining_deadline_ms": 203647.36825000728,
+        "remaining_retry_budget": 1,
+        "retryable": false,
+        "revision_after": 0,
+        "revision_before": 0,
+        "unsafe": false
+      },
+      {
+        "action": "return_to_model",
+        "attempt": 1,
+        "event_id": "6befbbaaac2454af91eba3935d8892b5",
+        "evidence_event_ids": [
+          "22277a0d469158e098c01682ae9103b7"
+        ],
+        "execution_state": "post_execution",
+        "fault_type": null,
+        "injected": false,
+        "operation_class": "model",
+        "policy_version": 1,
+        "reason": "malformed model evidence is returned to the next normal reasoning iteration",
+        "remaining_deadline_ms": 191320.17404201906,
+        "remaining_retry_budget": 2,
+        "retryable": false,
+        "revision_after": 0,
+        "revision_before": 0,
+        "unsafe": false
+      },
+      {
+        "action": "return_to_model",
+        "attempt": 1,
+        "event_id": "1574d2e0effe522798f918c3a05f272f",
+        "evidence_event_ids": [
+          "d4f095369de45fee9714c4c2818db9cc"
+        ],
+        "execution_state": "post_execution",
+        "fault_type": null,
+        "injected": false,
+        "operation_class": "safe_read",
+        "policy_version": 1,
+        "reason": "failure evidence is returned without automatic replay",
+        "remaining_deadline_ms": 156165.83675000584,
+        "remaining_retry_budget": 1,
+        "retryable": false,
+        "revision_after": 0,
+        "revision_before": 0,
+        "unsafe": false
+      },
+      {
+        "action": "return_to_model",
+        "attempt": 1,
+        "event_id": "a69297317f4055099e9102555e54e7a6",
+        "evidence_event_ids": [
+          "087995a399245280ad514c61b0e1fbc2"
+        ],
+        "execution_state": "post_execution",
+        "fault_type": null,
+        "injected": false,
+        "operation_class": "safe_read",
+        "policy_version": 1,
+        "reason": "failure evidence is returned without automatic replay",
+        "remaining_deadline_ms": 111462.55833402392,
+        "remaining_retry_budget": 1,
+        "retryable": false,
+        "revision_after": 0,
+        "revision_before": 0,
+        "unsafe": false
+      }
+    ],
+    "taxonomy": {
+      "schema_version": 1,
+      "source": "/private/tmp/repopilot-cohort2-behavioral-runtime-083f349/configs/evaluation/failure_taxonomy.v1.json",
+      "taxonomy_id": "repopilot-failures",
+      "version": 1
+    },
+    "terminal_reason": {
+      "classification": "failure_label",
+      "evidence_event_ids": [
+        "57fea26d13325fab8237941c5ed3b219"
+      ],
+      "stop_reason": "iteration_limit"
+    },
+    "unclassified_error_count": 0,
+    "unclassified_error_event_ids": []
+  },
+  "final_diff": "",
+  "final_message": "Model error: ValueError: DeepSeek returned invalid JSON arguments for run_tests",
+  "final_test": {
+    "exit_code": 0,
+    "output": "........................................................................ [  3%]\n........................................................................ [  6%]\n........................................................................ [  9%]\n........................................................................ [ 12%]\n........................................................................ [ 15%]\n........................................................................ [ 18%]\n........................................................................ [ 21%]\n........................................................................ [ 24%]\n........................................................................ [ 27%]\n........................................................................ [ 30%]\n........................................................................ [ 34%]\n........................................................................ [ 37%]\n........................................................................ [ 40%]\n........................................................................ [ 43%]\n........................................................................ [ 46%]\n........................................................................ [ 49%]\n........................................................................ [ 52%]\n........................................................................ [ 55%]\n........................................................................ [ 58%]\n........................................................................ [ 61%]\n........................................................................ [ 65%]\n........................................................................ [ 68%]\n........................................................................ [ 71%]\n........................................................................ [ 74%]\n........................................................................ [ 77%]\n........................................................................ [ 80%]\n........................................................................ [ 83%]\n........................................................................ [ 86%]\n........................................................................ [ 89%]\n........................................................................ [ 92%]\n........................................................................ [ 96%]\n........................................................................ [ 99%]\n...................                                                      [100%]\n=============================== warnings summary ===============================\nxarray/tests/test_cftime_offsets.py: 12 warnings\n  /testbed/xarray/coding/cftime_offsets.py:1130: FutureWarning: Argument `closed` is deprecated in favor of `inclusive`.\n    return pd.date_range(\n\nxarray/tests/test_cftime_offsets.py::test_date_range_like[2020-02-01-4M-standard-noleap-None-2020-02-28-False]\nxarray/tests/test_cftime_offsets.py::test_date_range_like[2020-02-01-M-noleap-gregorian-True-2020-02-29-True]\nxarray/tests/test_cftime_offsets.py::test_date_range_like[2020-02-28-3H-all_leap-gregorian-False-2020-02-28-True]\nxarray/tests/test_cftime_offsets.py::test_date_range_like[2020-03-30-M-360_day-gregorian-False-2020-03-31-True]\nxarray/tests/test_cftime_offsets.py::test_date_range_like[2020-03-31-M-gregorian-360_day-None-2020-03-30-False]\n  /testbed/xarray/coding/times.py:365: FutureWarning: Index.ravel returning ndarray is deprecated; in a future version this will return a view on self.\n    sample = dates.ravel()[0]\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n2323 passed, 17 warnings in 6.35s\n",
+    "passed": true,
+    "timed_out": false,
+    "truncated": false
+  },
+  "instance_id": "pydata__xarray-6938",
+  "iterations": 30,
+  "latency_ms": 200374.5881659852,
+  "official_grading": {
+    "fail_to_pass": {
+      "failed": null,
+      "passed": 0,
+      "total": null
+    },
+    "failure": "empty prediction; official harness has no patch to execute",
+    "harness_executed": false,
+    "infra_failure": false,
+    "pass_to_pass": {
+      "failed": null,
+      "passed": 0,
+      "total": null
+    },
+    "report_available": false,
+    "resolved": false
+  },
+  "prediction": {
+    "instance_id": "pydata__xarray-6938",
+    "model_name_or_path": "repopilot-deepseek-v4-pro-cohort2",
+    "model_patch": ""
+  },
+  "prediction_nonempty": false,
+  "preflight": {
+    "additional_assertions": {
+      "assertions": {
+        "arbitrary_shell_absent": true,
+        "initialization_artifacts_clean": true,
+        "model_selected_test_command_absent": true,
+        "patch_validation_active": true,
+        "path_validation_active": true,
+        "protected_test_integrity_active": true
+      },
+      "passed": true,
+      "probe_outputs": {
+        "path_traversal_probe": {
+          "error": "ValueError: path must remain inside the repository workspace",
+          "latency_ms": 202.99045799765736,
+          "ok": false
+        },
+        "protected_test_edit_probe": {
+          "error": "FileNotFoundError: [Errno 2] No such file or directory: '/testbed/tests'",
+          "latency_ms": 206.84554101899266,
+          "ok": false
+        }
+      },
+      "scan": {
+        "forbidden_blob_hash_hits": [],
+        "forbidden_name_hits": [],
+        "passed": true
+      }
+    },
+    "credential_host_side_only": true,
+    "passed": true,
+    "qualified_gates": {
+      "contamination": {
+        "assertions": {
+          "canonical_six_tool_surface": true,
+          "container_environment_credentials_absent": true,
+          "forbidden_host_roots_not_mounted": true,
+          "forbidden_roots_configured": true,
+          "model_prompt_clean": true,
+          "preflight_tools_executed_without_error": true,
+          "repository_context_clean": true,
+          "sampled_read_only_tool_outputs_clean": true,
+          "staged_worktree_names_and_blobs_absent": true,
+          "tool_schemas_clean": true
+        },
+        "assertions_passed": 10,
+        "assertions_total": 10,
+        "forbidden_blob_count": 3,
+        "passed": true,
+        "prompt_scan": {
+          "forbidden_blob_hash_hits": [],
+          "forbidden_name_hits": [],
+          "passed": true
+        },
+        "repository_context_scan": {
+          "forbidden_blob_hash_hits": [],
+          "forbidden_name_hits": [],
+          "passed": true
+        },
+        "sensitive_environment_variable_names": [],
+        "tool_output_scan": {
+          "forbidden_blob_hash_hits": [],
+          "forbidden_name_hits": [],
+          "passed": true
+        },
+        "tool_schema_scan": {
+          "forbidden_blob_hash_hits": [],
+          "forbidden_name_hits": [],
+          "passed": true
+        },
+        "workspace_scan": {
+          "forbidden_blob_hash_hits": [],
+          "forbidden_name_hits": [],
+          "passed": true
+        }
+      },
+      "passed": true,
+      "security": {
+        "assertions": {
+          "capabilities_dropped": true,
+          "cpu_bounded": true,
+          "credentials_absent": true,
+          "docker_socket_absent": true,
+          "forbidden_host_roots_not_mounted": true,
+          "host_home_not_mounted": true,
+          "memory_bounded": true,
+          "network_disabled": true,
+          "no_new_privileges": true,
+          "non_root_user": true,
+          "only_staged_workspace_writable": true,
+          "pids_bounded": true,
+          "root_filesystem_read_only": true,
+          "runner_bundle_read_only": true,
+          "ssh_agent_not_mounted": true,
+          "staged_revision_matches": true
+        },
+        "evidence": {
+          "cap_drop": [
+            "ALL"
+          ],
+          "container_user": "10001:10001",
+          "environment_variable_names": [
+            "HOME",
+            "PATH",
+            "PYTHONDONTWRITEBYTECODE",
+            "REPOPILOT_TRUSTED_TEST_COMMAND",
+            "REPOPILOT_WORKSPACE",
+            "TZ"
+          ],
+          "memory_bytes": 536870912,
+          "nano_cpus": 1000000000,
+          "network_mode": "none",
+          "pids_limit": 128,
+          "read_only_mount_destinations": [
+            "/opt/repopilot"
+          ],
+          "read_only_rootfs": true,
+          "read_write_mount_destinations": [
+            "/testbed"
+          ],
+          "security_opt": [
+            "no-new-privileges"
+          ],
+          "staged_revision": "c4e40d991c28be51de9ac560ce895ac7f9b14924"
+        },
+        "passed": true
+      }
+    },
+    "trusted_test_plan_hash": "sha256:7395a73cace6c882a3d2020fe7ea6952180ecbffaf8fedcb250b92f212de87e6"
+  },
+  "profile": {
+    "cohort_content_hash": "sha256:f6c2a0fbc45432b7e688679ac04dcd89f4dcb777193e78df664dc2dc87789156",
+    "file_sha256": "sha256:5373c1dbc76765f301f2fc33b93c840b65fd779e513470ec27f872773ee3a36d",
+    "path": "/private/tmp/repopilot-cohort2-behavioral-runtime-083f349/configs/evaluation/swebench_verified_deepseek_cohort2.v1.json"
+  },
+  "repair_cycles": 0,
+  "run_id": "deepseek-cohort2-pydata__xarray-6938-e622e75b",
+  "stop_reason": "iteration_limit",
+  "success": true,
+  "tool_calls": 31,
+  "trace_reconciliation": {
+    "available": true,
+    "checks": {
+      "final_status": {
+        "actual": "ok",
+        "expected": "ok",
+        "match": true
+      },
+      "model_latency_ms": {
+        "actual": 179802.61550098658,
+        "expected": 179802.61550098658,
+        "match": true
+      },
+      "run_latency_ms": {
+        "actual": 200374.5881659852,
+        "expected": 200374.5881659852,
+        "match": true
+      },
+      "stop_reason": {
+        "actual": "iteration_limit",
+        "expected": "iteration_limit",
+        "match": true
+      },
+      "token_usage": {
+        "actual": {
+          "cached_tokens": 1194752,
+          "input_tokens": 1245522,
+          "output_tokens": 10053,
+          "reasoning_tokens": null
+        },
+        "expected": {
+          "cached_tokens": 1194752,
+          "input_tokens": 1245522,
+          "output_tokens": 10053,
+          "reasoning_tokens": null
+        },
+        "match": true
+      },
+      "tool_count": {
+        "actual": 31,
+        "expected": 31,
+        "match": true
+      },
+      "tool_latency_ms": {
+        "actual": 20506.797251087846,
+        "expected": 20506.797251087846,
+        "match": true
+      },
+      "workspace_revisions": {
+        "actual": {
+          "final": 0,
+          "observed": [
+            0
+          ],
+          "transitions": 0
+        },
+        "expected": {
+          "final": 0,
+          "observed": [
+            0
+          ],
+          "transitions": 0
+        },
+        "match": true
+      }
+    },
+    "passed": true
+  },
+  "trace_summary": {
+    "complete": true,
+    "errors": {
+      "by_code": {
+        "malformed_output": 1,
+        "tool_error": 5
+      },
+      "total": 6
+    },
+    "event_count": 75,
+    "final": {
+      "status": "ok",
+      "stop_reason": "iteration_limit",
+      "success": true
+    },
+    "latency_ms": {
+      "model": 179802.61550098658,
+      "run": 200374.5881659852,
+      "tool": 20506.797251087846
+    },
+    "phase_counts": {
+      "controller": 12,
+      "model": 30,
+      "run": 2,
+      "tool": 31
+    },
+    "reader_issues": [],
+    "run_id": "deepseek-cohort2-pydata__xarray-6938-e622e75b",
+    "source_schema_versions": [
+      2
+    ],
+    "status_counts": {
+      "error": 6,
+      "in_progress": 1,
+      "ok": 68
+    },
+    "summary_schema_version": 1,
+    "token_usage": {
+      "cached_tokens": 1194752,
+      "input_tokens": 1245522,
+      "output_tokens": 10053,
+      "reasoning_tokens": null
+    },
+    "tool_calls": {
+      "by_name": {
+        "git_diff": 1,
+        "list_files": 1,
+        "read_file": 15,
+        "run_tests": 1,
+        "search_code": 13
+      },
+      "by_status": {
+        "error": 5,
+        "ok": 26
+      },
+      "total": 31
+    },
+    "trace_id": "fd08d08ca0ab5f61a08a4819deb26ca8",
+    "workspace_revisions": {
+      "final": 0,
+      "observed": [
+        0
+      ],
+      "transitions": 0
+    }
+  },
+  "trajectory_path": "/private/tmp/repopilot-deepseek-cohort2-behavioral-v1/runs/pydata__xarray-6938/trajectory.jsonl",
+  "unnecessary_tool_calls": 5,
+  "usage": {
+    "cached_tokens": 1194752,
+    "input_tokens": 1245522,
+    "output_tokens": 10053,
+    "reasoning_tokens": null
+  }
+}

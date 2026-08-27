@@ -1,0 +1,15 @@
+Running 1 instances...
+All instances run.
+Total instances: 1
+Instances submitted: 1
+Instances completed: 1
+Instances incomplete: 0
+Instances resolved: 1
+Instances unresolved: 0
+Instances with likely infrastructure failures: 0
+Instances with ambiguous failures: 0
+Instances with empty patches: 0
+Instances with errors: 0
+Unstopped containers: 0
+Unremoved images: 1
+Report written to /private/tmp/repopilot-deepseek-cohort2-behavioral-v1/runs/pylint-dev__pylint-7277/official-grading/repopilot-deepseek-v4-pro-cohort2.repopilot_deepseek_cohort2_behavioral_v1_pylint_dev_pylint_7277.json

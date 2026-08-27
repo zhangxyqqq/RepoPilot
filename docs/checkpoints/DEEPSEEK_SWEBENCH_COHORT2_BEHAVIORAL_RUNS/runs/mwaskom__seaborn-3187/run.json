@@ -1,0 +1,598 @@
+{
+  "base_commit": "22cdfb0c93f8ec78492d87edb810f10cb7f57a31",
+  "behavior_metrics": {
+    "action_counts": {
+      "final": 0,
+      "plan": 0,
+      "tool": 30
+    },
+    "controller_finalization_calls": 2,
+    "duplicate_mutations": 0,
+    "malformed_actions": 0,
+    "model_errors": 1,
+    "model_turns": 30,
+    "plan_only_before_first_tool": false,
+    "recovery_decisions": 7,
+    "recovery_outcomes": 7,
+    "rejected_tool_calls": 6,
+    "repeated_identical_calls_same_revision": 0,
+    "test_latency_ms": 2743.161708000116,
+    "time_to_first_model_tool_call_ms": 3167.7650000000003,
+    "tool_calls_by_origin": {
+      "controller": 2,
+      "model": 30
+    }
+  },
+  "changed_files": [],
+  "credential_leakage_hits": 0,
+  "failure_analysis": {
+    "classifications": [
+      {
+        "attribution_confidence": "deterministic_rule",
+        "evidence_event_ids": [
+          "3adf621c8a3251019dc8ecd38b05c80e"
+        ],
+        "fault_origin": "natural",
+        "label": "controller.iteration_limit",
+        "observable_signal": "controller iteration limit reached",
+        "outcome_impact": "task_failure",
+        "phase": "controller",
+        "recoverability": "non_retryable"
+      },
+      {
+        "attribution_confidence": "deterministic_rule",
+        "evidence_event_ids": [
+          "0ef0a568c0f254b7acd1ec9306d83c4d"
+        ],
+        "fault_origin": "natural",
+        "label": "model.provider_error",
+        "observable_signal": "provider boundary returned an error",
+        "outcome_impact": "task_failure",
+        "phase": "model",
+        "recoverability": "recovered"
+      },
+      {
+        "attribution_confidence": "deterministic_rule",
+        "evidence_event_ids": [
+          "3eb623a9c248557aacc6d84fca6bbddb"
+        ],
+        "fault_origin": "natural",
+        "label": "retrieval.context_truncated",
+        "observable_signal": "repository context was truncated",
+        "outcome_impact": "informational",
+        "phase": "retrieval",
+        "recoverability": "unknown"
+      },
+      {
+        "attribution_confidence": "deterministic_rule",
+        "evidence_event_ids": [
+          "043eb439c23154a79d52afb5bfcfc643",
+          "0f4cd62b9da45398911ed3da4ab2f58a",
+          "2a2b68fe280556929500a240fa7fb3f7",
+          "6effd177596d55778ac7e91bc45fe35a",
+          "a3f88d5817f85b199a6288a74ac0d117",
+          "bec749f6ee0853efb009c672e09cf130"
+        ],
+        "fault_origin": "natural",
+        "label": "tool.execution_error",
+        "observable_signal": "tool execution returned an error",
+        "outcome_impact": "task_failure",
+        "phase": "tool",
+        "recoverability": "recovered"
+      }
+    ],
+    "evidence_availability": "complete",
+    "historical_missing_evidence": false,
+    "injected_faults": [],
+    "manual_hypotheses": [],
+    "observed_facts": [
+      {
+        "evidence_event_ids": [
+          "3adf621c8a3251019dc8ecd38b05c80e"
+        ],
+        "fact": "controller iteration limit reached",
+        "source": "observed_trace_or_evaluation_fact"
+      },
+      {
+        "evidence_event_ids": [
+          "0ef0a568c0f254b7acd1ec9306d83c4d"
+        ],
+        "fact": "provider boundary returned an error",
+        "source": "observed_trace_or_evaluation_fact"
+      },
+      {
+        "evidence_event_ids": [
+          "3eb623a9c248557aacc6d84fca6bbddb"
+        ],
+        "fact": "repository context was truncated",
+        "source": "observed_trace_or_evaluation_fact"
+      },
+      {
+        "evidence_event_ids": [
+          "043eb439c23154a79d52afb5bfcfc643",
+          "0f4cd62b9da45398911ed3da4ab2f58a",
+          "2a2b68fe280556929500a240fa7fb3f7",
+          "6effd177596d55778ac7e91bc45fe35a",
+          "a3f88d5817f85b199a6288a74ac0d117",
+          "bec749f6ee0853efb009c672e09cf130"
+        ],
+        "fact": "tool execution returned an error",
+        "source": "observed_trace_or_evaluation_fact"
+      }
+    ],
+    "recovery_decisions": [
+      {
+        "action": "return_to_model",
+        "attempt": 1,
+        "event_id": "f04b6cf26ef85b9886f3a5bba90100ec",
+        "evidence_event_ids": [
+          "043eb439c23154a79d52afb5bfcfc643"
+        ],
+        "execution_state": "post_execution",
+        "fault_type": null,
+        "injected": false,
+        "operation_class": "safe_read",
+        "policy_version": 1,
+        "reason": "failure evidence is returned without automatic replay",
+        "remaining_deadline_ms": 273584.7062919929,
+        "remaining_retry_budget": 1,
+        "retryable": false,
+        "revision_after": 0,
+        "revision_before": 0,
+        "unsafe": false
+      },
+      {
+        "action": "return_to_model",
+        "attempt": 1,
+        "event_id": "d6a6007c92e356e7b45b30c3b7c7f265",
+        "evidence_event_ids": [
+          "2a2b68fe280556929500a240fa7fb3f7"
+        ],
+        "execution_state": "post_execution",
+        "fault_type": null,
+        "injected": false,
+        "operation_class": "safe_read",
+        "policy_version": 1,
+        "reason": "failure evidence is returned without automatic replay",
+        "remaining_deadline_ms": 267607.5614170113,
+        "remaining_retry_budget": 1,
+        "retryable": false,
+        "revision_after": 0,
+        "revision_before": 0,
+        "unsafe": false
+      },
+      {
+        "action": "return_to_model",
+        "attempt": 1,
+        "event_id": "c05a1185fbc652e7a59b777d6f7ec24a",
+        "evidence_event_ids": [
+          "a3f88d5817f85b199a6288a74ac0d117"
+        ],
+        "execution_state": "post_execution",
+        "fault_type": null,
+        "injected": false,
+        "operation_class": "safe_read",
+        "policy_version": 1,
+        "reason": "failure evidence is returned without automatic replay",
+        "remaining_deadline_ms": 262814.4755839894,
+        "remaining_retry_budget": 1,
+        "retryable": false,
+        "revision_after": 0,
+        "revision_before": 0,
+        "unsafe": false
+      },
+      {
+        "action": "return_to_model",
+        "attempt": 1,
+        "event_id": "83b3e3bd0afc5c5f9b2f81450d8005b5",
+        "evidence_event_ids": [
+          "0f4cd62b9da45398911ed3da4ab2f58a"
+        ],
+        "execution_state": "post_execution",
+        "fault_type": null,
+        "injected": false,
+        "operation_class": "safe_read",
+        "policy_version": 1,
+        "reason": "failure evidence is returned without automatic replay",
+        "remaining_deadline_ms": 258521.81662499788,
+        "remaining_retry_budget": 1,
+        "retryable": false,
+        "revision_after": 0,
+        "revision_before": 0,
+        "unsafe": false
+      },
+      {
+        "action": "return_to_model",
+        "attempt": 1,
+        "event_id": "3806b8f9d300530d86ff51599d23f47e",
+        "evidence_event_ids": [
+          "bec749f6ee0853efb009c672e09cf130"
+        ],
+        "execution_state": "post_execution",
+        "fault_type": null,
+        "injected": false,
+        "operation_class": "safe_read",
+        "policy_version": 1,
+        "reason": "failure evidence is returned without automatic replay",
+        "remaining_deadline_ms": 253571.68233400444,
+        "remaining_retry_budget": 1,
+        "retryable": false,
+        "revision_after": 0,
+        "revision_before": 0,
+        "unsafe": false
+      },
+      {
+        "action": "return_to_model",
+        "attempt": 1,
+        "event_id": "38c04079a51d5b029a417df11534b6f0",
+        "evidence_event_ids": [
+          "6effd177596d55778ac7e91bc45fe35a"
+        ],
+        "execution_state": "post_execution",
+        "fault_type": null,
+        "injected": false,
+        "operation_class": "safe_read",
+        "policy_version": 1,
+        "reason": "failure evidence is returned without automatic replay",
+        "remaining_deadline_ms": 227379.20020899037,
+        "remaining_retry_budget": 1,
+        "retryable": false,
+        "revision_after": 0,
+        "revision_before": 0,
+        "unsafe": false
+      },
+      {
+        "action": "retry_model",
+        "attempt": 1,
+        "event_id": "fa2a2d91dccb5f6497a53b3f5b8810ee",
+        "evidence_event_ids": [
+          "0ef0a568c0f254b7acd1ec9306d83c4d"
+        ],
+        "execution_state": "pre_execution",
+        "fault_type": null,
+        "injected": false,
+        "operation_class": "model",
+        "policy_version": 1,
+        "reason": "retryable provider failure occurred before a model turn",
+        "remaining_deadline_ms": 85284.5690420072,
+        "remaining_retry_budget": 2,
+        "retryable": true,
+        "revision_after": 0,
+        "revision_before": 0,
+        "unsafe": false
+      }
+    ],
+    "taxonomy": {
+      "schema_version": 1,
+      "source": "/private/tmp/repopilot-cohort2-behavioral-runtime-083f349/configs/evaluation/failure_taxonomy.v1.json",
+      "taxonomy_id": "repopilot-failures",
+      "version": 1
+    },
+    "terminal_reason": {
+      "classification": "failure_label",
+      "evidence_event_ids": [
+        "3adf621c8a3251019dc8ecd38b05c80e"
+      ],
+      "stop_reason": "iteration_limit"
+    },
+    "unclassified_error_count": 0,
+    "unclassified_error_event_ids": []
+  },
+  "final_diff": "",
+  "final_message": "Model error: APITimeoutError: Request timed out.",
+  "final_test": {
+    "exit_code": 0,
+    "output": ".                                                                        [100%]\n1 passed in 1.32s\n",
+    "passed": true,
+    "timed_out": false,
+    "truncated": false
+  },
+  "instance_id": "mwaskom__seaborn-3187",
+  "iterations": 30,
+  "latency_ms": 243411.56970799784,
+  "official_grading": {
+    "fail_to_pass": {
+      "failed": null,
+      "passed": 0,
+      "total": null
+    },
+    "failure": "empty prediction; official harness has no patch to execute",
+    "harness_executed": false,
+    "infra_failure": false,
+    "pass_to_pass": {
+      "failed": null,
+      "passed": 0,
+      "total": null
+    },
+    "report_available": false,
+    "resolved": false
+  },
+  "prediction": {
+    "instance_id": "mwaskom__seaborn-3187",
+    "model_name_or_path": "repopilot-deepseek-v4-pro-cohort2",
+    "model_patch": ""
+  },
+  "prediction_nonempty": false,
+  "preflight": {
+    "additional_assertions": {
+      "assertions": {
+        "arbitrary_shell_absent": true,
+        "initialization_artifacts_clean": true,
+        "model_selected_test_command_absent": true,
+        "patch_validation_active": true,
+        "path_validation_active": true,
+        "protected_test_integrity_active": true
+      },
+      "passed": true,
+      "probe_outputs": {
+        "path_traversal_probe": {
+          "error": "ValueError: path must remain inside the repository workspace",
+          "latency_ms": 208.4112919983454,
+          "ok": false
+        },
+        "protected_test_edit_probe": {
+          "error": "FileNotFoundError: [Errno 2] No such file or directory: '/testbed/tests/repopilot_forbidden_probe.py'",
+          "latency_ms": 204.87741602119058,
+          "ok": false
+        }
+      },
+      "scan": {
+        "forbidden_blob_hash_hits": [],
+        "forbidden_name_hits": [],
+        "passed": true
+      }
+    },
+    "credential_host_side_only": true,
+    "passed": true,
+    "qualified_gates": {
+      "contamination": {
+        "assertions": {
+          "canonical_six_tool_surface": true,
+          "container_environment_credentials_absent": true,
+          "forbidden_host_roots_not_mounted": true,
+          "forbidden_roots_configured": true,
+          "model_prompt_clean": true,
+          "preflight_tools_executed_without_error": true,
+          "repository_context_clean": true,
+          "sampled_read_only_tool_outputs_clean": true,
+          "staged_worktree_names_and_blobs_absent": true,
+          "tool_schemas_clean": true
+        },
+        "assertions_passed": 10,
+        "assertions_total": 10,
+        "forbidden_blob_count": 3,
+        "passed": true,
+        "prompt_scan": {
+          "forbidden_blob_hash_hits": [],
+          "forbidden_name_hits": [],
+          "passed": true
+        },
+        "repository_context_scan": {
+          "forbidden_blob_hash_hits": [],
+          "forbidden_name_hits": [],
+          "passed": true
+        },
+        "sensitive_environment_variable_names": [],
+        "tool_output_scan": {
+          "forbidden_blob_hash_hits": [],
+          "forbidden_name_hits": [],
+          "passed": true
+        },
+        "tool_schema_scan": {
+          "forbidden_blob_hash_hits": [],
+          "forbidden_name_hits": [],
+          "passed": true
+        },
+        "workspace_scan": {
+          "forbidden_blob_hash_hits": [],
+          "forbidden_name_hits": [],
+          "passed": true
+        }
+      },
+      "passed": true,
+      "security": {
+        "assertions": {
+          "capabilities_dropped": true,
+          "cpu_bounded": true,
+          "credentials_absent": true,
+          "docker_socket_absent": true,
+          "forbidden_host_roots_not_mounted": true,
+          "host_home_not_mounted": true,
+          "memory_bounded": true,
+          "network_disabled": true,
+          "no_new_privileges": true,
+          "non_root_user": true,
+          "only_staged_workspace_writable": true,
+          "pids_bounded": true,
+          "root_filesystem_read_only": true,
+          "runner_bundle_read_only": true,
+          "ssh_agent_not_mounted": true,
+          "staged_revision_matches": true
+        },
+        "evidence": {
+          "cap_drop": [
+            "ALL"
+          ],
+          "container_user": "10001:10001",
+          "environment_variable_names": [
+            "HOME",
+            "PATH",
+            "PYTHONDONTWRITEBYTECODE",
+            "REPOPILOT_TRUSTED_TEST_COMMAND",
+            "REPOPILOT_WORKSPACE",
+            "TZ"
+          ],
+          "memory_bytes": 536870912,
+          "nano_cpus": 1000000000,
+          "network_mode": "none",
+          "pids_limit": 128,
+          "read_only_mount_destinations": [
+            "/opt/repopilot"
+          ],
+          "read_only_rootfs": true,
+          "read_write_mount_destinations": [
+            "/testbed"
+          ],
+          "security_opt": [
+            "no-new-privileges"
+          ],
+          "staged_revision": "22cdfb0c93f8ec78492d87edb810f10cb7f57a31"
+        },
+        "passed": true
+      }
+    },
+    "trusted_test_plan_hash": "sha256:a7ef9318056acbd786b55383c91dbc0e5959f83dba18cb7e336c7d07e1e9b8a3"
+  },
+  "profile": {
+    "cohort_content_hash": "sha256:f6c2a0fbc45432b7e688679ac04dcd89f4dcb777193e78df664dc2dc87789156",
+    "file_sha256": "sha256:5373c1dbc76765f301f2fc33b93c840b65fd779e513470ec27f872773ee3a36d",
+    "path": "/private/tmp/repopilot-cohort2-behavioral-runtime-083f349/configs/evaluation/swebench_verified_deepseek_cohort2.v1.json"
+  },
+  "repair_cycles": 0,
+  "run_id": "deepseek-cohort2-mwaskom__seaborn-3187-858bc7e0",
+  "stop_reason": "iteration_limit",
+  "success": true,
+  "tool_calls": 32,
+  "trace_reconciliation": {
+    "available": true,
+    "checks": {
+      "final_status": {
+        "actual": "ok",
+        "expected": "ok",
+        "match": true
+      },
+      "model_latency_ms": {
+        "actual": 232185.58941592346,
+        "expected": 232185.58941592346,
+        "match": true
+      },
+      "run_latency_ms": {
+        "actual": 243411.56970799784,
+        "expected": 243411.56970799784,
+        "match": true
+      },
+      "stop_reason": {
+        "actual": "iteration_limit",
+        "expected": "iteration_limit",
+        "match": true
+      },
+      "token_usage": {
+        "actual": {
+          "cached_tokens": 1247232,
+          "input_tokens": 1302679,
+          "output_tokens": 8940,
+          "reasoning_tokens": null
+        },
+        "expected": {
+          "cached_tokens": 1247232,
+          "input_tokens": 1302679,
+          "output_tokens": 8940,
+          "reasoning_tokens": null
+        },
+        "match": true
+      },
+      "tool_count": {
+        "actual": 32,
+        "expected": 32,
+        "match": true
+      },
+      "tool_latency_ms": {
+        "actual": 11129.420834011398,
+        "expected": 11129.420834011398,
+        "match": true
+      },
+      "workspace_revisions": {
+        "actual": {
+          "final": 0,
+          "observed": [
+            0
+          ],
+          "transitions": 0
+        },
+        "expected": {
+          "final": 0,
+          "observed": [
+            0
+          ],
+          "transitions": 0
+        },
+        "match": true
+      }
+    },
+    "passed": true
+  },
+  "trace_summary": {
+    "complete": true,
+    "errors": {
+      "by_code": {
+        "provider_error": 1,
+        "tool_error": 6
+      },
+      "total": 7
+    },
+    "event_count": 79,
+    "final": {
+      "status": "ok",
+      "stop_reason": "iteration_limit",
+      "success": true
+    },
+    "latency_ms": {
+      "model": 232185.58941592346,
+      "run": 243411.56970799784,
+      "tool": 11129.420834011398
+    },
+    "phase_counts": {
+      "controller": 14,
+      "model": 31,
+      "run": 2,
+      "tool": 32
+    },
+    "reader_issues": [],
+    "run_id": "deepseek-cohort2-mwaskom__seaborn-3187-858bc7e0",
+    "source_schema_versions": [
+      2
+    ],
+    "status_counts": {
+      "error": 7,
+      "in_progress": 1,
+      "ok": 71
+    },
+    "summary_schema_version": 1,
+    "token_usage": {
+      "cached_tokens": 1247232,
+      "input_tokens": 1302679,
+      "output_tokens": 8940,
+      "reasoning_tokens": null
+    },
+    "tool_calls": {
+      "by_name": {
+        "git_diff": 1,
+        "list_files": 1,
+        "read_file": 16,
+        "run_tests": 1,
+        "search_code": 13
+      },
+      "by_status": {
+        "error": 6,
+        "ok": 26
+      },
+      "total": 32
+    },
+    "trace_id": "a0817a70e8f450d1a5dcc9d46f43b670",
+    "workspace_revisions": {
+      "final": 0,
+      "observed": [
+        0
+      ],
+      "transitions": 0
+    }
+  },
+  "trajectory_path": "/private/tmp/repopilot-deepseek-cohort2-behavioral-v1/runs/mwaskom__seaborn-3187/trajectory.jsonl",
+  "unnecessary_tool_calls": 6,
+  "usage": {
+    "cached_tokens": 1247232,
+    "input_tokens": 1302679,
+    "output_tokens": 8940,
+    "reasoning_tokens": null
+  }
+}

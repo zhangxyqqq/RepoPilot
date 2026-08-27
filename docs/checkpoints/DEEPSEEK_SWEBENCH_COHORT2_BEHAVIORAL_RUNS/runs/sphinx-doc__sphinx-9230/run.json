@@ -1,0 +1,501 @@
+{
+  "base_commit": "567ff22716ac258b9edd2c1711d766b440ac0b11",
+  "behavior_metrics": {
+    "action_counts": {
+      "final": 0,
+      "plan": 0,
+      "tool": 22
+    },
+    "controller_finalization_calls": 1,
+    "duplicate_mutations": 0,
+    "malformed_actions": 0,
+    "model_errors": 0,
+    "model_turns": 22,
+    "plan_only_before_first_tool": false,
+    "recovery_decisions": 3,
+    "recovery_outcomes": 3,
+    "rejected_tool_calls": 3,
+    "repeated_identical_calls_same_revision": 0,
+    "test_latency_ms": 3201.545084011741,
+    "time_to_first_model_tool_call_ms": 3635.748,
+    "tool_calls_by_origin": {
+      "controller": 1,
+      "model": 22
+    }
+  },
+  "changed_files": [
+    "sphinx/util/docfields.py"
+  ],
+  "credential_leakage_hits": 0,
+  "failure_analysis": {
+    "classifications": [
+      {
+        "attribution_confidence": "deterministic_rule",
+        "evidence_event_ids": [
+          "7963ecfda4e85806b00ee491878035c9"
+        ],
+        "fault_origin": "natural",
+        "label": "retrieval.context_truncated",
+        "observable_signal": "repository context was truncated",
+        "outcome_impact": "informational",
+        "phase": "retrieval",
+        "recoverability": "unknown"
+      },
+      {
+        "attribution_confidence": "deterministic_rule",
+        "evidence_event_ids": [
+          "84e58924b3385fe2a08824badacfcfa0",
+          "e3b68cf46f775e328a4d6751f703d2f0"
+        ],
+        "fault_origin": "natural",
+        "label": "tool.execution_error",
+        "observable_signal": "tool execution returned an error",
+        "outcome_impact": "task_failure",
+        "phase": "tool",
+        "recoverability": "recovered"
+      },
+      {
+        "attribution_confidence": "deterministic_rule",
+        "evidence_event_ids": [
+          "4755ee348b8057feb6dde07b3fb50a03"
+        ],
+        "fault_origin": "natural",
+        "label": "tool.invalid_arguments",
+        "observable_signal": "tool arguments failed validation",
+        "outcome_impact": "efficiency_degradation",
+        "phase": "tool",
+        "recoverability": "recovered"
+      }
+    ],
+    "evidence_availability": "complete",
+    "historical_missing_evidence": false,
+    "injected_faults": [],
+    "manual_hypotheses": [],
+    "observed_facts": [
+      {
+        "evidence_event_ids": [
+          "7963ecfda4e85806b00ee491878035c9"
+        ],
+        "fact": "repository context was truncated",
+        "source": "observed_trace_or_evaluation_fact"
+      },
+      {
+        "evidence_event_ids": [
+          "4755ee348b8057feb6dde07b3fb50a03"
+        ],
+        "fact": "tool arguments failed validation",
+        "source": "observed_trace_or_evaluation_fact"
+      },
+      {
+        "evidence_event_ids": [
+          "84e58924b3385fe2a08824badacfcfa0",
+          "e3b68cf46f775e328a4d6751f703d2f0"
+        ],
+        "fact": "tool execution returned an error",
+        "source": "observed_trace_or_evaluation_fact"
+      }
+    ],
+    "recovery_decisions": [
+      {
+        "action": "return_to_model",
+        "attempt": 1,
+        "event_id": "257275c4da35568aa89cabb2fc8c8769",
+        "evidence_event_ids": [
+          "84e58924b3385fe2a08824badacfcfa0"
+        ],
+        "execution_state": "post_execution",
+        "fault_type": null,
+        "injected": false,
+        "operation_class": "safe_read",
+        "policy_version": 1,
+        "reason": "failure evidence is returned without automatic replay",
+        "remaining_deadline_ms": 271839.9955840141,
+        "remaining_retry_budget": 1,
+        "retryable": false,
+        "revision_after": 0,
+        "revision_before": 0,
+        "unsafe": false
+      },
+      {
+        "action": "return_to_model",
+        "attempt": 1,
+        "event_id": "c5cd88ecd7195ec28cbfaec29f2ba26a",
+        "evidence_event_ids": [
+          "e3b68cf46f775e328a4d6751f703d2f0"
+        ],
+        "execution_state": "post_execution",
+        "fault_type": null,
+        "injected": false,
+        "operation_class": "safe_read",
+        "policy_version": 1,
+        "reason": "failure evidence is returned without automatic replay",
+        "remaining_deadline_ms": 261590.58266700595,
+        "remaining_retry_budget": 1,
+        "retryable": false,
+        "revision_after": 0,
+        "revision_before": 0,
+        "unsafe": false
+      },
+      {
+        "action": "return_to_model",
+        "attempt": 1,
+        "event_id": "fabb70b57e4d51afa469f2a21bbd4cd4",
+        "evidence_event_ids": [
+          "4755ee348b8057feb6dde07b3fb50a03"
+        ],
+        "execution_state": "pre_execution",
+        "fault_type": null,
+        "injected": false,
+        "operation_class": "safe_read",
+        "policy_version": 1,
+        "reason": "automatic replay is forbidden for policy, validation, or patch rejection",
+        "remaining_deadline_ms": 209065.34745902172,
+        "remaining_retry_budget": 1,
+        "retryable": false,
+        "revision_after": 0,
+        "revision_before": 0,
+        "unsafe": false
+      }
+    ],
+    "taxonomy": {
+      "schema_version": 1,
+      "source": "/private/tmp/repopilot-cohort2-behavioral-runtime-083f349/configs/evaluation/failure_taxonomy.v1.json",
+      "taxonomy_id": "repopilot-failures",
+      "version": 1
+    },
+    "terminal_reason": {
+      "classification": "non_failure",
+      "evidence_event_ids": [
+        "59686e36ce2f5ec994eba992c9ec8894"
+      ],
+      "stop_reason": "tests_passed"
+    },
+    "unclassified_error_count": 0,
+    "unclassified_error_event_ids": []
+  },
+  "final_diff": "diff --git a/sphinx/util/docfields.py b/sphinx/util/docfields.py\nindex 3a3367ebe..6d48e910c 100644\n--- a/sphinx/util/docfields.py\n+++ b/sphinx/util/docfields.py\n@@ -298,7 +298,7 @@ class DocFieldTransformer:\n             # also support syntax like ``:param type name:``\n             if typedesc.is_typed:\n                 try:\n-                    argtype, argname = fieldarg.split(None, 1)\n+                    argtype, argname = fieldarg.rsplit(None, 1)\n                 except ValueError:\n                     pass\n                 else:\n",
+  "final_message": "Configured tests passed on the modified revision.",
+  "final_test": {
+    "exit_code": 0,
+    "output": "..........                                                               [100%]\n=============================== warnings summary ===============================\nsphinx/util/docutils.py:44\n  /testbed/sphinx/util/docutils.py:44: DeprecationWarning: distutils Version classes are deprecated. Use packaging.version instead.\n    __version_info__ = tuple(LooseVersion(docutils.__version__).version)\n\nsphinx/highlighting.py:67\n  /testbed/sphinx/highlighting.py:67: DeprecationWarning: distutils Version classes are deprecated. Use packaging.version instead.\n    if tuple(LooseVersion(pygmentsversion).version) <= (2, 7, 4):\n\nsphinx/registry.py:24\n  /testbed/sphinx/registry.py:24: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html\n    from pkg_resources import iter_entry_points\n\n../opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pkg_resources/__init__.py:3154\n../opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pkg_resources/__init__.py:3154\n../opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pkg_resources/__init__.py:3154\n../opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pkg_resources/__init__.py:3154\n  /opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pkg_resources/__init__.py:3154: DeprecationWarning: Deprecated call to `pkg_resources.declare_namespace('sphinxcontrib')`.\n  Implementing implicit namespace packages (as specified in PEP 420) is preferred to `pkg_resources.declare_namespace`. See https://setuptools.pypa.io/en/latest/references/keywords.html#keyword-namespace-packages\n    declare_namespace(pkg)\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n10 passed, 7 warnings in 0.62s\n",
+    "passed": true,
+    "timed_out": false,
+    "truncated": false
+  },
+  "instance_id": "sphinx-doc__sphinx-9230",
+  "iterations": 22,
+  "latency_ms": 110046.37937498046,
+  "official_grading": {
+    "fail_to_pass": {
+      "failed": 0,
+      "passed": 1,
+      "total": 1
+    },
+    "harness_executed": true,
+    "harness_exit_code": 0,
+    "harness_wall_ms": 24610.304874979192,
+    "infra_failure": false,
+    "pass_to_pass": {
+      "failed": 0,
+      "passed": 44,
+      "total": 44
+    },
+    "patch_successfully_applied": true,
+    "report_available": true,
+    "resolved": true
+  },
+  "prediction": {
+    "instance_id": "sphinx-doc__sphinx-9230",
+    "model_name_or_path": "repopilot-deepseek-v4-pro-cohort2",
+    "model_patch": "diff --git a/sphinx/util/docfields.py b/sphinx/util/docfields.py\nindex 3a3367ebe..6d48e910c 100644\n--- a/sphinx/util/docfields.py\n+++ b/sphinx/util/docfields.py\n@@ -298,7 +298,7 @@ class DocFieldTransformer:\n             # also support syntax like ``:param type name:``\n             if typedesc.is_typed:\n                 try:\n-                    argtype, argname = fieldarg.split(None, 1)\n+                    argtype, argname = fieldarg.rsplit(None, 1)\n                 except ValueError:\n                     pass\n                 else:\n"
+  },
+  "prediction_nonempty": true,
+  "preflight": {
+    "additional_assertions": {
+      "assertions": {
+        "arbitrary_shell_absent": true,
+        "initialization_artifacts_clean": true,
+        "model_selected_test_command_absent": true,
+        "patch_validation_active": true,
+        "path_validation_active": true,
+        "protected_test_integrity_active": true
+      },
+      "passed": true,
+      "probe_outputs": {
+        "path_traversal_probe": {
+          "error": "ValueError: path must remain inside the repository workspace",
+          "latency_ms": 236.31654100609012,
+          "ok": false
+        },
+        "protected_test_edit_probe": {
+          "error": "FileNotFoundError: [Errno 2] No such file or directory: '/testbed/tests/repopilot_forbidden_probe.py'",
+          "latency_ms": 220.27179098222405,
+          "ok": false
+        }
+      },
+      "scan": {
+        "forbidden_blob_hash_hits": [],
+        "forbidden_name_hits": [],
+        "passed": true
+      }
+    },
+    "credential_host_side_only": true,
+    "passed": true,
+    "qualified_gates": {
+      "contamination": {
+        "assertions": {
+          "canonical_six_tool_surface": true,
+          "container_environment_credentials_absent": true,
+          "forbidden_host_roots_not_mounted": true,
+          "forbidden_roots_configured": true,
+          "model_prompt_clean": true,
+          "preflight_tools_executed_without_error": true,
+          "repository_context_clean": true,
+          "sampled_read_only_tool_outputs_clean": true,
+          "staged_worktree_names_and_blobs_absent": true,
+          "tool_schemas_clean": true
+        },
+        "assertions_passed": 10,
+        "assertions_total": 10,
+        "forbidden_blob_count": 3,
+        "passed": true,
+        "prompt_scan": {
+          "forbidden_blob_hash_hits": [],
+          "forbidden_name_hits": [],
+          "passed": true
+        },
+        "repository_context_scan": {
+          "forbidden_blob_hash_hits": [],
+          "forbidden_name_hits": [],
+          "passed": true
+        },
+        "sensitive_environment_variable_names": [],
+        "tool_output_scan": {
+          "forbidden_blob_hash_hits": [],
+          "forbidden_name_hits": [],
+          "passed": true
+        },
+        "tool_schema_scan": {
+          "forbidden_blob_hash_hits": [],
+          "forbidden_name_hits": [],
+          "passed": true
+        },
+        "workspace_scan": {
+          "forbidden_blob_hash_hits": [],
+          "forbidden_name_hits": [],
+          "passed": true
+        }
+      },
+      "passed": true,
+      "security": {
+        "assertions": {
+          "capabilities_dropped": true,
+          "cpu_bounded": true,
+          "credentials_absent": true,
+          "docker_socket_absent": true,
+          "forbidden_host_roots_not_mounted": true,
+          "host_home_not_mounted": true,
+          "memory_bounded": true,
+          "network_disabled": true,
+          "no_new_privileges": true,
+          "non_root_user": true,
+          "only_staged_workspace_writable": true,
+          "pids_bounded": true,
+          "root_filesystem_read_only": true,
+          "runner_bundle_read_only": true,
+          "ssh_agent_not_mounted": true,
+          "staged_revision_matches": true
+        },
+        "evidence": {
+          "cap_drop": [
+            "ALL"
+          ],
+          "container_user": "10001:10001",
+          "environment_variable_names": [
+            "HOME",
+            "PATH",
+            "PYTHONDONTWRITEBYTECODE",
+            "REPOPILOT_TRUSTED_TEST_COMMAND",
+            "REPOPILOT_WORKSPACE",
+            "TZ"
+          ],
+          "memory_bytes": 536870912,
+          "nano_cpus": 1000000000,
+          "network_mode": "none",
+          "pids_limit": 128,
+          "read_only_mount_destinations": [
+            "/opt/repopilot"
+          ],
+          "read_only_rootfs": true,
+          "read_write_mount_destinations": [
+            "/testbed"
+          ],
+          "security_opt": [
+            "no-new-privileges"
+          ],
+          "staged_revision": "567ff22716ac258b9edd2c1711d766b440ac0b11"
+        },
+        "passed": true
+      }
+    },
+    "trusted_test_plan_hash": "sha256:413f53a38ddd2ea62020c76bf17f1fb5fcde37b439ed381d98f4acfaccd8369a"
+  },
+  "profile": {
+    "cohort_content_hash": "sha256:f6c2a0fbc45432b7e688679ac04dcd89f4dcb777193e78df664dc2dc87789156",
+    "file_sha256": "sha256:5373c1dbc76765f301f2fc33b93c840b65fd779e513470ec27f872773ee3a36d",
+    "path": "/private/tmp/repopilot-cohort2-behavioral-runtime-083f349/configs/evaluation/swebench_verified_deepseek_cohort2.v1.json"
+  },
+  "repair_cycles": 0,
+  "run_id": "deepseek-cohort2-sphinx-doc__sphinx-9230-67bdfcb5",
+  "stop_reason": "tests_passed",
+  "success": true,
+  "tool_calls": 23,
+  "trace_reconciliation": {
+    "available": true,
+    "checks": {
+      "final_status": {
+        "actual": "ok",
+        "expected": "ok",
+        "match": true
+      },
+      "model_latency_ms": {
+        "actual": 97163.41312500299,
+        "expected": 97163.41312500299,
+        "match": true
+      },
+      "run_latency_ms": {
+        "actual": 110046.37937498046,
+        "expected": 110046.37937498046,
+        "match": true
+      },
+      "stop_reason": {
+        "actual": "tests_passed",
+        "expected": "tests_passed",
+        "match": true
+      },
+      "token_usage": {
+        "actual": {
+          "cached_tokens": 1972224,
+          "input_tokens": 2075556,
+          "output_tokens": 4169,
+          "reasoning_tokens": null
+        },
+        "expected": {
+          "cached_tokens": 1972224,
+          "input_tokens": 2075556,
+          "output_tokens": 4169,
+          "reasoning_tokens": null
+        },
+        "match": true
+      },
+      "tool_count": {
+        "actual": 23,
+        "expected": 23,
+        "match": true
+      },
+      "tool_latency_ms": {
+        "actual": 12810.800416016718,
+        "expected": 12810.800416016718,
+        "match": true
+      },
+      "workspace_revisions": {
+        "actual": {
+          "final": 1,
+          "observed": [
+            0,
+            1
+          ],
+          "transitions": 1
+        },
+        "expected": {
+          "final": 1,
+          "observed": [
+            0,
+            1
+          ],
+          "transitions": 1
+        },
+        "match": true
+      }
+    },
+    "passed": true
+  },
+  "trace_summary": {
+    "complete": true,
+    "errors": {
+      "by_code": {
+        "invalid_arguments": 1,
+        "tool_error": 2
+      },
+      "total": 3
+    },
+    "event_count": 53,
+    "final": {
+      "status": "ok",
+      "stop_reason": "tests_passed",
+      "success": true
+    },
+    "latency_ms": {
+      "model": 97163.41312500299,
+      "run": 110046.37937498046,
+      "tool": 12810.800416016718
+    },
+    "phase_counts": {
+      "controller": 6,
+      "model": 22,
+      "run": 2,
+      "tool": 23
+    },
+    "reader_issues": [],
+    "run_id": "deepseek-cohort2-sphinx-doc__sphinx-9230-67bdfcb5",
+    "source_schema_versions": [
+      2
+    ],
+    "status_counts": {
+      "error": 2,
+      "in_progress": 1,
+      "ok": 49,
+      "rejected": 1
+    },
+    "summary_schema_version": 1,
+    "token_usage": {
+      "cached_tokens": 1972224,
+      "input_tokens": 2075556,
+      "output_tokens": 4169,
+      "reasoning_tokens": null
+    },
+    "tool_calls": {
+      "by_name": {
+        "apply_patch": 1,
+        "git_diff": 1,
+        "list_files": 1,
+        "read_file": 7,
+        "run_tests": 3,
+        "search_code": 10
+      },
+      "by_status": {
+        "error": 2,
+        "ok": 20,
+        "rejected": 1
+      },
+      "total": 23
+    },
+    "trace_id": "687d9c0f7b765afea9c28f0be299e376",
+    "workspace_revisions": {
+      "final": 1,
+      "observed": [
+        0,
+        1
+      ],
+      "transitions": 1
+    }
+  },
+  "trajectory_path": "/private/tmp/repopilot-deepseek-cohort2-behavioral-v1/runs/sphinx-doc__sphinx-9230/trajectory.jsonl",
+  "unnecessary_tool_calls": 7,
+  "usage": {
+    "cached_tokens": 1972224,
+    "input_tokens": 2075556,
+    "output_tokens": 4169,
+    "reasoning_tokens": null
+  }
+}

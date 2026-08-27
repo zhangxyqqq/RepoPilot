@@ -1,0 +1,61 @@
+{
+  "complete": true,
+  "errors": {
+    "by_code": {},
+    "total": 0
+  },
+  "event_count": 13,
+  "final": {
+    "status": "ok",
+    "stop_reason": "tests_passed",
+    "success": true
+  },
+  "latency_ms": {
+    "model": 22557.70462504006,
+    "run": 28969.826290995115,
+    "tool": 6347.281332971761
+  },
+  "phase_counts": {
+    "model": 5,
+    "run": 2,
+    "tool": 6
+  },
+  "reader_issues": [],
+  "run_id": "deepseek-cohort2-pylint-dev__pylint-7277-c271b6da",
+  "source_schema_versions": [
+    2
+  ],
+  "status_counts": {
+    "in_progress": 1,
+    "ok": 12
+  },
+  "summary_schema_version": 1,
+  "token_usage": {
+    "cached_tokens": 887424,
+    "input_tokens": 1183046,
+    "output_tokens": 521,
+    "reasoning_tokens": null
+  },
+  "tool_calls": {
+    "by_name": {
+      "apply_patch": 1,
+      "git_diff": 1,
+      "list_files": 1,
+      "read_file": 2,
+      "run_tests": 1
+    },
+    "by_status": {
+      "ok": 6
+    },
+    "total": 6
+  },
+  "trace_id": "d7cc3fbfe7b552b29b7f38b93c208619",
+  "workspace_revisions": {
+    "final": 1,
+    "observed": [
+      0,
+      1
+    ],
+    "transitions": 1
+  }
+}

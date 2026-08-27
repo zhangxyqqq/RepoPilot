@@ -1,0 +1,130 @@
+{
+  "additional_assertions": {
+    "assertions": {
+      "arbitrary_shell_absent": true,
+      "initialization_artifacts_clean": true,
+      "model_selected_test_command_absent": true,
+      "patch_validation_active": true,
+      "path_validation_active": true,
+      "protected_test_integrity_active": true
+    },
+    "passed": true,
+    "probe_outputs": {
+      "path_traversal_probe": {
+        "error": "ValueError: path must remain inside the repository workspace",
+        "latency_ms": 242.00491697411053,
+        "ok": false
+      },
+      "protected_test_edit_probe": {
+        "error": "FileNotFoundError: [Errno 2] No such file or directory: '/testbed/tests/repopilot_forbidden_probe.py'",
+        "latency_ms": 232.4419590004254,
+        "ok": false
+      }
+    },
+    "scan": {
+      "forbidden_blob_hash_hits": [],
+      "forbidden_name_hits": [],
+      "passed": true
+    }
+  },
+  "credential_host_side_only": true,
+  "passed": true,
+  "qualified_gates": {
+    "contamination": {
+      "assertions": {
+        "canonical_six_tool_surface": true,
+        "container_environment_credentials_absent": true,
+        "forbidden_host_roots_not_mounted": true,
+        "forbidden_roots_configured": true,
+        "model_prompt_clean": true,
+        "preflight_tools_executed_without_error": true,
+        "repository_context_clean": true,
+        "sampled_read_only_tool_outputs_clean": true,
+        "staged_worktree_names_and_blobs_absent": true,
+        "tool_schemas_clean": true
+      },
+      "assertions_passed": 10,
+      "assertions_total": 10,
+      "forbidden_blob_count": 3,
+      "passed": true,
+      "prompt_scan": {
+        "forbidden_blob_hash_hits": [],
+        "forbidden_name_hits": [],
+        "passed": true
+      },
+      "repository_context_scan": {
+        "forbidden_blob_hash_hits": [],
+        "forbidden_name_hits": [],
+        "passed": true
+      },
+      "sensitive_environment_variable_names": [],
+      "tool_output_scan": {
+        "forbidden_blob_hash_hits": [],
+        "forbidden_name_hits": [],
+        "passed": true
+      },
+      "tool_schema_scan": {
+        "forbidden_blob_hash_hits": [],
+        "forbidden_name_hits": [],
+        "passed": true
+      },
+      "workspace_scan": {
+        "forbidden_blob_hash_hits": [],
+        "forbidden_name_hits": [],
+        "passed": true
+      }
+    },
+    "passed": true,
+    "security": {
+      "assertions": {
+        "capabilities_dropped": true,
+        "cpu_bounded": true,
+        "credentials_absent": true,
+        "docker_socket_absent": true,
+        "forbidden_host_roots_not_mounted": true,
+        "host_home_not_mounted": true,
+        "memory_bounded": true,
+        "network_disabled": true,
+        "no_new_privileges": true,
+        "non_root_user": true,
+        "only_staged_workspace_writable": true,
+        "pids_bounded": true,
+        "root_filesystem_read_only": true,
+        "runner_bundle_read_only": true,
+        "ssh_agent_not_mounted": true,
+        "staged_revision_matches": true
+      },
+      "evidence": {
+        "cap_drop": [
+          "ALL"
+        ],
+        "container_user": "10001:10001",
+        "environment_variable_names": [
+          "HOME",
+          "PATH",
+          "PYTHONDONTWRITEBYTECODE",
+          "REPOPILOT_TRUSTED_TEST_COMMAND",
+          "REPOPILOT_WORKSPACE",
+          "TZ"
+        ],
+        "memory_bytes": 536870912,
+        "nano_cpus": 1000000000,
+        "network_mode": "none",
+        "pids_limit": 128,
+        "read_only_mount_destinations": [
+          "/opt/repopilot"
+        ],
+        "read_only_rootfs": true,
+        "read_write_mount_destinations": [
+          "/testbed"
+        ],
+        "security_opt": [
+          "no-new-privileges"
+        ],
+        "staged_revision": "684a1d6aa0a6791e20078bc524f97c8906332390"
+      },
+      "passed": true
+    }
+  },
+  "trusted_test_plan_hash": "sha256:7ccba0fad67b5b2ee2c376b0b591d444c8c81d9b167952c764813ea4a6af5c2e"
+}

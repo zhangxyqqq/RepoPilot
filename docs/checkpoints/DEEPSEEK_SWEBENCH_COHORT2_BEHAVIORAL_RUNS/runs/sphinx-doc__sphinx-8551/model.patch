@@ -1,0 +1,15 @@
+diff --git a/sphinx/domains/python.py b/sphinx/domains/python.py
+index 79d7e4f46..51b6913fd 100644
+--- a/sphinx/domains/python.py
++++ b/sphinx/domains/python.py
+@@ -1224,6 +1224,10 @@ class PythonDomain(Domain):
+             if mod.docname == docname:
+                 del self.modules[modname]
+ 
++    def process_field_xref(self, pnode: pending_xref) -> None:
++        pnode['py:module'] = self.env.ref_context.get('py:module')
++        pnode['py:class'] = self.env.ref_context.get('py:class')
++
+     def merge_domaindata(self, docnames: List[str], otherdata: Dict) -> None:
+         # XXX check duplicates?
+         for fullname, obj in otherdata['objects'].items():

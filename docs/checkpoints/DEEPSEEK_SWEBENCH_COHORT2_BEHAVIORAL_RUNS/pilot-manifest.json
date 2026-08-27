@@ -1,0 +1,120 @@
+{
+  "attempt_order": [
+    "mwaskom__seaborn-3187",
+    "pydata__xarray-6938",
+    "pylint-dev__pylint-7277",
+    "sphinx-doc__sphinx-8551",
+    "sphinx-doc__sphinx-9230"
+  ],
+  "attempted_instances": [
+    "mwaskom__seaborn-3187",
+    "pydata__xarray-6938",
+    "pylint-dev__pylint-7277",
+    "sphinx-doc__sphinx-8551",
+    "sphinx-doc__sphinx-9230"
+  ],
+  "cases": [
+    {
+      "instance_id": "mwaskom__seaborn-3187",
+      "model_executed": true,
+      "run_directory": "/private/tmp/repopilot-deepseek-cohort2-behavioral-v1/runs/mwaskom__seaborn-3187",
+      "run_id": "deepseek-cohort2-mwaskom__seaborn-3187-858bc7e0",
+      "status": "unresolved"
+    },
+    {
+      "instance_id": "pydata__xarray-6938",
+      "model_executed": true,
+      "run_directory": "/private/tmp/repopilot-deepseek-cohort2-behavioral-v1/runs/pydata__xarray-6938",
+      "run_id": "deepseek-cohort2-pydata__xarray-6938-e622e75b",
+      "status": "unresolved"
+    },
+    {
+      "instance_id": "pylint-dev__pylint-7277",
+      "model_executed": true,
+      "run_directory": "/private/tmp/repopilot-deepseek-cohort2-behavioral-v1/runs/pylint-dev__pylint-7277",
+      "run_id": "deepseek-cohort2-pylint-dev__pylint-7277-c271b6da",
+      "status": "resolved"
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-8551",
+      "model_executed": true,
+      "run_directory": "/private/tmp/repopilot-deepseek-cohort2-behavioral-v1/runs/sphinx-doc__sphinx-8551",
+      "run_id": "deepseek-cohort2-sphinx-doc__sphinx-8551-44031ae7",
+      "status": "resolved"
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-9230",
+      "model_executed": true,
+      "run_directory": "/private/tmp/repopilot-deepseek-cohort2-behavioral-v1/runs/sphinx-doc__sphinx-9230",
+      "run_id": "deepseek-cohort2-sphinx-doc__sphinx-9230-67bdfcb5",
+      "status": "resolved"
+    }
+  ],
+  "created_at": "2026-08-27T11:18:16.638356+00:00",
+  "denominator": 5,
+  "global_preflight": {
+    "checkpoint_commit": "083f349429d6a0bd9a22442ab4d05b002f2747ab",
+    "checkpoint_tag": "repopilot-v2-deepseek-swebench-cohort2",
+    "cohort_content_hash": "sha256:f6c2a0fbc45432b7e688679ac04dcd89f4dcb777193e78df664dc2dc87789156",
+    "credential_present": true,
+    "harness_commit": "7a21e05772954cc81471ae19d56f436cecf43c54",
+    "instances": [
+      {
+        "base_commit": "22cdfb0c93f8ec78492d87edb810f10cb7f57a31",
+        "image": "swebench/sweb.eval.x86_64.mwaskom_1776_seaborn-3187@sha256:aea7e43b20703256f5cb807b54cd78a12601f21086d3a62a41de18c254771f4e",
+        "instance_id": "mwaskom__seaborn-3187",
+        "issue_sha256": "sha256:72157e71b5c0ed5d58d66a7eeb30ed7b2fb237374183b9ebee200f5d58abd77b",
+        "trusted_test_plan_hash": "sha256:a7ef9318056acbd786b55383c91dbc0e5959f83dba18cb7e336c7d07e1e9b8a3"
+      },
+      {
+        "base_commit": "c4e40d991c28be51de9ac560ce895ac7f9b14924",
+        "image": "swebench/sweb.eval.x86_64.pydata_1776_xarray-6938@sha256:478bec70c00955b969d68ce630cee233560c0d43ac4f01784f05b38105f654dd",
+        "instance_id": "pydata__xarray-6938",
+        "issue_sha256": "sha256:80200279ed4af4b8b73e3d9bf2ec5a39dbded0c3e337b1b944253fd7b7b04248",
+        "trusted_test_plan_hash": "sha256:7395a73cace6c882a3d2020fe7ea6952180ecbffaf8fedcb250b92f212de87e6"
+      },
+      {
+        "base_commit": "684a1d6aa0a6791e20078bc524f97c8906332390",
+        "image": "swebench/sweb.eval.x86_64.pylint-dev_1776_pylint-7277@sha256:7fa6347aa793c61e3cc9cfb4fb132b6a4e11b0bb75f7093f4db0b010d8e5a40c",
+        "instance_id": "pylint-dev__pylint-7277",
+        "issue_sha256": "sha256:dc1d852f34bf1341c1a0ba290aba65e3cd34b15cc2060f5c96e5eaa4fdf946d5",
+        "trusted_test_plan_hash": "sha256:7ccba0fad67b5b2ee2c376b0b591d444c8c81d9b167952c764813ea4a6af5c2e"
+      },
+      {
+        "base_commit": "57ed10c68057c96491acbd3e62254ccfaf9e3861",
+        "image": "swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-8551@sha256:7ef3c26b1f402bcae518faddbdea62e12496a29b8d49b582a752874df1a5cd57",
+        "instance_id": "sphinx-doc__sphinx-8551",
+        "issue_sha256": "sha256:59b1b15138bca3802f81a94c49ced00a098c6dc015474f0a7c06967bc623d7b6",
+        "trusted_test_plan_hash": "sha256:ef7616e7bfde6aa40819035d095f4054a46f5d7844bab589f4fcf2552a23416e"
+      },
+      {
+        "base_commit": "567ff22716ac258b9edd2c1711d766b440ac0b11",
+        "image": "swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-9230@sha256:2a18fa57b69c646bf0e1916f1df157a62de80ca8b55325738f9c9eeff9c38c86",
+        "instance_id": "sphinx-doc__sphinx-9230",
+        "issue_sha256": "sha256:e814405fe0885a2284bec4dfdf1efa5bd0386117d02410e9ad0ec98c0e1712ab",
+        "trusted_test_plan_hash": "sha256:413f53a38ddd2ea62020c76bf17f1fb5fcde37b439ed381d98f4acfaccd8369a"
+      }
+    ],
+    "passed": true,
+    "profile_sha256": "sha256:5373c1dbc76765f301f2fc33b93c840b65fd779e513470ec27f872773ee3a36d",
+    "provider": {
+      "model": "deepseek-v4-pro",
+      "provider": "deepseek",
+      "sdk_retry_limit": 0,
+      "sdk_timeout_seconds": 60,
+      "thinking": "disabled"
+    },
+    "system_prompt_sha256": "sha256:f310a0a46501849ed020e8165a741163c14fac81501c595901e5850c8687ee04",
+    "taxonomy_sha256": "sha256:3e52b575bbe735979fe4e0538f91f3e072e3108eed6a2e87c4338fa5f37992eb",
+    "tool_catalog_sha256": "sha256:84aefeae76e6b1e6f48a04657765d7aa8b7216d9f55c9549f971ed32c71546d4",
+    "trace_report_redaction_probe": "PASS",
+    "tracked_credential_literal_hits": 0
+  },
+  "manual_intervention": false,
+  "no_post_hoc_tuning": true,
+  "no_reruns": true,
+  "no_substitutions": true,
+  "resolved": 3,
+  "schema_version": 1,
+  "track": "swebench_verified_deepseek_cohort2_behavioral"
+}
