@@ -6,3 +6,7 @@ benchmarks
 reports
 **/__pycache__
 *.pyc
+.env
+.env.*
+.service.env
+.gitignore

@@ -9,6 +9,7 @@ from typing import Any
 
 from repopilot.config import SandboxConfig
 from repopilot.sandbox.policy import validate_test_command
+from repopilot.sandbox.process import run_process
 
 
 class SandboxError(RuntimeError):
@@ -34,8 +35,9 @@ class DockerSandbox:
         self.issue = issue
         self.config = config
         self.retrieval = dict(retrieval or {"strategy": "structural"})
-        self.container_name = f"repopilot-{uuid.uuid4().hex[:12]}"
+        self.container_name = config.container_name or f"repopilot-{uuid.uuid4().hex[:12]}"
         self._started = False
+        self._container_id: str | None = None
         validate_test_command(test_command)
 
     @staticmethod
@@ -43,9 +45,17 @@ class DockerSandbox:
         return Path(__file__).resolve().parents[3]
 
     def ensure_image(self) -> None:
+        if not self.config.build_image:
+            inspected = run_process(
+                ["docker", "image", "inspect", self.config.image],
+                text=True, capture_output=True, timeout=30,
+            )
+            if inspected.returncode != 0:
+                raise SandboxError("configured prebuilt sandbox image is unavailable")
+            return
         if self.config.image in self._built_images:
             return
-        built = subprocess.run(
+        built = run_process(
             ["docker", "build", "--pull", "-t", self.config.image, "."],
             cwd=self.project_root(),
             text=True,
@@ -77,9 +87,10 @@ class DockerSandbox:
             "--mount", f"type=bind,src={self.workspace},dst=/workspace",
             self.config.image,
         ]
-        started = subprocess.run(command, text=True, capture_output=True)
+        started = run_process(command, text=True, capture_output=True)
         if started.returncode != 0:
             raise SandboxError(f"sandbox start failed: {started.stderr.strip()}")
+        self._container_id = started.stdout.strip()
         self._started = True
         if not (self.workspace / ".git").exists():
             initialized = self.invoke("_init_repo", {}, timeout_seconds=30)
@@ -104,13 +115,13 @@ class DockerSandbox:
             payload["_issue"] = self.issue
             payload["_retrieval"] = self.retrieval
         command = [
-            "docker", "exec", self.container_name,
+            "docker", "exec", self._container_id or self.container_name,
             "python", "/opt/repopilot/sandbox_runner.py",
             tool_name, json.dumps(payload, ensure_ascii=False),
         ]
         started = perf_counter()
         try:
-            completed = subprocess.run(
+            completed = run_process(
                 command,
                 text=True,
                 capture_output=True,
@@ -130,8 +141,8 @@ class DockerSandbox:
 
     def close(self) -> None:
         if self._started:
-            subprocess.run(
-                ["docker", "rm", "-f", self.container_name],
+            run_process(
+                ["docker", "rm", "-f", self._container_id or self.container_name],
                 text=True,
                 capture_output=True,
             )

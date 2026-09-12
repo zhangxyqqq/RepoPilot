@@ -1,0 +1,55 @@
+{"workers": 1, "submitters": 32, "repeat": 1, "logical_tasks": 192, "peak_sampled_db_connections": 26, "peak_sampled_lock_waiters": 0, "elapsed_seconds": 31.188, "throughput_tasks_per_second": 6.156, "submission_ms": {"n": 384, "p50": 163.917, "p95": 228.612, "max": 282.932}, "queue_ms": {"n": 192, "p50": 15407.53, "p95": 28604.164, "max": 30031.659}, "end_to_end_ms": {"n": 192, "p50": 15545.878, "p95": 28747.257, "max": 30172.102}, "run_ms": {"n": 192, "p50": 137.016, "p95": 142.266, "max": 167.31}, "claim_ms": {"n": 192, "p50": 19.141, "p95": 22.048, "max": 51.423}, "worker_connect_ms": {"n": 578, "p50": 10.238, "p95": 13.285, "max": 23.667}, "duplicate_executions": 0, "simultaneous_duplicates": 0, "attempts": 192, "failures": 0, "admission_failures": 0, "created": 192, "deduplicated": 192}
+{"workers": 2, "submitters": 32, "repeat": 1, "logical_tasks": 192, "peak_sampled_db_connections": 30, "peak_sampled_lock_waiters": 0, "elapsed_seconds": 15.791, "throughput_tasks_per_second": 12.159, "submission_ms": {"n": 384, "p50": 168.727, "p95": 268.659, "max": 331.018}, "queue_ms": {"n": 192, "p50": 7826.477, "p95": 14070.422, "max": 14644.792}, "end_to_end_ms": {"n": 192, "p50": 7965.939, "p95": 14197.613, "max": 14773.06}, "run_ms": {"n": 192, "p50": 133.967, "p95": 143.438, "max": 217.939}, "claim_ms": {"n": 192, "p50": 17.67, "p95": 22.347, "max": 55.513}, "worker_connect_ms": {"n": 580, "p50": 9.231, "p95": 13.497, "max": 40.953}, "duplicate_executions": 0, "simultaneous_duplicates": 0, "attempts": 192, "failures": 0, "admission_failures": 0, "created": 192, "deduplicated": 192}
+{"workers": 4, "submitters": 32, "repeat": 1, "logical_tasks": 192, "peak_sampled_db_connections": 24, "peak_sampled_lock_waiters": 0, "elapsed_seconds": 8.295, "throughput_tasks_per_second": 23.145, "submission_ms": {"n": 384, "p50": 167.58, "p95": 280.778, "max": 327.62}, "queue_ms": {"n": 192, "p50": 4079.302, "p95": 6789.315, "max": 7058.677}, "end_to_end_ms": {"n": 192, "p50": 4209.503, "p95": 6917.098, "max": 7185.862}, "run_ms": {"n": 192, "p50": 130.155, "p95": 164.773, "max": 197.558}, "claim_ms": {"n": 192, "p50": 15.556, "p95": 30.201, "max": 53.514}, "worker_connect_ms": {"n": 584, "p50": 8.16, "p95": 14.45, "max": 59.213}, "duplicate_executions": 0, "simultaneous_duplicates": 0, "attempts": 192, "failures": 0, "admission_failures": 0, "created": 192, "deduplicated": 192}
+{"workers": 8, "submitters": 32, "repeat": 1, "logical_tasks": 192, "peak_sampled_db_connections": 27, "peak_sampled_lock_waiters": 0, "elapsed_seconds": 4.712, "throughput_tasks_per_second": 40.748, "submission_ms": {"n": 384, "p50": 163.553, "p95": 216.401, "max": 262.395}, "queue_ms": {"n": 192, "p50": 2388.747, "p95": 3552.192, "max": 3668.131}, "end_to_end_ms": {"n": 192, "p50": 2516.819, "p95": 3682.33, "max": 3797.569}, "run_ms": {"n": 192, "p50": 126.986, "p95": 171.25, "max": 193.818}, "claim_ms": {"n": 192, "p50": 15.609, "p95": 36.708, "max": 60.61}, "worker_connect_ms": {"n": 592, "p50": 7.482, "p95": 20.803, "max": 41.813}, "duplicate_executions": 0, "simultaneous_duplicates": 0, "attempts": 192, "failures": 0, "admission_failures": 0, "created": 192, "deduplicated": 192}
+{"workers": 16, "submitters": 32, "repeat": 1, "logical_tasks": 192, "peak_sampled_db_connections": 40, "peak_sampled_lock_waiters": 0, "elapsed_seconds": 3.282, "throughput_tasks_per_second": 58.499, "submission_ms": {"n": 384, "p50": 161.697, "p95": 278.478, "max": 425.366}, "queue_ms": {"n": 192, "p50": 1650.143, "p95": 2105.07, "max": 2122.098}, "end_to_end_ms": {"n": 192, "p50": 1791.065, "p95": 2238.525, "max": 2256.509}, "run_ms": {"n": 192, "p50": 138.049, "p95": 191.683, "max": 209.703}, "claim_ms": {"n": 192, "p50": 26.449, "p95": 70.194, "max": 77.557}, "worker_connect_ms": {"n": 608, "p50": 11.332, "p95": 38.523, "max": 58.835}, "duplicate_executions": 0, "simultaneous_duplicates": 0, "attempts": 192, "failures": 0, "admission_failures": 0, "created": 192, "deduplicated": 192}
+{"workers": 32, "submitters": 32, "repeat": 1, "logical_tasks": 192, "peak_sampled_db_connections": 55, "peak_sampled_lock_waiters": 3, "elapsed_seconds": 2.588, "throughput_tasks_per_second": 74.192, "submission_ms": {"n": 384, "p50": 165.784, "p95": 260.549, "max": 310.279}, "queue_ms": {"n": 192, "p50": 1194.338, "p95": 1377.22, "max": 1402.671}, "end_to_end_ms": {"n": 192, "p50": 1392.343, "p95": 1525.719, "max": 1554.278}, "run_ms": {"n": 192, "p50": 187.256, "p95": 261.959, "max": 311.868}, "claim_ms": {"n": 192, "p50": 58.36, "p95": 87.279, "max": 103.019}, "worker_connect_ms": {"n": 640, "p50": 19.23, "p95": 43.478, "max": 62.084}, "duplicate_executions": 0, "simultaneous_duplicates": 0, "attempts": 192, "failures": 0, "admission_failures": 0, "created": 192, "deduplicated": 192}
+{"workers": 16, "submitters": 8, "repeat": 1, "logical_tasks": 192, "peak_sampled_db_connections": 19, "peak_sampled_lock_waiters": 0, "elapsed_seconds": 2.789, "throughput_tasks_per_second": 68.836, "submission_ms": {"n": 384, "p50": 32.239, "p95": 54.462, "max": 65.493}, "queue_ms": {"n": 192, "p50": 1369.186, "p95": 1800.34, "max": 1875.563}, "end_to_end_ms": {"n": 192, "p50": 1498.527, "p95": 1930.894, "max": 2004.722}, "run_ms": {"n": 192, "p50": 129.149, "p95": 153.382, "max": 158.459}, "claim_ms": {"n": 192, "p50": 17.507, "p95": 34.479, "max": 48.486}, "worker_connect_ms": {"n": 605, "p50": 7.675, "p95": 15.144, "max": 30.392}, "duplicate_executions": 0, "simultaneous_duplicates": 0, "attempts": 192, "failures": 0, "admission_failures": 0, "created": 192, "deduplicated": 192}
+Exception in thread Thread-8 (sample):
+Traceback (most recent call last):
+  File "/Users/zhangxiangyun/.local/share/uv/python/cpython-3.13.7-macos-aarch64-none/lib/python3.13/threading.py", line 1043, in _bootstrap_inner
+    self.run()
+    ~~~~~~~~^^
+  File "/Users/zhangxiangyun/.local/share/uv/python/cpython-3.13.7-macos-aarch64-none/lib/python3.13/threading.py", line 994, in run
+    self._target(*self._args, **self._kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zhangxiangyun/Downloads/The_DTU_Years/2/repopilot/scripts/service-stress.py", line 179, in sample
+    samples.append(db.execute("""SELECT count(*) AS connections,
+                   ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        count(*) FILTER(WHERE wait_event_type='Lock') AS lock_waiters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        FROM pg_stat_activity WHERE datname=current_database()""").fetchone())
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zhangxiangyun/Downloads/The_DTU_Years/2/repopilot/.venv/lib/python3.13/site-packages/psycopg/connection.py", line 300, in execute
+    raise ex.with_traceback(None)
+psycopg.OperationalError: consuming input failed: server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+Traceback (most recent call last):
+  File "/Users/zhangxiangyun/Downloads/The_DTU_Years/2/repopilot/scripts/service-stress.py", line 377, in <module>
+    main()
+    ~~~~^^
+  File "/Users/zhangxiangyun/Downloads/The_DTU_Years/2/repopilot/scripts/service-stress.py", line 362, in main
+    report['scaling'].append(experiment.scaling(workers,submitters,repeat,args.tasks))
+                             ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zhangxiangyun/Downloads/The_DTU_Years/2/repopilot/scripts/service-stress.py", line 190, in scaling
+    wait(lambda: self.counts()['terminal'] == n, 120)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zhangxiangyun/Downloads/The_DTU_Years/2/repopilot/scripts/service-stress.py", line 33, in wait
+    value = predicate()
+  File "/Users/zhangxiangyun/Downloads/The_DTU_Years/2/repopilot/scripts/service-stress.py", line 190, in <lambda>
+    wait(lambda: self.counts()['terminal'] == n, 120)
+                 ~~~~~~~~~~~^^
+  File "/Users/zhangxiangyun/Downloads/The_DTU_Years/2/repopilot/scripts/service-stress.py", line 166, in counts
+    with self.store.connect() as db:
+         ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/zhangxiangyun/Downloads/The_DTU_Years/2/repopilot/src/repopilot/service/store.py", line 46, in connect
+    return psycopg.connect(self.settings.database_url, row_factory=dict_row,
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                           connect_timeout=3, options="-c statement_timeout=5000 -c lock_timeout=3000")
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zhangxiangyun/Downloads/The_DTU_Years/2/repopilot/.venv/lib/python3.13/site-packages/psycopg/connection.py", line 122, in connect
+    raise last_ex.with_traceback(None)
+psycopg.OperationalError: connection failed: connection to server at "127.0.0.1", port 62766 failed: server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.

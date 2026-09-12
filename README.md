@@ -1,16 +1,32 @@
 # RepoPilot
 
-RepoPilot is a local **Agent Engineering & Evaluation Platform** for building, observing, testing, and evaluating repository-level coding agents under controlled execution. It connects an issue to bounded repository context, a single-agent tool-calling loop, six typed tools, a restricted Docker sandbox, versioned traces, evidence-based failure classification, and separate deterministic, live-model, reliability, and SWE-bench Verified evaluation tracks.
+RepoPilot is an **end-to-end agent execution service and Agent Engineering & Evaluation Platform** for repository-level coding tasks. A FastAPI control plane persists tasks and run attempts in PostgreSQL, dispatches background workers through atomic claims, and connects them to the existing bounded agent runtime and restricted Docker sandbox.
 
-```text
-issue → repository context → model decision → typed tool → restricted sandbox
-      → patch / test / bounded recovery → structured trace → evaluation
+```mermaid
+flowchart LR
+    API[REST API] --> DB[(Persistent task lifecycle)]
+    DB --> Workers[Workers / atomic claiming / leases]
+    Workers --> Agent[Existing AgentLoop]
+    Agent --> Sandbox[Restricted staged Docker sandbox]
+    Agent --> Results[Result / trajectory]
+    Results --> DB
 ```
 
-The project is designed to make agent behavior inspectable and falsifiable. It is not presented as a production service or as broad evidence of SWE-bench performance.
+The service adds idempotent submission, tested concurrency and worker recovery, correlated logs, real migrations, and a multi-service local Compose deployment. Its supported execution boundary is one host with a shared Docker daemon and artifact filesystem. This is a **production-style service architecture**, not a proven production-ready or highly scalable service.
+
+Start the scripted local stack without model API calls:
+
+```bash
+./scripts/service-dev.sh
+python3 scripts/service-smoke.py
+```
+
+The stack includes the API, PostgreSQL and two workers. See the [service architecture, API, deployment and trust boundaries](docs/SERVICE.md) and [post-implementation audit](docs/SERVICE_AUDIT.md), and [local stress measurements and latest regression results](docs/SERVICE_STRESS.md). The [engineering-depth acceptance report](docs/SERVICE_DEPTH.md) covers indexed recovery, bounded admission, authenticated metrics and the API/storage contracts. Existing CLI and evaluation workflows remain available below. Historical negative results and benchmark evidence are preserved separately from service correctness tests.
 
 ## What RepoPilot demonstrates
 
+- Persistent asynchronous task/run execution with PostgreSQL claims, leases and database-enforced idempotency.
+- Cross-process concurrency tests, worker-death recovery, safe trace metadata and reproducible local Compose deployment.
 - A bounded single-agent controller with typed model actions and explicit stop conditions.
 - Exactly six repository tools; no model-visible shell, Docker flags, or host paths.
 - Restricted, networkless Docker execution over a staged repository copy.
@@ -22,7 +38,7 @@ The project is designed to make agent behavior inspectable and falsifiable. It i
 - Controlled hidden-test evaluation and separately reported SWE-bench Verified reference, feasibility, behavioral, and qualification tracks.
 - Frozen model/controller compatibility gates that measure protocol use independently from coding-task success.
 
-## Architecture
+## Agent and evaluation architecture
 
 ```mermaid
 flowchart TB
@@ -326,12 +342,12 @@ The compatibility command is a synthetic protocol gate, not a coding benchmark. 
 
 ## Design trade-offs and limitations
 
-- RepoPilot is a local, single-agent Python/pytest-oriented system, not a production service.
-- It has no distributed execution, persistent memory, database, UI, Kubernetes layer, or production deployment claim.
+- RepoPilot now includes a single-host execution service around its single-agent Python/pytest runtime; it makes no production-readiness or availability claim.
+- The service uses PostgreSQL and multiple local worker processes. It has no multi-host execution, persistent agent memory, UI, Kubernetes layer, or production deployment claim.
 - MCP is local stdio only; the direct path remains the normal internal controller path.
 - Structural retrieval remains the default. Semantic/hybrid retrieval was implemented but failed its promotion gate.
 - The controlled benchmark is small and scripted evaluation validates infrastructure, not intelligence.
-- Reliability evidence is limited to the eight deterministic injected scenarios.
+- Agent recovery evidence covers eight frozen injected scenarios; service lifecycle/concurrency evidence and corrected crash-path findings are reported separately in [SERVICE_AUDIT.md](docs/SERVICE_AUDIT.md).
 - External behavioral evidence now exists: RepoPilot resolved 3/5 tasks in the frozen Cohort 2 pilot under official grading, but five tasks and one attempt each provide no variance estimate or broad solve-rate evidence.
 - Two Cohort 2 attempts exhausted the frozen 30-iteration budget without editing and produced empty patches; no unsupported root cause is inferred.
 - SWE-bench environment compatibility remains selective under the strict networkless sandbox and trusted-plan boundary: an earlier fresh cohort stopped at 1/3 qualification even though Cohort 2 later qualified 5/5.
@@ -343,6 +359,6 @@ The compatibility command is a synthetic protocol gate, not a coding benchmark. 
 
 ## Project scope and non-goals
 
-The current milestone deliberately excludes multi-agent orchestration, persistent memory, arbitrary shell access, remote MCP, dashboards, databases, broad language support, distributed infrastructure, Kubernetes, and a UI. Future ideas in [V2_SPEC.md](docs/V2_SPEC.md) are design context only; the claims above describe only implemented and measured behavior.
+The current milestone deliberately excludes multi-agent orchestration, persistent agent memory, arbitrary shell access, remote MCP, dashboards, broad language support, multi-host infrastructure, Kubernetes, and a UI. The PostgreSQL-backed service is documented in [SERVICE.md](docs/SERVICE.md). Future ideas in [V2_SPEC.md](docs/V2_SPEC.md) are design context only; the claims above describe only implemented and measured behavior.
 
-The repository is frozen for the current job-search milestone. Negative results and stopped gates are retained as engineering evidence rather than rewritten as successes.
+Historical evaluation protocols, negative results, and stopped gates are retained as engineering evidence. The new service tests do not revise or generalize those benchmark outcomes.

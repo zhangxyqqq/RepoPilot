@@ -1,0 +1,2844 @@
+{
+  "started_at": "2026-09-12T13:11:17.149754+00:00",
+  "source_sha256": {
+    "/Users/zhangxiangyun/Downloads/The_DTU_Years/2/repopilot/scripts/service-stress.py": "e7e4968deba27c94480e669c96f1a6d24fb0472b27b87237a1c0be1a5a4befce",
+    "src/repopilot/service/worker.py": "9de7876459d9d54be97755925e1428fd9c79d196c098f785022399bf3554f2b8",
+    "src/repopilot/service/store.py": "0d011286bee98d11f6308bc5787d4610f36e0e22ad04b6288ad2f05559002ae1",
+    "src/repopilot/service/logging.py": "de8deb910a2a804ed4fa3805b5eada4e7fc57db3ac9cbb28cb32de9007381543",
+    "src/repopilot/service/__init__.py": "574d4a5b72a406001136043359191cd50e4c3d1d08ed7f9b4a8238dd02b304fc",
+    "src/repopilot/service/api.py": "011129dfd45691c575911167e183223f856b632eaa0961e9426524b8e0527e5f",
+    "src/repopilot/service/schemas.py": "2947a9da39fe861df5327c193e19daf3e111cc536b55a78368e0ddd0141fc142",
+    "src/repopilot/service/settings.py": "e1f0d1a1a780ae1159995b439a618f1d74b95f2181befff20003c864a65dc2b0",
+    "src/repopilot/service/executor.py": "cf574671f3c025c7878a327cb265fe90ed00a46275826938b632df43e7bcbd5b"
+  },
+  "environment": {
+    "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "python": "3.13.7",
+    "host_logical_cpus": 12,
+    "docker_resources": "12 CPUs; 8217165824 bytes RAM"
+  },
+  "workload": {
+    "executor": "injected deterministic 0.1s callable; real Worker/Store/HTTP/PostgreSQL; no AgentLoop/model calls",
+    "poll_seconds": 1,
+    "sampler_interval_seconds": 0.1,
+    "quantile_method": "nearest rank",
+    "throughput_interval": "first HTTP submission through final DB terminal observation; includes duplicate requests and poll delay",
+    "lease_seconds": 3,
+    "repetitions": 2,
+    "duplicate_requests_per_task": 2,
+    "worker_startup_excluded": true
+  },
+  "scaling": [
+    {
+      "workers": 1,
+      "submitters": 32,
+      "repeat": 1,
+      "logical_tasks": 192,
+      "executor_seconds": 0.1,
+      "sampling_errors": [],
+      "peak_sampled_db_connections": 28,
+      "peak_sampled_lock_waiters": 0,
+      "elapsed_seconds": 31.047,
+      "throughput_tasks_per_second": 6.184,
+      "submission_ms": {
+        "n": 384,
+        "p50": 137.857,
+        "p95": 250.065,
+        "max": 308.518
+      },
+      "queue_ms": {
+        "n": 192,
+        "p50": 15841.699,
+        "p95": 28719.996,
+        "max": 30069.868
+      },
+      "end_to_end_ms": {
+        "n": 192,
+        "p50": 15969.506,
+        "p95": 28849.103,
+        "max": 30208.949
+      },
+      "run_ms": {
+        "n": 192,
+        "p50": 134.703,
+        "p95": 151.618,
+        "max": 177.125
+      },
+      "claim_ms": {
+        "n": 192,
+        "p50": 18.851,
+        "p95": 24.863,
+        "max": 73.288
+      },
+      "worker_connect_ms": {
+        "n": 578,
+        "p50": 8.63,
+        "p95": 13.107,
+        "max": 61.243
+      },
+      "duplicate_executions": 0,
+      "simultaneous_duplicates": 0,
+      "attempts": 192,
+      "failures": 0,
+      "admission_failures": 0,
+      "created": 192,
+      "deduplicated": 192
+    },
+    {
+      "workers": 2,
+      "submitters": 32,
+      "repeat": 1,
+      "logical_tasks": 192,
+      "executor_seconds": 0.1,
+      "sampling_errors": [],
+      "peak_sampled_db_connections": 20,
+      "peak_sampled_lock_waiters": 0,
+      "elapsed_seconds": 15.466,
+      "throughput_tasks_per_second": 12.414,
+      "submission_ms": {
+        "n": 384,
+        "p50": 113.363,
+        "p95": 225.713,
+        "max": 308.905
+      },
+      "queue_ms": {
+        "n": 192,
+        "p50": 7796.095,
+        "p95": 14099.684,
+        "max": 14630.965
+      },
+      "end_to_end_ms": {
+        "n": 192,
+        "p50": 7929.375,
+        "p95": 14235.815,
+        "max": 14765.005
+      },
+      "run_ms": {
+        "n": 192,
+        "p50": 133.081,
+        "p95": 140.631,
+        "max": 162.947
+      },
+      "claim_ms": {
+        "n": 192,
+        "p50": 14.357,
+        "p95": 21.891,
+        "max": 28.797
+      },
+      "worker_connect_ms": {
+        "n": 580,
+        "p50": 8.089,
+        "p95": 10.828,
+        "max": 13.972
+      },
+      "duplicate_executions": 0,
+      "simultaneous_duplicates": 0,
+      "attempts": 192,
+      "failures": 0,
+      "admission_failures": 0,
+      "created": 192,
+      "deduplicated": 192
+    },
+    {
+      "workers": 4,
+      "submitters": 32,
+      "repeat": 1,
+      "logical_tasks": 192,
+      "executor_seconds": 0.1,
+      "sampling_errors": [],
+      "peak_sampled_db_connections": 21,
+      "peak_sampled_lock_waiters": 0,
+      "elapsed_seconds": 8.374,
+      "throughput_tasks_per_second": 22.929,
+      "submission_ms": {
+        "n": 384,
+        "p50": 113.516,
+        "p95": 166.194,
+        "max": 234.34
+      },
+      "queue_ms": {
+        "n": 192,
+        "p50": 4287.263,
+        "p95": 7302.956,
+        "max": 7560.548
+      },
+      "end_to_end_ms": {
+        "n": 192,
+        "p50": 4434.318,
+        "p95": 7433.865,
+        "max": 7689.978
+      },
+      "run_ms": {
+        "n": 192,
+        "p50": 131.579,
+        "p95": 143.359,
+        "max": 181.474
+      },
+      "claim_ms": {
+        "n": 192,
+        "p50": 14.446,
+        "p95": 20.014,
+        "max": 78.339
+      },
+      "worker_connect_ms": {
+        "n": 584,
+        "p50": 7.533,
+        "p95": 12.28,
+        "max": 35.987
+      },
+      "duplicate_executions": 0,
+      "simultaneous_duplicates": 0,
+      "attempts": 192,
+      "failures": 0,
+      "admission_failures": 0,
+      "created": 192,
+      "deduplicated": 192
+    },
+    {
+      "workers": 8,
+      "submitters": 32,
+      "repeat": 1,
+      "logical_tasks": 192,
+      "executor_seconds": 0.1,
+      "sampling_errors": [],
+      "peak_sampled_db_connections": 29,
+      "peak_sampled_lock_waiters": 0,
+      "elapsed_seconds": 4.733,
+      "throughput_tasks_per_second": 40.566,
+      "submission_ms": {
+        "n": 384,
+        "p50": 118.395,
+        "p95": 181.405,
+        "max": 224.826
+      },
+      "queue_ms": {
+        "n": 192,
+        "p50": 2415.143,
+        "p95": 3683.429,
+        "max": 3826.666
+      },
+      "end_to_end_ms": {
+        "n": 192,
+        "p50": 2538.491,
+        "p95": 3820.842,
+        "max": 3960.768
+      },
+      "run_ms": {
+        "n": 192,
+        "p50": 127.952,
+        "p95": 175.432,
+        "max": 224.634
+      },
+      "claim_ms": {
+        "n": 192,
+        "p50": 15.074,
+        "p95": 46.17,
+        "max": 105.919
+      },
+      "worker_connect_ms": {
+        "n": 592,
+        "p50": 7.191,
+        "p95": 18.632,
+        "max": 52.628
+      },
+      "duplicate_executions": 0,
+      "simultaneous_duplicates": 0,
+      "attempts": 192,
+      "failures": 0,
+      "admission_failures": 0,
+      "created": 192,
+      "deduplicated": 192
+    },
+    {
+      "workers": 16,
+      "submitters": 32,
+      "repeat": 1,
+      "logical_tasks": 192,
+      "executor_seconds": 0.1,
+      "sampling_errors": [],
+      "peak_sampled_db_connections": 32,
+      "peak_sampled_lock_waiters": 0,
+      "elapsed_seconds": 2.855,
+      "throughput_tasks_per_second": 67.248,
+      "submission_ms": {
+        "n": 384,
+        "p50": 143.222,
+        "p95": 205.588,
+        "max": 260.708
+      },
+      "queue_ms": {
+        "n": 192,
+        "p50": 1288.812,
+        "p95": 1777.828,
+        "max": 1821.536
+      },
+      "end_to_end_ms": {
+        "n": 192,
+        "p50": 1451.27,
+        "p95": 1902.779,
+        "max": 1951.176
+      },
+      "run_ms": {
+        "n": 192,
+        "p50": 141.607,
+        "p95": 229.45,
+        "max": 296.311
+      },
+      "claim_ms": {
+        "n": 192,
+        "p50": 21.113,
+        "p95": 98.875,
+        "max": 127.219
+      },
+      "worker_connect_ms": {
+        "n": 598,
+        "p50": 8.853,
+        "p95": 39.677,
+        "max": 112.085
+      },
+      "duplicate_executions": 0,
+      "simultaneous_duplicates": 0,
+      "attempts": 192,
+      "failures": 0,
+      "admission_failures": 0,
+      "created": 192,
+      "deduplicated": 192
+    },
+    {
+      "workers": 32,
+      "submitters": 32,
+      "repeat": 1,
+      "logical_tasks": 192,
+      "executor_seconds": 0.1,
+      "sampling_errors": [],
+      "peak_sampled_db_connections": 38,
+      "peak_sampled_lock_waiters": 0,
+      "elapsed_seconds": 2.405,
+      "throughput_tasks_per_second": 79.823,
+      "submission_ms": {
+        "n": 384,
+        "p50": 147.675,
+        "p95": 256.919,
+        "max": 350.646
+      },
+      "queue_ms": {
+        "n": 192,
+        "p50": 966.4,
+        "p95": 1430.887,
+        "max": 1486.828
+      },
+      "end_to_end_ms": {
+        "n": 192,
+        "p50": 1273.793,
+        "p95": 1573.689,
+        "max": 1627.668
+      },
+      "run_ms": {
+        "n": 192,
+        "p50": 177.565,
+        "p95": 320.175,
+        "max": 377.696
+      },
+      "claim_ms": {
+        "n": 192,
+        "p50": 46.589,
+        "p95": 151.24,
+        "max": 175.066
+      },
+      "worker_connect_ms": {
+        "n": 626,
+        "p50": 16.696,
+        "p95": 84.517,
+        "max": 159.396
+      },
+      "duplicate_executions": 0,
+      "simultaneous_duplicates": 0,
+      "attempts": 192,
+      "failures": 0,
+      "admission_failures": 0,
+      "created": 192,
+      "deduplicated": 192
+    },
+    {
+      "workers": 16,
+      "submitters": 8,
+      "repeat": 1,
+      "logical_tasks": 192,
+      "executor_seconds": 0.1,
+      "sampling_errors": [],
+      "peak_sampled_db_connections": 17,
+      "peak_sampled_lock_waiters": 0,
+      "elapsed_seconds": 2.952,
+      "throughput_tasks_per_second": 65.03,
+      "submission_ms": {
+        "n": 384,
+        "p50": 31.293,
+        "p95": 55.562,
+        "max": 72.12
+      },
+      "queue_ms": {
+        "n": 192,
+        "p50": 1620.623,
+        "p95": 2182.56,
+        "max": 2206.066
+      },
+      "end_to_end_ms": {
+        "n": 192,
+        "p50": 1743.488,
+        "p95": 2312.129,
+        "max": 2337.415
+      },
+      "run_ms": {
+        "n": 192,
+        "p50": 131.133,
+        "p95": 163.321,
+        "max": 178.697
+      },
+      "claim_ms": {
+        "n": 192,
+        "p50": 18.749,
+        "p95": 37.887,
+        "max": 46.916
+      },
+      "worker_connect_ms": {
+        "n": 606,
+        "p50": 8.189,
+        "p95": 16.619,
+        "max": 31.383
+      },
+      "duplicate_executions": 0,
+      "simultaneous_duplicates": 0,
+      "attempts": 192,
+      "failures": 0,
+      "admission_failures": 0,
+      "created": 192,
+      "deduplicated": 192
+    },
+    {
+      "workers": 16,
+      "submitters": 64,
+      "repeat": 1,
+      "logical_tasks": 192,
+      "executor_seconds": 0.1,
+      "sampling_errors": [],
+      "peak_sampled_db_connections": 33,
+      "peak_sampled_lock_waiters": 0,
+      "elapsed_seconds": 2.98,
+      "throughput_tasks_per_second": 64.419,
+      "submission_ms": {
+        "n": 384,
+        "p50": 206.493,
+        "p95": 396.0,
+        "max": 438.443
+      },
+      "queue_ms": {
+        "n": 192,
+        "p50": 1616.244,
+        "p95": 2185.601,
+        "max": 2207.287
+      },
+      "end_to_end_ms": {
+        "n": 192,
+        "p50": 1746.671,
+        "p95": 2312.945,
+        "max": 2334.256
+      },
+      "run_ms": {
+        "n": 192,
+        "p50": 129.234,
+        "p95": 192.065,
+        "max": 221.624
+      },
+      "claim_ms": {
+        "n": 192,
+        "p50": 16.555,
+        "p95": 67.672,
+        "max": 92.678
+      },
+      "worker_connect_ms": {
+        "n": 606,
+        "p50": 7.498,
+        "p95": 32.882,
+        "max": 56.782
+      },
+      "duplicate_executions": 0,
+      "simultaneous_duplicates": 0,
+      "attempts": 192,
+      "failures": 0,
+      "admission_failures": 0,
+      "created": 192,
+      "deduplicated": 192
+    },
+    {
+      "workers": 1,
+      "submitters": 32,
+      "repeat": 2,
+      "logical_tasks": 192,
+      "executor_seconds": 0.1,
+      "sampling_errors": [],
+      "peak_sampled_db_connections": 23,
+      "peak_sampled_lock_waiters": 0,
+      "elapsed_seconds": 30.464,
+      "throughput_tasks_per_second": 6.302,
+      "submission_ms": {
+        "n": 384,
+        "p50": 126.661,
+        "p95": 213.246,
+        "max": 249.283
+      },
+      "queue_ms": {
+        "n": 192,
+        "p50": 15174.078,
+        "p95": 28230.858,
+        "max": 29568.965
+      },
+      "end_to_end_ms": {
+        "n": 192,
+        "p50": 15314.174,
+        "p95": 28363.921,
+        "max": 29702.641
+      },
+      "run_ms": {
+        "n": 192,
+        "p50": 134.787,
+        "p95": 141.197,
+        "max": 150.492
+      },
+      "claim_ms": {
+        "n": 192,
+        "p50": 18.243,
+        "p95": 20.603,
+        "max": 50.939
+      },
+      "worker_connect_ms": {
+        "n": 578,
+        "p50": 8.41,
+        "p95": 10.224,
+        "max": 36.925
+      },
+      "duplicate_executions": 0,
+      "simultaneous_duplicates": 0,
+      "attempts": 192,
+      "failures": 0,
+      "admission_failures": 0,
+      "created": 192,
+      "deduplicated": 192
+    },
+    {
+      "workers": 2,
+      "submitters": 32,
+      "repeat": 2,
+      "logical_tasks": 192,
+      "executor_seconds": 0.1,
+      "sampling_errors": [],
+      "peak_sampled_db_connections": 27,
+      "peak_sampled_lock_waiters": 0,
+      "elapsed_seconds": 15.574,
+      "throughput_tasks_per_second": 12.328,
+      "submission_ms": {
+        "n": 384,
+        "p50": 121.19,
+        "p95": 206.131,
+        "max": 260.814
+      },
+      "queue_ms": {
+        "n": 192,
+        "p50": 7991.193,
+        "p95": 14243.409,
+        "max": 14790.754
+      },
+      "end_to_end_ms": {
+        "n": 192,
+        "p50": 8116.971,
+        "p95": 14372.672,
+        "max": 14924.74
+      },
+      "run_ms": {
+        "n": 192,
+        "p50": 132.54,
+        "p95": 138.461,
+        "max": 192.957
+      },
+      "claim_ms": {
+        "n": 192,
+        "p50": 15.636,
+        "p95": 20.417,
+        "max": 60.43
+      },
+      "worker_connect_ms": {
+        "n": 580,
+        "p50": 8.081,
+        "p95": 11.289,
+        "max": 49.437
+      },
+      "duplicate_executions": 0,
+      "simultaneous_duplicates": 0,
+      "attempts": 192,
+      "failures": 0,
+      "admission_failures": 0,
+      "created": 192,
+      "deduplicated": 192
+    },
+    {
+      "workers": 4,
+      "submitters": 32,
+      "repeat": 2,
+      "logical_tasks": 192,
+      "executor_seconds": 0.1,
+      "sampling_errors": [],
+      "peak_sampled_db_connections": 23,
+      "peak_sampled_lock_waiters": 0,
+      "elapsed_seconds": 8.328,
+      "throughput_tasks_per_second": 23.054,
+      "submission_ms": {
+        "n": 384,
+        "p50": 124.361,
+        "p95": 197.637,
+        "max": 273.367
+      },
+      "queue_ms": {
+        "n": 192,
+        "p50": 4257.265,
+        "p95": 7232.351,
+        "max": 7532.531
+      },
+      "end_to_end_ms": {
+        "n": 192,
+        "p50": 4391.029,
+        "p95": 7370.51,
+        "max": 7669.744
+      },
+      "run_ms": {
+        "n": 192,
+        "p50": 133.183,
+        "p95": 139.781,
+        "max": 187.483
+      },
+      "claim_ms": {
+        "n": 192,
+        "p50": 14.273,
+        "p95": 22.864,
+        "max": 43.962
+      },
+      "worker_connect_ms": {
+        "n": 584,
+        "p50": 7.808,
+        "p95": 11.694,
+        "max": 49.416
+      },
+      "duplicate_executions": 0,
+      "simultaneous_duplicates": 0,
+      "attempts": 192,
+      "failures": 0,
+      "admission_failures": 0,
+      "created": 192,
+      "deduplicated": 192
+    },
+    {
+      "workers": 8,
+      "submitters": 32,
+      "repeat": 2,
+      "logical_tasks": 192,
+      "executor_seconds": 0.1,
+      "sampling_errors": [],
+      "peak_sampled_db_connections": 31,
+      "peak_sampled_lock_waiters": 0,
+      "elapsed_seconds": 4.773,
+      "throughput_tasks_per_second": 40.222,
+      "submission_ms": {
+        "n": 384,
+        "p50": 139.728,
+        "p95": 223.964,
+        "max": 255.521
+      },
+      "queue_ms": {
+        "n": 192,
+        "p50": 2441.476,
+        "p95": 3800.96,
+        "max": 3941.201
+      },
+      "end_to_end_ms": {
+        "n": 192,
+        "p50": 2571.376,
+        "p95": 3931.052,
+        "max": 4080.686
+      },
+      "run_ms": {
+        "n": 192,
+        "p50": 130.576,
+        "p95": 167.64,
+        "max": 190.513
+      },
+      "claim_ms": {
+        "n": 192,
+        "p50": 15.778,
+        "p95": 35.754,
+        "max": 41.162
+      },
+      "worker_connect_ms": {
+        "n": 592,
+        "p50": 7.59,
+        "p95": 18.766,
+        "max": 33.057
+      },
+      "duplicate_executions": 0,
+      "simultaneous_duplicates": 0,
+      "attempts": 192,
+      "failures": 0,
+      "admission_failures": 0,
+      "created": 192,
+      "deduplicated": 192
+    },
+    {
+      "workers": 16,
+      "submitters": 32,
+      "repeat": 2,
+      "logical_tasks": 192,
+      "executor_seconds": 0.1,
+      "sampling_errors": [],
+      "peak_sampled_db_connections": 22,
+      "peak_sampled_lock_waiters": 0,
+      "elapsed_seconds": 3.1,
+      "throughput_tasks_per_second": 61.944,
+      "submission_ms": {
+        "n": 384,
+        "p50": 123.17,
+        "p95": 188.762,
+        "max": 282.985
+      },
+      "queue_ms": {
+        "n": 192,
+        "p50": 1716.617,
+        "p95": 2186.953,
+        "max": 2255.931
+      },
+      "end_to_end_ms": {
+        "n": 192,
+        "p50": 1848.688,
+        "p95": 2316.019,
+        "max": 2387.844
+      },
+      "run_ms": {
+        "n": 192,
+        "p50": 129.494,
+        "p95": 180.296,
+        "max": 223.065
+      },
+      "claim_ms": {
+        "n": 192,
+        "p50": 15.991,
+        "p95": 61.515,
+        "max": 83.835
+      },
+      "worker_connect_ms": {
+        "n": 608,
+        "p50": 6.966,
+        "p95": 22.884,
+        "max": 48.914
+      },
+      "duplicate_executions": 0,
+      "simultaneous_duplicates": 0,
+      "attempts": 192,
+      "failures": 0,
+      "admission_failures": 0,
+      "created": 192,
+      "deduplicated": 192
+    },
+    {
+      "workers": 32,
+      "submitters": 32,
+      "repeat": 2,
+      "logical_tasks": 192,
+      "executor_seconds": 0.1,
+      "sampling_errors": [],
+      "peak_sampled_db_connections": 39,
+      "peak_sampled_lock_waiters": 0,
+      "elapsed_seconds": 2.247,
+      "throughput_tasks_per_second": 85.441,
+      "submission_ms": {
+        "n": 384,
+        "p50": 143.877,
+        "p95": 297.066,
+        "max": 420.912
+      },
+      "queue_ms": {
+        "n": 192,
+        "p50": 615.705,
+        "p95": 1263.401,
+        "max": 1289.068
+      },
+      "end_to_end_ms": {
+        "n": 192,
+        "p50": 862.625,
+        "p95": 1403.023,
+        "max": 1412.165
+      },
+      "run_ms": {
+        "n": 192,
+        "p50": 209.84,
+        "p95": 382.944,
+        "max": 455.742
+      },
+      "claim_ms": {
+        "n": 192,
+        "p50": 77.608,
+        "p95": 164.233,
+        "max": 243.577
+      },
+      "worker_connect_ms": {
+        "n": 616,
+        "p50": 25.059,
+        "p95": 107.521,
+        "max": 194.28
+      },
+      "duplicate_executions": 0,
+      "simultaneous_duplicates": 0,
+      "attempts": 192,
+      "failures": 0,
+      "admission_failures": 0,
+      "created": 192,
+      "deduplicated": 192
+    },
+    {
+      "workers": 16,
+      "submitters": 8,
+      "repeat": 2,
+      "logical_tasks": 192,
+      "executor_seconds": 0.1,
+      "sampling_errors": [],
+      "peak_sampled_db_connections": 16,
+      "peak_sampled_lock_waiters": 0,
+      "elapsed_seconds": 2.871,
+      "throughput_tasks_per_second": 66.88,
+      "submission_ms": {
+        "n": 384,
+        "p50": 30.706,
+        "p95": 50.897,
+        "max": 61.716
+      },
+      "queue_ms": {
+        "n": 192,
+        "p50": 1515.083,
+        "p95": 2137.051,
+        "max": 2155.142
+      },
+      "end_to_end_ms": {
+        "n": 192,
+        "p50": 1635.497,
+        "p95": 2264.08,
+        "max": 2283.125
+      },
+      "run_ms": {
+        "n": 192,
+        "p50": 130.58,
+        "p95": 152.454,
+        "max": 159.681
+      },
+      "claim_ms": {
+        "n": 192,
+        "p50": 18.103,
+        "p95": 33.352,
+        "max": 50.61
+      },
+      "worker_connect_ms": {
+        "n": 606,
+        "p50": 7.926,
+        "p95": 15.184,
+        "max": 35.897
+      },
+      "duplicate_executions": 0,
+      "simultaneous_duplicates": 0,
+      "attempts": 192,
+      "failures": 0,
+      "admission_failures": 0,
+      "created": 192,
+      "deduplicated": 192
+    },
+    {
+      "workers": 16,
+      "submitters": 64,
+      "repeat": 2,
+      "logical_tasks": 192,
+      "executor_seconds": 0.1,
+      "sampling_errors": [],
+      "peak_sampled_db_connections": 29,
+      "peak_sampled_lock_waiters": 0,
+      "elapsed_seconds": 3.139,
+      "throughput_tasks_per_second": 61.158,
+      "submission_ms": {
+        "n": 384,
+        "p50": 268.111,
+        "p95": 416.329,
+        "max": 607.761
+      },
+      "queue_ms": {
+        "n": 192,
+        "p50": 1620.749,
+        "p95": 2338.119,
+        "max": 2352.195
+      },
+      "end_to_end_ms": {
+        "n": 192,
+        "p50": 1777.336,
+        "p95": 2470.367,
+        "max": 2484.464
+      },
+      "run_ms": {
+        "n": 192,
+        "p50": 138.068,
+        "p95": 173.144,
+        "max": 188.787
+      },
+      "claim_ms": {
+        "n": 192,
+        "p50": 24.117,
+        "p95": 51.33,
+        "max": 54.468
+      },
+      "worker_connect_ms": {
+        "n": 608,
+        "p50": 9.982,
+        "p95": 27.701,
+        "max": 41.366
+      },
+      "duplicate_executions": 0,
+      "simultaneous_duplicates": 0,
+      "attempts": 192,
+      "failures": 0,
+      "admission_failures": 0,
+      "created": 192,
+      "deduplicated": 192
+    }
+  ],
+  "passed": false,
+  "error_type": "AssertionError",
+  "last_admissions": {
+    "workers": 16,
+    "submitters": 64,
+    "responses": [
+      {
+        "status": 202,
+        "id": "6470dca6-1ff1-42f2-9f83-d2e8892adc41",
+        "ms": 72.99791602417827
+      },
+      {
+        "status": 202,
+        "id": "902bfacc-763a-4c0c-90aa-6f0399d570e8",
+        "ms": 75.96087496494874
+      },
+      {
+        "status": 202,
+        "id": "1b157df5-c3a0-4753-87c3-5a591b29be35",
+        "ms": 238.63529099617153
+      },
+      {
+        "status": 202,
+        "id": "6438c97a-f25d-492a-b477-83cdb723ea65",
+        "ms": 246.7969169956632
+      },
+      {
+        "status": 202,
+        "id": "aac7ff60-6e90-43dc-a634-88a0661d1a5f",
+        "ms": 250.16904203221202
+      },
+      {
+        "status": 202,
+        "id": "b652db19-27dc-42eb-918a-d9a3012629f0",
+        "ms": 232.36583301331848
+      },
+      {
+        "status": 202,
+        "id": "c706f411-a084-4cd3-b780-27d69eeb6e2c",
+        "ms": 76.04841695865616
+      },
+      {
+        "status": 202,
+        "id": "d0cda8c0-363e-4614-94d8-ef0a43ddfda5",
+        "ms": 263.47758300835267
+      },
+      {
+        "status": 202,
+        "id": "ac8cf6dd-3b92-410f-83e2-efcbae879c52",
+        "ms": 262.2635830193758
+      },
+      {
+        "status": 202,
+        "id": "85b812dd-89c2-4a66-97b4-3a9dc75aa521",
+        "ms": 263.3984580170363
+      },
+      {
+        "status": 202,
+        "id": "9b9aebbf-2204-47df-a1cf-73ff7325884e",
+        "ms": 267.7747919806279
+      },
+      {
+        "status": 202,
+        "id": "c3e2e50a-a652-4ba0-afa2-74772aac056c",
+        "ms": 276.0113750118762
+      },
+      {
+        "status": 202,
+        "id": "32e32f00-2fff-40d8-bd21-0ea760949a71",
+        "ms": 249.4066670187749
+      },
+      {
+        "status": 202,
+        "id": "16b8d587-f57c-4d5f-97d1-f59ee7582995",
+        "ms": 268.268707965035
+      },
+      {
+        "status": 202,
+        "id": "43a1f2bc-3ef6-43ce-aac2-823e6a238a26",
+        "ms": 262.56129203829914
+      },
+      {
+        "status": 202,
+        "id": "0267bb22-5942-4087-b6fa-bd2f956c4af3",
+        "ms": 262.9099999903701
+      },
+      {
+        "status": 202,
+        "id": "f69db06f-043e-41fc-8a3f-923d2bd907e0",
+        "ms": 275.1196250319481
+      },
+      {
+        "status": 202,
+        "id": "6bc3892d-024e-4c5a-a739-f2ecfaf1dab4",
+        "ms": 281.25516697764397
+      },
+      {
+        "status": 202,
+        "id": "3ac3d242-dabf-4888-9d08-a79d52a3579b",
+        "ms": 261.41274999827147
+      },
+      {
+        "status": 202,
+        "id": "4ce85028-f4f9-4eb7-81ce-572778cacca9",
+        "ms": 270.73237497825176
+      },
+      {
+        "status": 202,
+        "id": "3cfda99f-5227-4680-bb30-d19365fbace8",
+        "ms": 279.06908304430544
+      },
+      {
+        "status": 202,
+        "id": "e334a403-4a77-4717-b077-4e52ed57154f",
+        "ms": 259.50354197993875
+      },
+      {
+        "status": 202,
+        "id": "723a00ae-d9b1-481d-9c35-36b7a8614672",
+        "ms": 268.1107079843059
+      },
+      {
+        "status": 202,
+        "id": "062d528f-a562-47c0-a554-c3d52f4205e7",
+        "ms": 267.75537501089275
+      },
+      {
+        "status": 202,
+        "id": "8218c04e-37c5-4b4f-bfc5-fa55f203b99f",
+        "ms": 277.72374998312443
+      },
+      {
+        "status": 202,
+        "id": "926eb191-2db7-4918-b47c-3a294b5575cb",
+        "ms": 268.4006250347011
+      },
+      {
+        "status": 202,
+        "id": "f85124b8-2692-49a6-ad3f-0e6ef7b939cf",
+        "ms": 268.0894579971209
+      },
+      {
+        "status": 202,
+        "id": "82b11478-ed73-44bb-877a-0b294d534c8d",
+        "ms": 276.4195829513483
+      },
+      {
+        "status": 202,
+        "id": "123ef5bb-ef42-42f5-8a15-19e204dc3887",
+        "ms": 274.37116601504385
+      },
+      {
+        "status": 202,
+        "id": "016a7629-347a-4c60-b9ed-4b9e630db63c",
+        "ms": 267.6040839869529
+      },
+      {
+        "status": 202,
+        "id": "673405d7-4151-4fc3-a73c-95dbc96baed1",
+        "ms": 279.70758301671594
+      },
+      {
+        "status": 202,
+        "id": "d2654f65-9ad0-4ff6-bad8-f49e7aa9f382",
+        "ms": 273.9853329840116
+      },
+      {
+        "status": 202,
+        "id": "da9bd962-4d0a-4063-9e09-f163fcf1218b",
+        "ms": 271.361708000768
+      },
+      {
+        "status": 202,
+        "id": "80164b1e-1553-47f6-94d5-6d42cb8c2e55",
+        "ms": 271.9635409885086
+      },
+      {
+        "status": 202,
+        "id": "5a2e1cd8-ba45-4fd9-ada2-a79512e53929",
+        "ms": 243.39858297025785
+      },
+      {
+        "status": 202,
+        "id": "6f4da589-c906-4dc2-a1b9-a39be4234dc6",
+        "ms": 275.2569160074927
+      },
+      {
+        "status": 202,
+        "id": "6b97edf3-2cd1-49f5-82f7-0cac1ed2817d",
+        "ms": 271.2655830546282
+      },
+      {
+        "status": 202,
+        "id": "a3bb9566-18f2-4940-895e-f19df9f3661f",
+        "ms": 258.2782919635065
+      },
+      {
+        "status": 202,
+        "id": "5fbfcc29-defc-4300-902a-10a9a204de13",
+        "ms": 260.233832988888
+      },
+      {
+        "status": 202,
+        "id": "bb01b1e8-4294-4136-8d68-bcdfaa51d35b",
+        "ms": 245.07895903661847
+      },
+      {
+        "status": 202,
+        "id": "6b5a91d7-bf28-42bf-b934-13f2b3d684e5",
+        "ms": 271.4780420064926
+      },
+      {
+        "status": 202,
+        "id": "72baea89-d11b-454a-a797-773e2adb9a59",
+        "ms": 276.465917006135
+      },
+      {
+        "status": 202,
+        "id": "9683c0ae-0c80-483b-942c-958061916132",
+        "ms": 270.5458339769393
+      },
+      {
+        "status": 202,
+        "id": "899a2aa2-24a7-4b29-b2d3-776221dff3eb",
+        "ms": 264.63179098209366
+      },
+      {
+        "status": 202,
+        "id": "935007d2-88ef-4bad-9fc1-4f3679079b01",
+        "ms": 274.77150002960116
+      },
+      {
+        "status": 202,
+        "id": "caa427f3-baff-4b33-885e-21bac71b3fb5",
+        "ms": 276.31158399162814
+      },
+      {
+        "status": 202,
+        "id": "c620a9c4-42bc-487c-81b4-29cfc2bba254",
+        "ms": 270.38195898057893
+      },
+      {
+        "status": 202,
+        "id": "a3609b04-6d95-4925-8b43-d4a9b63913a1",
+        "ms": 274.435417028144
+      },
+      {
+        "status": 202,
+        "id": "26fd0c1b-7b34-4c31-8602-42dfc3dfc3d6",
+        "ms": 260.6412079767324
+      },
+      {
+        "status": 202,
+        "id": "b65a6cad-5e93-412f-82bf-54e95c9824b9",
+        "ms": 272.53516600467265
+      },
+      {
+        "status": 202,
+        "id": "15299692-f567-4bec-8d29-da6974225929",
+        "ms": 277.0257089869119
+      },
+      {
+        "status": 202,
+        "id": "f95369e6-7ffb-4c55-b403-ddabede4bdf8",
+        "ms": 269.62062501115724
+      },
+      {
+        "status": 202,
+        "id": "3c19dddb-e379-4003-b37d-318a5f2018b8",
+        "ms": 271.9131659832783
+      },
+      {
+        "status": 202,
+        "id": "5f7fd25d-9815-4cce-86a3-9a7957bb160b",
+        "ms": 271.6472090105526
+      },
+      {
+        "status": 202,
+        "id": "f37f05d9-d579-4861-9ad1-3a0ad088df60",
+        "ms": 274.05095798894763
+      },
+      {
+        "status": 202,
+        "id": "6c3dd0df-2119-4c9b-84ea-9911a83505fa",
+        "ms": 265.17520897323266
+      },
+      {
+        "status": 202,
+        "id": "73043423-5519-4051-ac15-815200483004",
+        "ms": 277.89133304031566
+      },
+      {
+        "status": 202,
+        "id": "62bf1596-5782-4477-a28d-e416cbc427d6",
+        "ms": 277.7374170254916
+      },
+      {
+        "status": 202,
+        "id": "3c68b6f2-9d9b-444a-bc53-362d0e7746ea",
+        "ms": 278.85950001655146
+      },
+      {
+        "status": 202,
+        "id": "fc147c31-713c-46bf-80fb-74d2a5cdff19",
+        "ms": 264.1630420112051
+      },
+      {
+        "status": 202,
+        "id": "9c92ea57-a29f-4a23-b8e6-cadcfec1f196",
+        "ms": 277.3900410393253
+      },
+      {
+        "status": 202,
+        "id": "5c054219-0d4c-453b-a0b4-ffd92970f5f1",
+        "ms": 265.0704159750603
+      },
+      {
+        "status": 202,
+        "id": "c22feaaa-a94f-4519-b884-2d9aff5847e3",
+        "ms": 263.99404101539403
+      },
+      {
+        "status": 202,
+        "id": "d3065201-ba2c-4ad4-a465-9bcdf5ace702",
+        "ms": 264.11816698964685
+      },
+      {
+        "status": 202,
+        "id": "4a525d54-175f-4b7a-a63e-f3f9f0136428",
+        "ms": 224.54495797865093
+      },
+      {
+        "status": 202,
+        "id": "7546d4b4-dc10-4778-a25b-df375b22d346",
+        "ms": 220.3860420268029
+      },
+      {
+        "status": 202,
+        "id": "ff0f1fd7-f7c4-40bb-9e22-ca7ea0026a9e",
+        "ms": 220.3718340024352
+      },
+      {
+        "status": 202,
+        "id": "5f46078f-dc38-4416-8017-4d04f95e16f6",
+        "ms": 132.11674999911338
+      },
+      {
+        "status": 202,
+        "id": "8803486d-3b72-4817-af80-da81df4da758",
+        "ms": 173.3902920386754
+      },
+      {
+        "status": 202,
+        "id": "0e108e80-4913-4180-aed2-b7abecb78a10",
+        "ms": 194.9649159796536
+      },
+      {
+        "status": 202,
+        "id": "3283358f-9dbb-4921-a07a-e81bd7f94dd6",
+        "ms": 187.5218329951167
+      },
+      {
+        "status": 202,
+        "id": "9ebaedad-e606-49fd-9a5d-782eb0a1ce43",
+        "ms": 208.24358297977597
+      },
+      {
+        "status": 202,
+        "id": "73e338a2-b7ae-4fb6-8fa2-a5d1f93010ef",
+        "ms": 179.66291698394343
+      },
+      {
+        "status": 202,
+        "id": "f0762917-310b-4ae7-9078-63ec343c3bae",
+        "ms": 190.82575000356883
+      },
+      {
+        "status": 202,
+        "id": "e493bf71-41f0-48c3-8197-8957d6c52598",
+        "ms": 188.6870419839397
+      },
+      {
+        "status": 202,
+        "id": "08ed9a98-2468-43ac-92af-acd247e93acb",
+        "ms": 185.39312499342486
+      },
+      {
+        "status": 202,
+        "id": "fd7d7c76-d2a7-4111-8ad3-2113512bbca9",
+        "ms": 186.8683750508353
+      },
+      {
+        "status": 202,
+        "id": "a632476f-8f1c-42ed-a3b6-2b0267e5cb97",
+        "ms": 194.41116700181738
+      },
+      {
+        "status": 202,
+        "id": "ba66ed74-06e3-4edc-b1d7-7bafccf68668",
+        "ms": 194.4488330045715
+      },
+      {
+        "status": 202,
+        "id": "92410d95-c7e4-4127-b376-5bfd045ccc52",
+        "ms": 192.79308302793652
+      },
+      {
+        "status": 202,
+        "id": "1b0db6ec-3ee0-4c5a-b7c3-6e341955e2f8",
+        "ms": 198.74312495812774
+      },
+      {
+        "status": 202,
+        "id": "5a2a2f24-869c-446b-a4e4-c6bed8a28322",
+        "ms": 185.90166699141264
+      },
+      {
+        "status": 202,
+        "id": "c63bb6d4-4ef3-41c3-a0b8-01f63383b7e5",
+        "ms": 179.04499999713153
+      },
+      {
+        "status": 202,
+        "id": "8e6ae6e3-2cde-4d1a-adc4-01c3dd452dfd",
+        "ms": 192.36129202181473
+      },
+      {
+        "status": 202,
+        "id": "69f51dad-fc99-4aa7-8b9f-6b915fb1e806",
+        "ms": 189.5367079996504
+      },
+      {
+        "status": 202,
+        "id": "78d263d6-de48-4594-b51b-bee9e7085c2b",
+        "ms": 195.77983301132917
+      },
+      {
+        "status": 202,
+        "id": "8bf73e98-9005-4323-8a33-47ecdee373d0",
+        "ms": 187.27212498197332
+      },
+      {
+        "status": 202,
+        "id": "fcecf1c0-087a-433a-b0df-afea51a0378a",
+        "ms": 193.52812500437722
+      },
+      {
+        "status": 202,
+        "id": "92051959-819a-44ab-be15-b6138fe5a2aa",
+        "ms": 188.10249998932704
+      },
+      {
+        "status": 202,
+        "id": "5a6b26f7-b9f7-4008-8698-99a40853afad",
+        "ms": 198.7526660086587
+      },
+      {
+        "status": 202,
+        "id": "3820c1fc-3d64-41af-89de-7246446d3feb",
+        "ms": 193.14166600815952
+      },
+      {
+        "status": 202,
+        "id": "714aef4a-54b0-4102-b83b-922e46fec3f2",
+        "ms": 190.13116596033797
+      },
+      {
+        "status": 202,
+        "id": "ebc7e6e3-0b12-48d3-9ea3-f1266ee16d0b",
+        "ms": 197.1529579604976
+      },
+      {
+        "status": 202,
+        "id": "e627df28-a3e5-4567-a070-cd5710133c60",
+        "ms": 189.94791602017358
+      },
+      {
+        "status": 202,
+        "id": "3ed2c17a-4c0b-4c5b-a0b0-7272a94caedd",
+        "ms": 186.06612499570474
+      },
+      {
+        "status": 202,
+        "id": "975895ad-5bab-4314-8842-4812470bbc3d",
+        "ms": 193.56087502092123
+      },
+      {
+        "status": 202,
+        "id": "cf05e4f9-8863-45ea-932f-ff7b363a0752",
+        "ms": 179.5512090320699
+      },
+      {
+        "status": 202,
+        "id": "4356956e-6431-4658-94dd-ab3ddf62c2b4",
+        "ms": 193.16975004039705
+      },
+      {
+        "status": 202,
+        "id": "dd8fc56a-bf8a-43b2-bb17-d7f1ff9c93c8",
+        "ms": 183.0023750080727
+      },
+      {
+        "status": 202,
+        "id": "082d26c1-6d1b-492c-bbd4-aaa319a7f099",
+        "ms": 187.4040410039015
+      },
+      {
+        "status": 202,
+        "id": "cd54071f-1aa1-4b07-8b11-49c94e87d4f1",
+        "ms": 189.12133300909773
+      },
+      {
+        "status": 202,
+        "id": "2d16a553-cfae-47f9-b2f1-11c857183065",
+        "ms": 194.7672920068726
+      },
+      {
+        "status": 202,
+        "id": "8bf219ed-2475-47c3-9bba-cdb508703242",
+        "ms": 188.6812500306405
+      },
+      {
+        "status": 202,
+        "id": "d116f130-58e9-483e-a33b-00103b20cd6d",
+        "ms": 189.12666599499062
+      },
+      {
+        "status": 202,
+        "id": "9c8f62bb-1583-402a-8b4b-393b1cb6062b",
+        "ms": 188.41708300169557
+      },
+      {
+        "status": 202,
+        "id": "db9879d3-8414-4420-8bd6-04d10d04e68d",
+        "ms": 188.58333298703656
+      },
+      {
+        "status": 202,
+        "id": "9e07d4de-c9ba-457b-b643-07ef346bcaa0",
+        "ms": 186.8426669971086
+      },
+      {
+        "status": 202,
+        "id": "141925fe-099f-4b6c-8e9e-14937471ba33",
+        "ms": 186.35895801708102
+      },
+      {
+        "status": 202,
+        "id": "3d5cea75-c1b7-47d3-a58f-e7fb8b1d9f6c",
+        "ms": 180.5929999682121
+      },
+      {
+        "status": 202,
+        "id": "9669d01b-ca90-42ea-8ec8-ed0998f5c716",
+        "ms": 188.52745898766443
+      },
+      {
+        "status": 202,
+        "id": "8336ceba-d306-482e-a837-13aacfda5832",
+        "ms": 190.5176659929566
+      },
+      {
+        "status": 202,
+        "id": "b1ecc85f-77ec-4956-8d31-3528ec0ba210",
+        "ms": 191.24737504171208
+      },
+      {
+        "status": 202,
+        "id": "8eaab6a8-3574-4221-ab4e-c6b77d1d743d",
+        "ms": 183.05587500799447
+      },
+      {
+        "status": 202,
+        "id": "816aea15-f7ad-47d0-aa62-0c1548bdc271",
+        "ms": 188.62945795990527
+      },
+      {
+        "status": 202,
+        "id": "6178fb20-3745-46df-bd3d-8b49c89b5026",
+        "ms": 179.0521249640733
+      },
+      {
+        "status": 202,
+        "id": "2bdd96a1-6c26-490b-92cc-b8506495a69e",
+        "ms": 181.0495420359075
+      },
+      {
+        "status": 202,
+        "id": "d0863367-e775-47d9-b85f-00d36045dad1",
+        "ms": 191.7586660129018
+      },
+      {
+        "status": 202,
+        "id": "3ab9e883-0582-4b30-ad2b-91d02489b1ec",
+        "ms": 183.706916985102
+      },
+      {
+        "status": 202,
+        "id": "c1151b50-171a-414e-a633-aaa9f86e304d",
+        "ms": 179.06695802230388
+      },
+      {
+        "status": 202,
+        "id": "1efdf0fc-4dad-416c-8e5f-89d94072c858",
+        "ms": 190.65937504637986
+      },
+      {
+        "status": 202,
+        "id": "23e19e60-f8df-4c81-ac19-bafb8ef1840e",
+        "ms": 183.590708009433
+      },
+      {
+        "status": 202,
+        "id": "a1f32bf9-1a13-4a09-a4d0-d3d8f78914d8",
+        "ms": 183.10725002083927
+      },
+      {
+        "status": 202,
+        "id": "fe262d97-0369-4ab3-8785-2286995675ca",
+        "ms": 182.84733302425593
+      },
+      {
+        "status": 202,
+        "id": "a9f7f8df-ea5a-45a6-b9db-812745814100",
+        "ms": 184.77291596354917
+      },
+      {
+        "status": 202,
+        "id": "a27077de-7b6e-40b8-893d-85155937091a",
+        "ms": 181.67037499370053
+      },
+      {
+        "status": 202,
+        "id": "6b217731-f1ae-47d9-9402-f77ed453e5c2",
+        "ms": 187.68408300820738
+      },
+      {
+        "status": 202,
+        "id": "f6d576d6-eaf9-4d35-bbf4-d8b20b75706f",
+        "ms": 182.6784589793533
+      },
+      {
+        "status": 202,
+        "id": "84936346-1ec7-42b3-b5b3-6dc4027f4499",
+        "ms": 187.00016697403044
+      },
+      {
+        "status": 202,
+        "id": "3fd19c9b-2685-4e1f-8a22-4c58f23d9239",
+        "ms": 176.41766695305705
+      },
+      {
+        "status": 202,
+        "id": "ef4afeea-21a3-43ae-b2ea-6ac80ef3868e",
+        "ms": 174.20512501848862
+      },
+      {
+        "status": 202,
+        "id": "41d24fa8-b9eb-47e6-8673-867690b676d9",
+        "ms": 175.39220803882927
+      },
+      {
+        "status": 202,
+        "id": "ac438dd1-9bd2-4b94-8ad6-112170d67b2e",
+        "ms": 122.34254198847339
+      },
+      {
+        "status": 202,
+        "id": "1d82d1bf-02c7-42c9-a5f8-e698a82db615",
+        "ms": 227.33579197665676
+      },
+      {
+        "status": 202,
+        "id": "943f3608-134c-484c-bd2d-fc317b05e2c0",
+        "ms": 206.49912499357015
+      },
+      {
+        "status": 202,
+        "id": "99c8ed5c-c7e9-480d-b8fe-1d5fa9e550c9",
+        "ms": 201.99308305745944
+      },
+      {
+        "status": 202,
+        "id": "0ee71b31-4d23-44b3-87ac-3c51c245b0a0",
+        "ms": 198.86316696647555
+      },
+      {
+        "status": 202,
+        "id": "499e54b3-3150-4db7-bfbd-a23ebe7eb844",
+        "ms": 182.52841697540134
+      },
+      {
+        "status": 202,
+        "id": "7aa8ccea-e4a2-480c-acd3-c8eb03b17957",
+        "ms": 181.65995797608048
+      },
+      {
+        "status": 202,
+        "id": "f6ac00bb-190b-4ef5-9cbf-da76e10c9bff",
+        "ms": 201.76675001857802
+      },
+      {
+        "status": 202,
+        "id": "41990576-adcb-4de3-8bc3-7cad8f4e69fd",
+        "ms": 187.18012503813952
+      },
+      {
+        "status": 202,
+        "id": "b713c6e2-1ffb-4da7-8e60-1dac4d3aba14",
+        "ms": 194.23875003121793
+      },
+      {
+        "status": 202,
+        "id": "cbdd4142-ba5c-4e2c-8afb-88197a2391d3",
+        "ms": 192.79470801120624
+      },
+      {
+        "status": 202,
+        "id": "51d7886a-aea1-4e4d-88b7-35f7c7f6970c",
+        "ms": 197.10420799674466
+      },
+      {
+        "status": 202,
+        "id": "fb46bcd0-15e4-4d52-b61a-752946353bff",
+        "ms": 197.15575000736862
+      },
+      {
+        "status": 202,
+        "id": "05699c4b-bb6e-49d4-81a2-289f56d8a5b6",
+        "ms": 192.04999995417893
+      },
+      {
+        "status": 202,
+        "id": "29eafd69-22cc-4636-8f2c-8f5096393d4e",
+        "ms": 197.0673329778947
+      },
+      {
+        "status": 202,
+        "id": "441f445f-fb3c-4d06-81e7-808f9201604e",
+        "ms": 194.26662498153746
+      },
+      {
+        "status": 202,
+        "id": "aed205c7-8065-4b94-8dfd-3f655d0f844f",
+        "ms": 192.84675002563745
+      },
+      {
+        "status": 202,
+        "id": "659280d3-ad5a-4c89-9648-bba08adc0715",
+        "ms": 196.00112497573718
+      },
+      {
+        "status": 202,
+        "id": "d0869fca-adf0-4b11-b287-4f61776c08cd",
+        "ms": 191.04087498271838
+      },
+      {
+        "status": 202,
+        "id": "7f5eea09-2331-40d0-9039-0fe0ed4ec6d9",
+        "ms": 194.04941698303446
+      },
+      {
+        "status": 202,
+        "id": "f2ac577c-e6d6-485c-8b02-057ca58a2814",
+        "ms": 192.60904198745266
+      },
+      {
+        "status": 202,
+        "id": "a3d5814f-d818-4543-947c-42d534dc3e26",
+        "ms": 202.7512500062585
+      },
+      {
+        "status": 202,
+        "id": "7edc1b1f-5ebd-4a0f-a5e6-06f5091ae01f",
+        "ms": 195.08787500672042
+      },
+      {
+        "status": 202,
+        "id": "b7185d27-91ab-4c14-a836-7704df7d8de8",
+        "ms": 189.3253750167787
+      },
+      {
+        "status": 202,
+        "id": "c721a1d7-71b3-44bd-a3e8-d5c4689a4f00",
+        "ms": 196.64079102221876
+      },
+      {
+        "status": 202,
+        "id": "21c70e1b-1c6b-432b-8756-45f0b3eeacab",
+        "ms": 188.66250000428408
+      },
+      {
+        "status": 202,
+        "id": "d8e1bafe-2138-4fe5-b1a3-495b3cafd2f5",
+        "ms": 196.14183402154595
+      },
+      {
+        "status": 202,
+        "id": "8a4f0da5-3a17-4566-99fa-f96df0161307",
+        "ms": 180.35641696769744
+      },
+      {
+        "status": 202,
+        "id": "abd7dc0a-aab4-4291-a6b3-ca9b2d71548d",
+        "ms": 188.56283300556242
+      },
+      {
+        "status": 202,
+        "id": "de611443-90d4-4bec-84af-d4454c3c643f",
+        "ms": 194.0959159983322
+      },
+      {
+        "status": 202,
+        "id": "1db52830-784c-4278-b2eb-e8306c98934a",
+        "ms": 193.06458299979568
+      },
+      {
+        "status": 202,
+        "id": "8a15db14-9588-47e7-9769-9ddb845f225d",
+        "ms": 190.10974996490404
+      },
+      {
+        "status": 202,
+        "id": "431b207c-99ed-4472-b931-ccf6ab76d3f1",
+        "ms": 188.35220800247043
+      },
+      {
+        "status": 202,
+        "id": "06f6502a-25bf-477e-895e-87fe1d28771c",
+        "ms": 186.91166600910947
+      },
+      {
+        "status": 202,
+        "id": "5c2dcf42-aa0a-4f4b-a0b0-b97ab21a0daa",
+        "ms": 190.06391696166247
+      },
+      {
+        "status": 202,
+        "id": "45644ea8-3724-4eca-9be7-ee5687000e09",
+        "ms": 190.2767910505645
+      },
+      {
+        "status": 202,
+        "id": "fb06bfb6-2d05-4e4f-a4a4-59da46e53be3",
+        "ms": 189.9183330242522
+      },
+      {
+        "status": 202,
+        "id": "501a6e93-d30b-413c-a64f-1a4cc79a432c",
+        "ms": 189.9373329943046
+      },
+      {
+        "status": 202,
+        "id": "b4d1fe6c-3fca-4ce1-bd01-4d049aa53a62",
+        "ms": 187.60170898167416
+      },
+      {
+        "status": 202,
+        "id": "5cb7ae72-84d0-4d7a-85f4-3499489ed0ad",
+        "ms": 192.10087496321648
+      },
+      {
+        "status": 202,
+        "id": "87e270c9-bdfd-4e1f-94a1-df5b33bee8de",
+        "ms": 190.4513330082409
+      },
+      {
+        "status": 202,
+        "id": "36dbb09d-7e82-49e6-903b-b7e4f747d5c8",
+        "ms": 192.2056669718586
+      },
+      {
+        "status": 202,
+        "id": "c308a61a-1fbe-4650-9704-aeb0fcb708b2",
+        "ms": 192.2164160059765
+      },
+      {
+        "status": 202,
+        "id": "d9cc4449-5e0d-4fd8-84bd-961356e24630",
+        "ms": 194.38908295705914
+      },
+      {
+        "status": 202,
+        "id": "293ea994-0f99-4f9f-a7b4-6f10869e5585",
+        "ms": 191.49970798753202
+      },
+      {
+        "status": 202,
+        "id": "6090078c-b405-4014-801a-8fff11312fab",
+        "ms": 191.80104200495407
+      },
+      {
+        "status": 202,
+        "id": "e64d1630-a099-4314-87a0-51581ac53616",
+        "ms": 190.72354200761765
+      },
+      {
+        "status": 202,
+        "id": "8c7cd23a-d516-489d-8352-7671eed040ce",
+        "ms": 190.81933400593698
+      },
+      {
+        "status": 202,
+        "id": "3306bd03-6ede-4803-8e79-a0885271ea50",
+        "ms": 189.23100002575666
+      },
+      {
+        "status": 202,
+        "id": "1c4d76f7-e4c5-4b0f-8d01-9c15eafa2476",
+        "ms": 193.42025002697483
+      },
+      {
+        "status": 202,
+        "id": "bf146d4e-8d38-45fd-9b49-c4162a632422",
+        "ms": 187.43375001940876
+      },
+      {
+        "status": 202,
+        "id": "bf7cb476-ab1f-4b3d-8420-a9f70ce40287",
+        "ms": 193.43412498710677
+      },
+      {
+        "status": 202,
+        "id": "4d0b958e-5504-41f0-a82f-d0630ddb7750",
+        "ms": 192.02441698871553
+      },
+      {
+        "status": 202,
+        "id": "8d59f03c-5449-425a-973b-3f69a5dffa91",
+        "ms": 195.0730420066975
+      },
+      {
+        "status": 202,
+        "id": "3c468473-ab68-4eaf-9f9a-e32f9774129c",
+        "ms": 192.1176670002751
+      },
+      {
+        "status": 202,
+        "id": "4f230d2d-1ad4-4993-bed0-9f97f8ff413b",
+        "ms": 190.35683397669345
+      },
+      {
+        "status": 202,
+        "id": "c44e4ced-ecb8-4269-b30a-c2241030e125",
+        "ms": 191.60033302614465
+      },
+      {
+        "status": 202,
+        "id": "3690f47c-79de-4859-8a5f-eac5c129c45a",
+        "ms": 190.20270800683647
+      },
+      {
+        "status": 202,
+        "id": "0d3118f3-5020-4e6d-a241-c7e3a0f2bd62",
+        "ms": 185.77066698344424
+      },
+      {
+        "status": 202,
+        "id": "a0c3db34-7eef-4a70-bb3d-43fa269a3e14",
+        "ms": 189.72716596908867
+      },
+      {
+        "status": 202,
+        "id": "41f6593a-ec9b-4f6d-9508-09c4c43e9d8a",
+        "ms": 189.48770902352408
+      },
+      {
+        "status": 200,
+        "id": "6470dca6-1ff1-42f2-9f83-d2e8892adc41",
+        "ms": 218.94208301091567
+      },
+      {
+        "status": 200,
+        "id": "902bfacc-763a-4c0c-90aa-6f0399d570e8",
+        "ms": 190.07929199142382
+      },
+      {
+        "status": 200,
+        "id": "1b157df5-c3a0-4753-87c3-5a591b29be35",
+        "ms": 189.47408301755786
+      },
+      {
+        "status": 200,
+        "id": "6438c97a-f25d-492a-b477-83cdb723ea65",
+        "ms": 236.13991704769433
+      },
+      {
+        "status": 200,
+        "id": "aac7ff60-6e90-43dc-a634-88a0661d1a5f",
+        "ms": 296.6426669736393
+      },
+      {
+        "status": 200,
+        "id": "b652db19-27dc-42eb-918a-d9a3012629f0",
+        "ms": 263.28674994874746
+      },
+      {
+        "status": 200,
+        "id": "c706f411-a084-4cd3-b780-27d69eeb6e2c",
+        "ms": 285.974416998215
+      },
+      {
+        "status": 200,
+        "id": "d0cda8c0-363e-4614-94d8-ef0a43ddfda5",
+        "ms": 314.301666978281
+      },
+      {
+        "status": 200,
+        "id": "ac8cf6dd-3b92-410f-83e2-efcbae879c52",
+        "ms": 302.4816670222208
+      },
+      {
+        "status": 200,
+        "id": "85b812dd-89c2-4a66-97b4-3a9dc75aa521",
+        "ms": 282.96216600574553
+      },
+      {
+        "status": 200,
+        "id": "9b9aebbf-2204-47df-a1cf-73ff7325884e",
+        "ms": 279.756959003862
+      },
+      {
+        "status": 200,
+        "id": "c3e2e50a-a652-4ba0-afa2-74772aac056c",
+        "ms": 278.13362499000505
+      },
+      {
+        "status": 200,
+        "id": "32e32f00-2fff-40d8-bd21-0ea760949a71",
+        "ms": 286.04995901696384
+      },
+      {
+        "status": 200,
+        "id": "16b8d587-f57c-4d5f-97d1-f59ee7582995",
+        "ms": 276.6777080250904
+      },
+      {
+        "status": 200,
+        "id": "43a1f2bc-3ef6-43ce-aac2-823e6a238a26",
+        "ms": 274.60879198042676
+      },
+      {
+        "status": 200,
+        "id": "0267bb22-5942-4087-b6fa-bd2f956c4af3",
+        "ms": 291.8889169814065
+      },
+      {
+        "status": 200,
+        "id": "f69db06f-043e-41fc-8a3f-923d2bd907e0",
+        "ms": 285.28370801359415
+      },
+      {
+        "status": 200,
+        "id": "6bc3892d-024e-4c5a-a739-f2ecfaf1dab4",
+        "ms": 294.36250001890585
+      },
+      {
+        "status": 200,
+        "id": "3ac3d242-dabf-4888-9d08-a79d52a3579b",
+        "ms": 286.4758750074543
+      },
+      {
+        "status": 200,
+        "id": "4ce85028-f4f9-4eb7-81ce-572778cacca9",
+        "ms": 272.39025000017136
+      },
+      {
+        "status": 200,
+        "id": "3cfda99f-5227-4680-bb30-d19365fbace8",
+        "ms": 288.2312500150874
+      },
+      {
+        "status": 200,
+        "id": "e334a403-4a77-4717-b077-4e52ed57154f",
+        "ms": 279.11995799513534
+      },
+      {
+        "status": 200,
+        "id": "723a00ae-d9b1-481d-9c35-36b7a8614672",
+        "ms": 288.1857499596663
+      },
+      {
+        "status": 200,
+        "id": "062d528f-a562-47c0-a554-c3d52f4205e7",
+        "ms": 298.91916597262025
+      },
+      {
+        "status": 200,
+        "id": "8218c04e-37c5-4b4f-bfc5-fa55f203b99f",
+        "ms": 280.1363340113312
+      },
+      {
+        "status": 200,
+        "id": "926eb191-2db7-4918-b47c-3a294b5575cb",
+        "ms": 290.3493329649791
+      },
+      {
+        "status": 200,
+        "id": "f85124b8-2692-49a6-ad3f-0e6ef7b939cf",
+        "ms": 290.43829202419147
+      },
+      {
+        "status": 200,
+        "id": "82b11478-ed73-44bb-877a-0b294d534c8d",
+        "ms": 279.8849589889869
+      },
+      {
+        "status": 200,
+        "id": "123ef5bb-ef42-42f5-8a15-19e204dc3887",
+        "ms": 237.97841696068645
+      },
+      {
+        "status": 200,
+        "id": "016a7629-347a-4c60-b9ed-4b9e630db63c",
+        "ms": 289.8338750237599
+      },
+      {
+        "status": 200,
+        "id": "673405d7-4151-4fc3-a73c-95dbc96baed1",
+        "ms": 281.94970899494365
+      },
+      {
+        "status": 200,
+        "id": "d2654f65-9ad0-4ff6-bad8-f49e7aa9f382",
+        "ms": 270.1643750187941
+      },
+      {
+        "status": 200,
+        "id": "da9bd962-4d0a-4063-9e09-f163fcf1218b",
+        "ms": 279.66754196677357
+      },
+      {
+        "status": 200,
+        "id": "80164b1e-1553-47f6-94d5-6d42cb8c2e55",
+        "ms": 289.5633750013076
+      },
+      {
+        "status": 200,
+        "id": "5a2e1cd8-ba45-4fd9-ada2-a79512e53929",
+        "ms": 288.2430420140736
+      },
+      {
+        "status": 200,
+        "id": "6f4da589-c906-4dc2-a1b9-a39be4234dc6",
+        "ms": 288.0412910017185
+      },
+      {
+        "status": 200,
+        "id": "6b97edf3-2cd1-49f5-82f7-0cac1ed2817d",
+        "ms": 278.6368749802932
+      },
+      {
+        "status": 200,
+        "id": "a3bb9566-18f2-4940-895e-f19df9f3661f",
+        "ms": 279.0454589994624
+      },
+      {
+        "status": 200,
+        "id": "5fbfcc29-defc-4300-902a-10a9a204de13",
+        "ms": 288.40962500544265
+      },
+      {
+        "status": 200,
+        "id": "bb01b1e8-4294-4136-8d68-bcdfaa51d35b",
+        "ms": 246.38074997346848
+      },
+      {
+        "status": 200,
+        "id": "6b5a91d7-bf28-42bf-b934-13f2b3d684e5",
+        "ms": 287.3782500391826
+      },
+      {
+        "status": 200,
+        "id": "72baea89-d11b-454a-a797-773e2adb9a59",
+        "ms": 252.03212501946837
+      },
+      {
+        "status": 200,
+        "id": "9683c0ae-0c80-483b-942c-958061916132",
+        "ms": 275.4662499646656
+      },
+      {
+        "status": 200,
+        "id": "899a2aa2-24a7-4b29-b2d3-776221dff3eb",
+        "ms": 286.78637504344806
+      },
+      {
+        "status": 200,
+        "id": "935007d2-88ef-4bad-9fc1-4f3679079b01",
+        "ms": 245.23995799245313
+      },
+      {
+        "status": 200,
+        "id": "caa427f3-baff-4b33-885e-21bac71b3fb5",
+        "ms": 289.74124998785555
+      },
+      {
+        "status": 200,
+        "id": "c620a9c4-42bc-487c-81b4-29cfc2bba254",
+        "ms": 295.52029201295227
+      },
+      {
+        "status": 200,
+        "id": "a3609b04-6d95-4925-8b43-d4a9b63913a1",
+        "ms": 339.93104205001146
+      },
+      {
+        "status": 200,
+        "id": "26fd0c1b-7b34-4c31-8602-42dfc3dfc3d6",
+        "ms": 329.003167047631
+      },
+      {
+        "status": 200,
+        "id": "b65a6cad-5e93-412f-82bf-54e95c9824b9",
+        "ms": 416.3289580028504
+      },
+      {
+        "status": 200,
+        "id": "15299692-f567-4bec-8d29-da6974225929",
+        "ms": 293.79700002027676
+      },
+      {
+        "status": 200,
+        "id": "f95369e6-7ffb-4c55-b403-ddabede4bdf8",
+        "ms": 345.5439999816008
+      },
+      {
+        "status": 200,
+        "id": "3c19dddb-e379-4003-b37d-318a5f2018b8",
+        "ms": 317.46891600778326
+      },
+      {
+        "status": 200,
+        "id": "5f7fd25d-9815-4cce-86a3-9a7957bb160b",
+        "ms": 338.2687499979511
+      },
+      {
+        "status": 200,
+        "id": "f37f05d9-d579-4861-9ad1-3a0ad088df60",
+        "ms": 331.73033298226073
+      },
+      {
+        "status": 200,
+        "id": "6c3dd0df-2119-4c9b-84ea-9911a83505fa",
+        "ms": 337.70575001835823
+      },
+      {
+        "status": 200,
+        "id": "73043423-5519-4051-ac15-815200483004",
+        "ms": 306.0496249818243
+      },
+      {
+        "status": 200,
+        "id": "62bf1596-5782-4477-a28d-e416cbc427d6",
+        "ms": 305.5046669906005
+      },
+      {
+        "status": 200,
+        "id": "3c68b6f2-9d9b-444a-bc53-362d0e7746ea",
+        "ms": 329.1430830140598
+      },
+      {
+        "status": 200,
+        "id": "fc147c31-713c-46bf-80fb-74d2a5cdff19",
+        "ms": 326.28354098415
+      },
+      {
+        "status": 200,
+        "id": "9c92ea57-a29f-4a23-b8e6-cadcfec1f196",
+        "ms": 324.49904101667926
+      },
+      {
+        "status": 200,
+        "id": "5c054219-0d4c-453b-a0b4-ffd92970f5f1",
+        "ms": 320.69000002229586
+      },
+      {
+        "status": 200,
+        "id": "c22feaaa-a94f-4519-b884-2d9aff5847e3",
+        "ms": 320.01137494808063
+      },
+      {
+        "status": 200,
+        "id": "d3065201-ba2c-4ad4-a465-9bcdf5ace702",
+        "ms": 411.4366670255549
+      },
+      {
+        "status": 200,
+        "id": "4a525d54-175f-4b7a-a63e-f3f9f0136428",
+        "ms": 318.827000039164
+      },
+      {
+        "status": 200,
+        "id": "7546d4b4-dc10-4778-a25b-df375b22d346",
+        "ms": 473.57079200446606
+      },
+      {
+        "status": 200,
+        "id": "ff0f1fd7-f7c4-40bb-9e22-ca7ea0026a9e",
+        "ms": 459.0881660114974
+      },
+      {
+        "status": 200,
+        "id": "5f46078f-dc38-4416-8017-4d04f95e16f6",
+        "ms": 411.9451669976115
+      },
+      {
+        "status": 200,
+        "id": "8803486d-3b72-4817-af80-da81df4da758",
+        "ms": 306.1757499817759
+      },
+      {
+        "status": 200,
+        "id": "0e108e80-4913-4180-aed2-b7abecb78a10",
+        "ms": 277.73620799416676
+      },
+      {
+        "status": 200,
+        "id": "3283358f-9dbb-4921-a07a-e81bd7f94dd6",
+        "ms": 280.6792079936713
+      },
+      {
+        "status": 200,
+        "id": "9ebaedad-e606-49fd-9a5d-782eb0a1ce43",
+        "ms": 407.576416968368
+      },
+      {
+        "status": 200,
+        "id": "73e338a2-b7ae-4fb6-8fa2-a5d1f93010ef",
+        "ms": 268.9378749928437
+      },
+      {
+        "status": 200,
+        "id": "f0762917-310b-4ae7-9078-63ec343c3bae",
+        "ms": 245.29204197460786
+      },
+      {
+        "status": 200,
+        "id": "e493bf71-41f0-48c3-8197-8957d6c52598",
+        "ms": 236.45479202969
+      },
+      {
+        "status": 200,
+        "id": "08ed9a98-2468-43ac-92af-acd247e93acb",
+        "ms": 236.03737499797717
+      },
+      {
+        "status": 200,
+        "id": "fd7d7c76-d2a7-4111-8ad3-2113512bbca9",
+        "ms": 339.72162497229874
+      },
+      {
+        "status": 200,
+        "id": "a632476f-8f1c-42ed-a3b6-2b0267e5cb97",
+        "ms": 265.307915979065
+      },
+      {
+        "status": 200,
+        "id": "ba66ed74-06e3-4edc-b1d7-7bafccf68668",
+        "ms": 244.61133300792426
+      },
+      {
+        "status": 200,
+        "id": "92410d95-c7e4-4127-b376-5bfd045ccc52",
+        "ms": 259.8183330264874
+      },
+      {
+        "status": 200,
+        "id": "1b0db6ec-3ee0-4c5a-b7c3-6e341955e2f8",
+        "ms": 273.4719999716617
+      },
+      {
+        "status": 200,
+        "id": "5a2a2f24-869c-446b-a4e4-c6bed8a28322",
+        "ms": 242.77079198509455
+      },
+      {
+        "status": 200,
+        "id": "c63bb6d4-4ef3-41c3-a0b8-01f63383b7e5",
+        "ms": 264.1511670080945
+      },
+      {
+        "status": 200,
+        "id": "8e6ae6e3-2cde-4d1a-adc4-01c3dd452dfd",
+        "ms": 329.61225003236905
+      },
+      {
+        "status": 200,
+        "id": "69f51dad-fc99-4aa7-8b9f-6b915fb1e806",
+        "ms": 329.8592920182273
+      },
+      {
+        "status": 200,
+        "id": "78d263d6-de48-4594-b51b-bee9e7085c2b",
+        "ms": 358.51162497419864
+      },
+      {
+        "status": 200,
+        "id": "8bf73e98-9005-4323-8a33-47ecdee373d0",
+        "ms": 355.6464160210453
+      },
+      {
+        "status": 200,
+        "id": "fcecf1c0-087a-433a-b0df-afea51a0378a",
+        "ms": 340.5530829913914
+      },
+      {
+        "status": 200,
+        "id": "92051959-819a-44ab-be15-b6138fe5a2aa",
+        "ms": 325.5307080107741
+      },
+      {
+        "status": 200,
+        "id": "5a6b26f7-b9f7-4008-8698-99a40853afad",
+        "ms": 330.96295804716647
+      },
+      {
+        "status": 200,
+        "id": "3820c1fc-3d64-41af-89de-7246446d3feb",
+        "ms": 298.65787498420104
+      },
+      {
+        "status": 200,
+        "id": "714aef4a-54b0-4102-b83b-922e46fec3f2",
+        "ms": 372.42120801238343
+      },
+      {
+        "status": 200,
+        "id": "ebc7e6e3-0b12-48d3-9ea3-f1266ee16d0b",
+        "ms": 364.6284159622155
+      },
+      {
+        "status": 200,
+        "id": "e627df28-a3e5-4567-a070-cd5710133c60",
+        "ms": 321.7279579839669
+      },
+      {
+        "status": 200,
+        "id": "3ed2c17a-4c0b-4c5b-a0b0-7272a94caedd",
+        "ms": 350.7539170095697
+      },
+      {
+        "status": 200,
+        "id": "975895ad-5bab-4314-8842-4812470bbc3d",
+        "ms": 319.498791010119
+      },
+      {
+        "status": 200,
+        "id": "cf05e4f9-8863-45ea-932f-ff7b363a0752",
+        "ms": 319.4988750037737
+      },
+      {
+        "status": 200,
+        "id": "4356956e-6431-4658-94dd-ab3ddf62c2b4",
+        "ms": 318.07499995920807
+      },
+      {
+        "status": 200,
+        "id": "dd8fc56a-bf8a-43b2-bb17-d7f1ff9c93c8",
+        "ms": 360.2181249880232
+      },
+      {
+        "status": 200,
+        "id": "082d26c1-6d1b-492c-bbd4-aaa319a7f099",
+        "ms": 291.09645902644843
+      },
+      {
+        "status": 200,
+        "id": "cd54071f-1aa1-4b07-8b11-49c94e87d4f1",
+        "ms": 317.96458398457617
+      },
+      {
+        "status": 200,
+        "id": "2d16a553-cfae-47f9-b2f1-11c857183065",
+        "ms": 289.8230000282638
+      },
+      {
+        "status": 200,
+        "id": "8bf219ed-2475-47c3-9bba-cdb508703242",
+        "ms": 303.28529101097956
+      },
+      {
+        "status": 200,
+        "id": "d116f130-58e9-483e-a33b-00103b20cd6d",
+        "ms": 347.2630839678459
+      },
+      {
+        "status": 200,
+        "id": "9c8f62bb-1583-402a-8b4b-393b1cb6062b",
+        "ms": 318.53729096474126
+      },
+      {
+        "status": 200,
+        "id": "db9879d3-8414-4420-8bd6-04d10d04e68d",
+        "ms": 346.9100829679519
+      },
+      {
+        "status": 200,
+        "id": "9e07d4de-c9ba-457b-b643-07ef346bcaa0",
+        "ms": 346.5295000351034
+      },
+      {
+        "status": 200,
+        "id": "141925fe-099f-4b6c-8e9e-14937471ba33",
+        "ms": 300.08120799902827
+      },
+      {
+        "status": 200,
+        "id": "3d5cea75-c1b7-47d3-a58f-e7fb8b1d9f6c",
+        "ms": 527.9719589743763
+      },
+      {
+        "status": 200,
+        "id": "9669d01b-ca90-42ea-8ec8-ed0998f5c716",
+        "ms": 530.3227500407957
+      },
+      {
+        "status": 200,
+        "id": "8336ceba-d306-482e-a837-13aacfda5832",
+        "ms": 353.14837499754503
+      },
+      {
+        "status": 200,
+        "id": "b1ecc85f-77ec-4956-8d31-3528ec0ba210",
+        "ms": 356.98633396532387
+      },
+      {
+        "status": 200,
+        "id": "8eaab6a8-3574-4221-ab4e-c6b77d1d743d",
+        "ms": 517.9218749981374
+      },
+      {
+        "status": 200,
+        "id": "816aea15-f7ad-47d0-aa62-0c1548bdc271",
+        "ms": 352.0022080047056
+      },
+      {
+        "status": 200,
+        "id": "6178fb20-3745-46df-bd3d-8b49c89b5026",
+        "ms": 513.0670419894159
+      },
+      {
+        "status": 200,
+        "id": "2bdd96a1-6c26-490b-92cc-b8506495a69e",
+        "ms": 332.5254170340486
+      },
+      {
+        "status": 200,
+        "id": "d0863367-e775-47d9-b85f-00d36045dad1",
+        "ms": 350.55212496081367
+      },
+      {
+        "status": 200,
+        "id": "3ab9e883-0582-4b30-ad2b-91d02489b1ec",
+        "ms": 333.70841696159914
+      },
+      {
+        "status": 200,
+        "id": "c1151b50-171a-414e-a633-aaa9f86e304d",
+        "ms": 541.5387920220383
+      },
+      {
+        "status": 200,
+        "id": "1efdf0fc-4dad-416c-8e5f-89d94072c858",
+        "ms": 607.7609590138309
+      },
+      {
+        "status": 200,
+        "id": "23e19e60-f8df-4c81-ac19-bafb8ef1840e",
+        "ms": 494.51287504052743
+      },
+      {
+        "status": 200,
+        "id": "a1f32bf9-1a13-4a09-a4d0-d3d8f78914d8",
+        "ms": 529.7719999798574
+      },
+      {
+        "status": 200,
+        "id": "fe262d97-0369-4ab3-8785-2286995675ca",
+        "ms": 498.6248330096714
+      },
+      {
+        "status": 200,
+        "id": "a9f7f8df-ea5a-45a6-b9db-812745814100",
+        "ms": 596.346500038635
+      },
+      {
+        "status": 200,
+        "id": "a27077de-7b6e-40b8-893d-85155937091a",
+        "ms": 572.9651660076343
+      },
+      {
+        "status": 200,
+        "id": "6b217731-f1ae-47d9-9402-f77ed453e5c2",
+        "ms": 508.4078329964541
+      },
+      {
+        "status": 200,
+        "id": "f6d576d6-eaf9-4d35-bbf4-d8b20b75706f",
+        "ms": 524.6214169892482
+      },
+      {
+        "status": 200,
+        "id": "84936346-1ec7-42b3-b5b3-6dc4027f4499",
+        "ms": 489.88729098346084
+      },
+      {
+        "status": 200,
+        "id": "3fd19c9b-2685-4e1f-8a22-4c58f23d9239",
+        "ms": 442.4648330314085
+      },
+      {
+        "status": 200,
+        "id": "ef4afeea-21a3-43ae-b2ea-6ac80ef3868e",
+        "ms": 384.8643330275081
+      },
+      {
+        "status": 200,
+        "id": "41d24fa8-b9eb-47e6-8673-867690b676d9",
+        "ms": 390.70704096229747
+      },
+      {
+        "status": 200,
+        "id": "ac438dd1-9bd2-4b94-8ad6-112170d67b2e",
+        "ms": 322.1714170067571
+      },
+      {
+        "status": 200,
+        "id": "1d82d1bf-02c7-42c9-a5f8-e698a82db615",
+        "ms": 436.3663340336643
+      },
+      {
+        "status": 200,
+        "id": "943f3608-134c-484c-bd2d-fc317b05e2c0",
+        "ms": 406.2977909925394
+      },
+      {
+        "status": 200,
+        "id": "99c8ed5c-c7e9-480d-b8fe-1d5fa9e550c9",
+        "ms": 372.52999999327585
+      },
+      {
+        "status": 200,
+        "id": "0ee71b31-4d23-44b3-87ac-3c51c245b0a0",
+        "ms": 371.5552499634214
+      },
+      {
+        "status": 200,
+        "id": "499e54b3-3150-4db7-bfbd-a23ebe7eb844",
+        "ms": 369.8982499772683
+      },
+      {
+        "status": 200,
+        "id": "7aa8ccea-e4a2-480c-acd3-c8eb03b17957",
+        "ms": 394.2329999990761
+      },
+      {
+        "status": 200,
+        "id": "f6ac00bb-190b-4ef5-9cbf-da76e10c9bff",
+        "ms": 370.0891659827903
+      },
+      {
+        "status": 200,
+        "id": "41990576-adcb-4de3-8bc3-7cad8f4e69fd",
+        "ms": 294.96104101417586
+      },
+      {
+        "status": 200,
+        "id": "b713c6e2-1ffb-4da7-8e60-1dac4d3aba14",
+        "ms": 469.699666951783
+      },
+      {
+        "status": 200,
+        "id": "cbdd4142-ba5c-4e2c-8afb-88197a2391d3",
+        "ms": 361.79395799990743
+      },
+      {
+        "status": 200,
+        "id": "51d7886a-aea1-4e4d-88b7-35f7c7f6970c",
+        "ms": 285.1891670143232
+      },
+      {
+        "status": 200,
+        "id": "fb46bcd0-15e4-4d52-b61a-752946353bff",
+        "ms": 394.73474997794256
+      },
+      {
+        "status": 200,
+        "id": "05699c4b-bb6e-49d4-81a2-289f56d8a5b6",
+        "ms": 332.5951250153594
+      },
+      {
+        "status": 200,
+        "id": "29eafd69-22cc-4636-8f2c-8f5096393d4e",
+        "ms": 301.5800830326043
+      },
+      {
+        "status": 200,
+        "id": "441f445f-fb3c-4d06-81e7-808f9201604e",
+        "ms": 288.02383301081136
+      },
+      {
+        "status": 200,
+        "id": "aed205c7-8065-4b94-8dfd-3f655d0f844f",
+        "ms": 363.00687497714534
+      },
+      {
+        "status": 200,
+        "id": "659280d3-ad5a-4c89-9648-bba08adc0715",
+        "ms": 373.4904589946382
+      },
+      {
+        "status": 200,
+        "id": "d0869fca-adf0-4b11-b287-4f61776c08cd",
+        "ms": 328.64791597239673
+      },
+      {
+        "status": 200,
+        "id": "7f5eea09-2331-40d0-9039-0fe0ed4ec6d9",
+        "ms": 334.44424998015165
+      },
+      {
+        "status": 200,
+        "id": "f2ac577c-e6d6-485c-8b02-057ca58a2814",
+        "ms": 338.1434169714339
+      },
+      {
+        "status": 200,
+        "id": "a3d5814f-d818-4543-947c-42d534dc3e26",
+        "ms": 340.25349997682497
+      },
+      {
+        "status": 200,
+        "id": "7edc1b1f-5ebd-4a0f-a5e6-06f5091ae01f",
+        "ms": 337.28824998252094
+      },
+      {
+        "status": 200,
+        "id": "b7185d27-91ab-4c14-a836-7704df7d8de8",
+        "ms": 339.2268749885261
+      },
+      {
+        "status": 200,
+        "id": "c721a1d7-71b3-44bd-a3e8-d5c4689a4f00",
+        "ms": 385.12195902876556
+      },
+      {
+        "status": 200,
+        "id": "21c70e1b-1c6b-432b-8756-45f0b3eeacab",
+        "ms": 287.14904200751334
+      },
+      {
+        "status": 200,
+        "id": "d8e1bafe-2138-4fe5-b1a3-495b3cafd2f5",
+        "ms": 338.0372920073569
+      },
+      {
+        "status": 200,
+        "id": "8a4f0da5-3a17-4566-99fa-f96df0161307",
+        "ms": 328.0018750228919
+      },
+      {
+        "status": 200,
+        "id": "abd7dc0a-aab4-4291-a6b3-ca9b2d71548d",
+        "ms": 335.2407499914989
+      },
+      {
+        "status": 200,
+        "id": "de611443-90d4-4bec-84af-d4454c3c643f",
+        "ms": 298.3024999848567
+      },
+      {
+        "status": 200,
+        "id": "1db52830-784c-4278-b2eb-e8306c98934a",
+        "ms": 324.03679203707725
+      },
+      {
+        "status": 200,
+        "id": "8a15db14-9588-47e7-9769-9ddb845f225d",
+        "ms": 287.79658395797014
+      },
+      {
+        "status": 200,
+        "id": "431b207c-99ed-4472-b931-ccf6ab76d3f1",
+        "ms": 307.4784590280615
+      },
+      {
+        "status": 200,
+        "id": "06f6502a-25bf-477e-895e-87fe1d28771c",
+        "ms": 258.720625017304
+      },
+      {
+        "status": 200,
+        "id": "5c2dcf42-aa0a-4f4b-a0b0-b97ab21a0daa",
+        "ms": 273.22837500832975
+      },
+      {
+        "status": 200,
+        "id": "45644ea8-3724-4eca-9be7-ee5687000e09",
+        "ms": 307.0675419876352
+      },
+      {
+        "status": 200,
+        "id": "fb06bfb6-2d05-4e4f-a4a4-59da46e53be3",
+        "ms": 265.5267500085756
+      },
+      {
+        "status": 200,
+        "id": "501a6e93-d30b-413c-a64f-1a4cc79a432c",
+        "ms": 329.15166701423004
+      },
+      {
+        "status": 200,
+        "id": "b4d1fe6c-3fca-4ce1-bd01-4d049aa53a62",
+        "ms": 294.1862079896964
+      },
+      {
+        "status": 200,
+        "id": "5cb7ae72-84d0-4d7a-85f4-3499489ed0ad",
+        "ms": 340.0603330228478
+      },
+      {
+        "status": 200,
+        "id": "87e270c9-bdfd-4e1f-94a1-df5b33bee8de",
+        "ms": 333.8918749941513
+      },
+      {
+        "status": 200,
+        "id": "36dbb09d-7e82-49e6-903b-b7e4f747d5c8",
+        "ms": 336.3904579891823
+      },
+      {
+        "status": 200,
+        "id": "c308a61a-1fbe-4650-9704-aeb0fcb708b2",
+        "ms": 312.02324997866526
+      },
+      {
+        "status": 200,
+        "id": "d9cc4449-5e0d-4fd8-84bd-961356e24630",
+        "ms": 337.8630829975009
+      },
+      {
+        "status": 200,
+        "id": "293ea994-0f99-4f9f-a7b4-6f10869e5585",
+        "ms": 335.93066601315513
+      },
+      {
+        "status": 200,
+        "id": "6090078c-b405-4014-801a-8fff11312fab",
+        "ms": 332.67583296401426
+      },
+      {
+        "status": 200,
+        "id": "e64d1630-a099-4314-87a0-51581ac53616",
+        "ms": 314.24654100555927
+      },
+      {
+        "status": 200,
+        "id": "8c7cd23a-d516-489d-8352-7671eed040ce",
+        "ms": 188.64408403169364
+      },
+      {
+        "status": 200,
+        "id": "3306bd03-6ede-4803-8e79-a0885271ea50",
+        "ms": 188.66074999095872
+      },
+      {
+        "status": 200,
+        "id": "1c4d76f7-e4c5-4b0f-8d01-9c15eafa2476",
+        "ms": 183.10637504328042
+      },
+      {
+        "status": 200,
+        "id": "bf146d4e-8d38-45fd-9b49-c4162a632422",
+        "ms": 185.6534169637598
+      },
+      {
+        "status": 200,
+        "id": "bf7cb476-ab1f-4b3d-8420-a9f70ce40287",
+        "ms": 172.27345902938396
+      },
+      {
+        "status": 200,
+        "id": "4d0b958e-5504-41f0-a82f-d0630ddb7750",
+        "ms": 198.4804579988122
+      },
+      {
+        "status": 200,
+        "id": "8d59f03c-5449-425a-973b-3f69a5dffa91",
+        "ms": 191.2772500072606
+      },
+      {
+        "status": 200,
+        "id": "3c468473-ab68-4eaf-9f9a-e32f9774129c",
+        "ms": 185.38758298382163
+      },
+      {
+        "status": 200,
+        "id": "4f230d2d-1ad4-4993-bed0-9f97f8ff413b",
+        "ms": 175.13500002678484
+      },
+      {
+        "status": 200,
+        "id": "c44e4ced-ecb8-4269-b30a-c2241030e125",
+        "ms": 169.53970800386742
+      },
+      {
+        "status": 200,
+        "id": "3690f47c-79de-4859-8a5f-eac5c129c45a",
+        "ms": 164.4663750194013
+      },
+      {
+        "status": 200,
+        "id": "0d3118f3-5020-4e6d-a241-c7e3a0f2bd62",
+        "ms": 156.75666701281443
+      },
+      {
+        "status": 200,
+        "id": "a0c3db34-7eef-4a70-bb3d-43fa269a3e14",
+        "ms": 159.1564589762129
+      },
+      {
+        "status": 200,
+        "id": "41f6593a-ec9b-4f6d-9508-09c4c43e9d8a",
+        "ms": 159.73695798311383
+      }
+    ]
+  },
+  "database_container_state": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":98020,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-09-12T13:11:17.559805718Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}",
+  "scaling_passed": true,
+  "failure_explanation": "All 16 scaling cases passed. Subsequent graceful fault scenario failed because the harness sent a second SIGTERM during interpreter shutdown. The harness now joins an already-signalled worker without signalling twice. Independent final fault rerun is SERVICE_STRESS_FAULTS.json."
+}

@@ -21,6 +21,7 @@ from repopilot.trajectory import (
     summarize_trace,
 )
 
+#负责agent一轮轮怎么跑
 class AgentLoop:
     def __init__(
         self,
@@ -149,6 +150,7 @@ class AgentLoop:
         read_retries: dict[tuple[str, str], int] = {}
         test_timeout_retries = 0
         forced_stop: str | None = None
+        #最多让llm思考max_iterations次
         for iteration in range(1, self.max_iterations + 1):
             iterations = iteration
             self._timing("before_iteration", started)
@@ -165,6 +167,7 @@ class AgentLoop:
             while True:
                 model_started = time.perf_counter()
                 try:
+                    #controller把当前issue+history+tools告诉llm,然后问下一步干什么
                     turn = self.model.next_action(
                         issue=self.issue,
                         history=history,
@@ -293,6 +296,7 @@ class AgentLoop:
             if first_passing_revision is not None and action.tool_name != "git_diff":
                 self.tools.unnecessary_calls += 1
             arguments = action.arguments or {}
+            #执行llm选中的工具
             call_revision_before = self.tools.revision
             result = self.tools.call(action.tool_name, arguments)
             tool_calls += 1
@@ -482,6 +486,7 @@ class AgentLoop:
             trajectory_path=str(self.recorder.path),
         )
 
+#负责把“整个运行环境搭起来,然后启动agent loop”
 def run_agent(config: RunConfig, model: ModelClient, *, run_id: str | None = None) -> tuple[RunResult, Path]:
     overall_started = time.perf_counter()
     run_id = run_id or uuid.uuid4().hex

@@ -96,7 +96,20 @@ def search_code(args: dict[str, Any]) -> dict[str, Any]:
     root = safe_path(str(args.get("path", ".")))
     if not root.is_dir():
         raise ValueError("search path must be a directory")
+    #llm这次想用普通文本搜索还是regular expression（正则表达式）搜索?
+    '''
+    use_regex = False
+    → literal search
+
+    use_regex = True
+    → regex search
+    '''
     use_regex = bool(args.get("regex", False))
+    '''
+    这个也不是“把 query 语义拆成不同块”。
+    完全没有语义分析。
+    它只是把 query 变成 Python re 可以拿来搜索的 pattern
+    '''
     pattern = re.compile(query if use_regex else re.escape(query))
     matches: list[dict[str, Any]] = []
     for path in repository_files(root):
@@ -107,6 +120,7 @@ def search_code(args: dict[str, Any]) -> dict[str, Any]:
         except UnicodeDecodeError:
             continue
         for number, line in enumerate(lines, 1):
+            #这一行里有没有匹配 query/pattern？
             if pattern.search(line):
                 matches.append(
                     {"path": str(path.relative_to(WORKSPACE)), "line": number, "text": line[:500]}
@@ -123,11 +137,13 @@ def read_file(args: dict[str, Any]) -> dict[str, Any]:
     path = safe_path(value)
     if not path.is_file() or path.stat().st_size > MAX_TEXT_BYTES:
         raise ValueError("file is missing or exceeds the read limit")
+    #这里的1,400是默认参数值
     start = int(args.get("start_line", 1))
     end = int(args.get("end_line", 400))
     if start < 1 or end < start or end - start + 1 > 400:
         raise ValueError("line range must contain between 1 and 400 lines")
     lines = path.read_text(encoding="utf-8").splitlines()
+    #遍历用户想读的行号范围，然后把对应文本取出来。
     selected = [f"{number}: {lines[number - 1]}" for number in range(start, min(end, len(lines)) + 1)]
     content, truncated = bounded("\n".join(selected))
     return {"path": value, "start_line": start, "end_line": min(end, len(lines)), "content": content, "truncated": truncated}
@@ -231,6 +247,23 @@ def apply_patch_envelope(patch: str) -> dict[str, Any]:
     updates: dict[Path, str] = {}
     changed_paths: list[str] = []
     ignored_paths: list[str] = []
+    '''
+    假设patch是:
+        *** Begin Patch
+        *** Update File: calculator.py
+        @@
+        -    if b <= 0:
+        +    if b == 0:
+        *** End Patch
+    parse_patch_envelope() 大概会整理成：
+        value = "calculator.py"
+        hunks = [
+            [
+                "-    if b <= 0:",
+                "+    if b == 0:"
+            ]
+        ]
+    '''
     for value, hunks in parse_patch_envelope(patch):
         if is_protected_test_path(value):
             ignored_paths.append(value)
@@ -241,6 +274,11 @@ def apply_patch_envelope(patch: str) -> dict[str, Any]:
         original = updates.get(path, path.read_text(encoding="utf-8"))
         lines = original.splitlines()
         for hunk in hunks:
+            '''
+                " "  = 上下文，修改前后都保留
+                "-"  = 旧内容，要删掉
+                "+"  = 新内容，要加进去
+            '''
             before = [line[1:] for line in hunk if line[0] in {" ", "-"}]
             after = [line[1:] for line in hunk if line[0] in {" ", "+"}]
             if not before:
@@ -250,6 +288,7 @@ def apply_patch_envelope(patch: str) -> dict[str, Any]:
                 for index in range(len(lines) - len(before) + 1)
                 if lines[index : index + len(before)] == before
             ]
+            #我不仅要找到位置，还必须唯一定位。
             if len(matches) != 1:
                 raise ValueError(f"patch context for {value} matched {len(matches)} locations")
             index = matches[0]
@@ -276,6 +315,7 @@ def apply_patch(args: dict[str, Any]) -> dict[str, Any]:
     patch = args.get("patch")
     if not isinstance(patch, str) or not patch or len(patch) > 50_000:
         raise ValueError("patch must be a non-empty unified diff of at most 50,000 characters")
+     #“哦，这是 RepoPilot 支持的 apply-patch envelope 格式，那交给 apply_patch_envelope()。否则就默认按 Git diff 走。”
     if patch.startswith("*** Begin Patch\n"):
         return apply_patch_envelope(patch)
 
@@ -398,6 +438,14 @@ TOOLS = {
 
 
 def main() -> int:
+    #sys.argv 的意思是python程序启动时,从命令行收到的参数列表
+    #这里就是我要求启动这个程序的时候一共必须有三个argv,而且第二个东西必须是合法的工具名
+    #因为sys.argv[0]是程序/脚本本身,真正穿进去的是第一个参数从[1]开始
+    '''
+    argv[0] = sandbox_runner.py
+    argv[1] = tool name
+    argv[2] = arguments
+    '''
     if len(sys.argv) != 3 or sys.argv[1] not in TOOLS:
         print(json.dumps({"ok": False, "error": "invalid sandbox runner invocation"}))
         return 2
@@ -405,6 +453,7 @@ def main() -> int:
         arguments = json.loads(sys.argv[2])
         if not isinstance(arguments, dict):
             raise ValueError("arguments must be an object")
+        #总文件的开关
         result = TOOLS[sys.argv[1]](arguments)
         print(json.dumps({"ok": True, "result": result}, ensure_ascii=False))
         return 0

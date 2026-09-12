@@ -21,6 +21,8 @@ class SandboxConfig:
     memory: str = "512m"
     cpus: str = "1.0"
     pids_limit: int = 128
+    container_name: str | None = None
+    build_image: bool = True
 
 
 @dataclass(frozen=True)

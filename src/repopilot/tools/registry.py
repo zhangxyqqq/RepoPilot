@@ -53,6 +53,7 @@ class ToolRegistry:
                 False, {}, (perf_counter() - started) * 1000, self.revision, message,
                 FailureMetadata("invalid_arguments", message, False, "pre_execution", "safe_read"),
             )
+        #工具名合法还不够，参数也得符合这个工具的 schema。比如 read_file 需要 path，如果 LLM 乱传成数字、漏字段、或者塞了不该有的参数，这里就会拦掉。
         validation_error = validate_tool_arguments(name, arguments)
         if validation_error is not None:
             self.unnecessary_calls += 1
@@ -65,10 +66,12 @@ class ToolRegistry:
                 message,
                 FailureMetadata("invalid_arguments", message, False, "pre_execution", "safe_read"),
             )
+        #意思是：同一个工具 + 同一组参数 + 同一个代码版本，如果之前已经调用过，再调一次，就很可能是在浪费动作，所以 unnecessary_calls += 1。
         call_key = (name, json.dumps(arguments, sort_keys=True), self.revision)
         if call_key in self._seen_calls:
             self.unnecessary_calls += 1
         self._seen_calls.add(call_key)
+        #好了，校验都通过了，现在真的去 Docker sandbox 里面执行 list_files / read_file / apply_patch / run_tests。
         response = self.sandbox.invoke(name, arguments)
         ok = bool(response.get("ok"))
         observation = response.get("result", {}) if ok else {}
