@@ -1,0 +1,36 @@
+sh: locale: not found
+2026-09-12 14:08:57.004 UTC [35] WARNING:  no usable system locales were found
+initdb: warning: enabling "trust" authentication for local connections
+initdb: hint: You can change this by editing pg_hba.conf or using the option -A, or --auth-local and --auth-host, the next time you run initdb.
+2026-09-12 14:08:57.460 UTC [1] LOG:  starting PostgreSQL 16.15 on aarch64-unknown-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+2026-09-12 14:08:57.460 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+2026-09-12 14:08:57.460 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+2026-09-12 14:08:57.461 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2026-09-12 14:08:57.463 UTC [57] LOG:  database system was shut down at 2026-09-12 14:08:57 UTC
+2026-09-12 14:08:57.465 UTC [1] LOG:  database system is ready to accept connections
+2026-09-12 14:10:07.009 UTC [1] LOG:  received fast shutdown request
+2026-09-12 14:10:07.010 UTC [1] LOG:  aborting any active transactions
+2026-09-12 14:10:07.010 UTC [426] FATAL:  terminating connection due to administrator command
+2026-09-12 14:10:07.010 UTC [86] FATAL:  terminating connection due to administrator command
+2026-09-12 14:10:07.010 UTC [88] FATAL:  terminating connection due to administrator command
+2026-09-12 14:10:07.010 UTC [87] FATAL:  terminating connection due to administrator command
+2026-09-12 14:10:07.010 UTC [84] FATAL:  terminating connection due to administrator command
+2026-09-12 14:10:07.011 UTC [85] FATAL:  terminating connection due to administrator command
+2026-09-12 14:10:07.011 UTC [83] FATAL:  terminating connection due to administrator command
+2026-09-12 14:10:07.011 UTC [82] FATAL:  terminating connection due to administrator command
+2026-09-12 14:10:07.011 UTC [63] FATAL:  terminating connection due to administrator command
+2026-09-12 14:10:07.014 UTC [1] LOG:  background worker "logical replication launcher" (PID 60) exited with exit code 1
+2026-09-12 14:10:07.016 UTC [55] LOG:  shutting down
+2026-09-12 14:10:07.020 UTC [55] LOG:  checkpoint starting: shutdown immediate
+2026-09-12 14:10:11.411 UTC [1] LOG:  starting PostgreSQL 16.15 on aarch64-unknown-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+2026-09-12 14:10:11.411 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+2026-09-12 14:10:11.411 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+2026-09-12 14:10:11.413 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2026-09-12 14:10:11.415 UTC [29] LOG:  database system shutdown was interrupted; last known up at 2026-09-12 14:10:07 UTC
+2026-09-12 14:10:11.466 UTC [29] LOG:  database system was not properly shut down; automatic recovery in progress
+2026-09-12 14:10:11.468 UTC [29] LOG:  redo starts at 0/1925D90
+2026-09-12 14:10:11.643 UTC [29] LOG:  invalid record length at 0/49B6858: expected at least 24, got 0
+2026-09-12 14:10:11.643 UTC [29] LOG:  redo done at 0/49B6830 system usage: CPU: user: 0.15 s, system: 0.02 s, elapsed: 0.17 s
+2026-09-12 14:10:11.646 UTC [27] LOG:  checkpoint starting: end-of-recovery immediate wait
+2026-09-12 14:10:11.660 UTC [27] LOG:  checkpoint complete: wrote 364 buffers (2.2%); 0 WAL file(s) added, 0 removed, 3 recycled; write=0.005 s, sync=0.007 s, total=0.015 s; sync files=87, longest=0.005 s, average=0.001 s; distance=49730 kB, estimate=49730 kB; lsn=0/49B6858, redo lsn=0/49B6858
+2026-09-12 14:10:11.662 UTC [1] LOG:  database system is ready to accept connections

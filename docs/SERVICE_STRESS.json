@@ -1,0 +1,59 @@
+{
+  "date": "2026-09-12",
+  "scope": "bounded single-host scripted local stress; no paid model calls or new infrastructure services",
+  "final_measurement_artifacts": {
+    "SERVICE_STRESS_MATRIX_FINAL.json": "92464340d86daf117c464ecb6c7bf51a6061b3c718f8956a9ea12a427b15f68d",
+    "SERVICE_STRESS_POSTPOOL.json": "dba17ae0b220eb93e622e3ddd0c3142b35189503266ca9c834c19d245b968e41",
+    "SERVICE_STRESS_64.json": "d5e4696d887c52b129b2e4fe8f501076adcadfade4a719acfd3f0f0b3fa3acad",
+    "SERVICE_STRESS_LONG.json": "0f2fecc3ce89d1c263b0952f8ca1816e4554f9cb526ae85e71731bf9d9ea6c4c",
+    "SERVICE_STRESS_AGENT.json": "d0f1e548b32cb71204b375ee3e82a7977db3cf33bee3ffa25dd2c52ce8f5bc2f"
+  },
+  "measured_cases": 31,
+  "logical_tasks": 13080,
+  "http_submissions": 26160,
+  "terminal_failures": 0,
+  "admission_failures": 0,
+  "sequential_duplicate_executions": 0,
+  "simultaneous_duplicate_executions": 0,
+  "background_postgres_connection_limit_rejections_in_one_second_workload": 63,
+  "prepool_negative_result": {
+    "artifact": "SERVICE_STRESS_PREPOOL.json",
+    "affected_case_workers": 32,
+    "requested_tasks": 1536,
+    "admitted_tasks": 756,
+    "unadmitted_tasks": 780,
+    "http_503": 2316,
+    "sequential_reexecutions": 24,
+    "simultaneous_duplicates": 0
+  },
+  "pytest": {
+    "passed": 238,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "warnings": 1,
+    "reported_seconds": 96.24,
+    "junit_seconds": 96.234,
+    "original_core": 181,
+    "original_service": 39,
+    "audit": 12,
+    "new_stress_pool": 6
+  },
+  "compose": {
+    "rebuilt": true,
+    "smoke": "passed",
+    "persistence_restart_checks": 4,
+    "worker_sigkill_recovery": "passed"
+  },
+  "cli_help": "passed",
+  "hosted_ci": "not executed",
+  "prior_evidence_preserved": true,
+  "limitations": [
+    "single host/shared filesystem",
+    "not a sustained capacity or production availability claim",
+    "64-worker one-second workload exhausts default DB connection headroom",
+    "original connection-closure transport cause unverified",
+    "no long soak or paid-provider performance verification"
+  ],
+  "measurement_source_note": "Safe pool-warning redaction was added after measurements; pooling behavior/limits unchanged. Final source passed full regression and rebuilt Compose checks."
+}

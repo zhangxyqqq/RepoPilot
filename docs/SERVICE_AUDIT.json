@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-12",
+  "scope": "Post-implementation audit; bounded local correctness evidence",
+  "supersedes_conclusions_of": "SERVICE_ACCEPTANCE.md",
+  "confirmed_correctness_findings": {
+    "P1": 2,
+    "P2": 4,
+    "fixed": 6,
+    "remaining_confirmed": 0
+  },
+  "pre_fix_reproductions": {
+    "failed": 7,
+    "passed": 1
+  },
+  "pytest": {
+    "passed": 232,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "existing_core": 181,
+    "original_service": 39,
+    "new_audit": 12,
+    "duration_seconds": 91.3,
+    "warnings": 1
+  },
+  "compose": {
+    "scripted_smoke": "passed",
+    "restart_checks_passed": 4,
+    "restart_checks_failed": 0,
+    "worker_sigkill_recovery": "passed"
+  },
+  "hosted_ci": "configured, not executed",
+  "not_run": [
+    "paid-provider calls",
+    "SWE-bench reruns",
+    "load testing",
+    "multi-host testing",
+    "exhaustive network/daemon fault testing"
+  ],
+  "evidence_preserved": true,
+  "preexisting_user_edits_preserved": true
+}

@@ -153,6 +153,28 @@ def _relevance(terms: tuple[str, ...], values: list[str]) -> int:
     return score
 
 
+'''
+_parse_outline():
+import os
+
+class User:
+    def login(self, name: str) -> bool:
+        ...
+
+def load_config(path: str):
+    ...
+
+user.py [module=user, role=source]
+  imports: os
+  class User @L3
+    def login(self, name: str) -> bool @L4
+  def load_config(path: str) @L7   
+
+这个函数里面的为什么一直有symbol_order += 1
+当两个symbol的relevance分数相同时候,按照symbol_order的顺序排.
+-------给 symbol 保存一个稳定的 source order，用作相关性分数相同时的 tie-breaker（平局规则）。
+'''
+
 def _parse_outline(path: Path, relative: Path, order: int) -> FileOutline:
     tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(relative), type_comments=True)
     symbols: list[SymbolOutline] = []
@@ -193,7 +215,9 @@ def build_repository_context(
     max_scan_files: int = 5_000,
 ) -> dict[str, Any]:
     """Build a bounded, issue-ranked Python outline using the standard-library AST."""
-
+    """扫描 Python 文件 → 用 AST 提取结构 → 根据 issue 算相关性 → 
+       在预算限制下挑最重要的文件和 symbol → 拼成一个字符串 map 返回。
+    """
     python_files = _python_files(root)
     outlines: list[FileOutline] = []
     parse_errors: list[dict[str, Any]] = []
@@ -207,6 +231,7 @@ def build_repository_context(
                 parse_errors.append({"path": str(relative), "error": "file exceeds AST size limit"})
             continue
         try:
+            #对每个python文件做AST parse
             outlines.append(_parse_outline(path, relative, order))
         except (OSError, UnicodeDecodeError, SyntaxError) as exc:
             parse_error_count += 1
@@ -221,8 +246,9 @@ def build_repository_context(
     )
     total_symbols = sum(len(item.symbols) for item in outlines)
     pressure = len(outlines) > max_files or total_symbols > max_symbols or estimated_chars > max_chars
-    terms = _issue_terms(issue)
+    terms = _issue_terms(issue)#这个函数本质上是:把 issue 拆成有意义的关键词，去掉没用的常见词。
     file_scores = {
+        #用这些 issue terms 给文件打相关性分数,通过 _relevance()
         item.path: _relevance(terms, [str(item.path), item.module, *(symbol.name for symbol in item.symbols)])
         + (1 if item.role == "source" else 0)
         for item in outlines

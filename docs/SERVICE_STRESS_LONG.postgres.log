@@ -1,0 +1,73 @@
+sh: locale: not found
+2026-09-12 13:35:35.416 UTC [35] WARNING:  no usable system locales were found
+initdb: warning: enabling "trust" authentication for local connections
+initdb: hint: You can change this by editing pg_hba.conf or using the option -A, or --auth-local and --auth-host, the next time you run initdb.
+2026-09-12 13:35:35.855 UTC [1] LOG:  starting PostgreSQL 16.15 on aarch64-unknown-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+2026-09-12 13:35:35.855 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+2026-09-12 13:35:35.855 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+2026-09-12 13:35:35.856 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2026-09-12 13:35:35.860 UTC [57] LOG:  database system was shut down at 2026-09-12 13:35:35 UTC
+2026-09-12 13:35:35.861 UTC [1] LOG:  database system is ready to accept connections
+2026-09-12 13:35:55.785 UTC [266] FATAL:  sorry, too many clients already
+2026-09-12 13:35:55.792 UTC [267] FATAL:  sorry, too many clients already
+2026-09-12 13:35:56.747 UTC [268] FATAL:  sorry, too many clients already
+2026-09-12 13:35:56.756 UTC [270] FATAL:  sorry, too many clients already
+2026-09-12 13:35:56.756 UTC [269] FATAL:  sorry, too many clients already
+2026-09-12 13:35:56.757 UTC [271] FATAL:  sorry, too many clients already
+2026-09-12 13:35:56.760 UTC [272] FATAL:  sorry, too many clients already
+2026-09-12 13:35:56.765 UTC [273] FATAL:  sorry, too many clients already
+2026-09-12 13:35:56.766 UTC [274] FATAL:  sorry, too many clients already
+2026-09-12 13:35:56.768 UTC [275] FATAL:  sorry, too many clients already
+2026-09-12 13:35:56.770 UTC [276] FATAL:  sorry, too many clients already
+2026-09-12 13:35:56.770 UTC [277] FATAL:  sorry, too many clients already
+2026-09-12 13:35:56.775 UTC [278] FATAL:  sorry, too many clients already
+2026-09-12 13:35:56.780 UTC [279] FATAL:  sorry, too many clients already
+2026-09-12 13:35:56.783 UTC [281] FATAL:  sorry, too many clients already
+2026-09-12 13:35:56.783 UTC [280] FATAL:  sorry, too many clients already
+2026-09-12 13:35:56.809 UTC [282] FATAL:  sorry, too many clients already
+2026-09-12 13:35:56.826 UTC [283] FATAL:  sorry, too many clients already
+2026-09-12 13:35:56.846 UTC [284] FATAL:  sorry, too many clients already
+2026-09-12 13:36:16.725 UTC [484] FATAL:  sorry, too many clients already
+2026-09-12 13:36:16.725 UTC [486] FATAL:  sorry, too many clients already
+2026-09-12 13:36:16.725 UTC [487] FATAL:  sorry, too many clients already
+2026-09-12 13:36:16.725 UTC [488] FATAL:  sorry, too many clients already
+2026-09-12 13:36:16.725 UTC [485] FATAL:  sorry, too many clients already
+2026-09-12 13:36:16.727 UTC [494] FATAL:  sorry, too many clients already
+2026-09-12 13:36:16.728 UTC [489] FATAL:  sorry, too many clients already
+2026-09-12 13:36:16.728 UTC [493] FATAL:  sorry, too many clients already
+2026-09-12 13:36:16.728 UTC [491] FATAL:  sorry, too many clients already
+2026-09-12 13:36:16.729 UTC [492] FATAL:  sorry, too many clients already
+2026-09-12 13:36:16.731 UTC [495] FATAL:  sorry, too many clients already
+2026-09-12 13:36:16.736 UTC [496] FATAL:  sorry, too many clients already
+2026-09-12 13:36:16.746 UTC [497] FATAL:  sorry, too many clients already
+2026-09-12 13:36:16.747 UTC [498] FATAL:  sorry, too many clients already
+2026-09-12 13:36:16.759 UTC [499] FATAL:  sorry, too many clients already
+2026-09-12 13:36:16.764 UTC [500] FATAL:  sorry, too many clients already
+2026-09-12 13:36:16.764 UTC [501] FATAL:  sorry, too many clients already
+2026-09-12 13:36:16.774 UTC [503] FATAL:  sorry, too many clients already
+2026-09-12 13:36:16.775 UTC [502] FATAL:  sorry, too many clients already
+2026-09-12 13:36:16.777 UTC [504] FATAL:  sorry, too many clients already
+2026-09-12 13:36:17.693 UTC [505] FATAL:  sorry, too many clients already
+2026-09-12 13:36:17.694 UTC [506] FATAL:  sorry, too many clients already
+2026-09-12 13:36:17.695 UTC [507] FATAL:  sorry, too many clients already
+2026-09-12 13:36:17.699 UTC [508] FATAL:  sorry, too many clients already
+2026-09-12 13:36:17.723 UTC [509] FATAL:  sorry, too many clients already
+2026-09-12 13:36:17.728 UTC [510] FATAL:  sorry, too many clients already
+2026-09-12 13:36:17.735 UTC [511] FATAL:  sorry, too many clients already
+2026-09-12 13:36:17.737 UTC [512] FATAL:  sorry, too many clients already
+2026-09-12 13:36:17.742 UTC [513] FATAL:  sorry, too many clients already
+2026-09-12 13:36:17.745 UTC [514] FATAL:  sorry, too many clients already
+2026-09-12 13:36:17.753 UTC [515] FATAL:  sorry, too many clients already
+2026-09-12 13:36:17.779 UTC [516] FATAL:  sorry, too many clients already
+2026-09-12 13:36:17.781 UTC [517] FATAL:  sorry, too many clients already
+2026-09-12 13:36:17.789 UTC [518] FATAL:  sorry, too many clients already
+2026-09-12 13:36:17.794 UTC [519] FATAL:  sorry, too many clients already
+2026-09-12 13:36:17.796 UTC [520] FATAL:  sorry, too many clients already
+2026-09-12 13:36:17.798 UTC [521] FATAL:  sorry, too many clients already
+2026-09-12 13:36:17.807 UTC [522] FATAL:  sorry, too many clients already
+2026-09-12 13:36:17.809 UTC [523] FATAL:  sorry, too many clients already
+2026-09-12 13:36:17.812 UTC [524] FATAL:  sorry, too many clients already
+2026-09-12 13:36:17.821 UTC [525] FATAL:  sorry, too many clients already
+2026-09-12 13:36:17.824 UTC [526] FATAL:  sorry, too many clients already
+2026-09-12 13:36:17.826 UTC [527] FATAL:  sorry, too many clients already
+2026-09-12 13:36:17.828 UTC [528] FATAL:  sorry, too many clients already

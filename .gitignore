@@ -13,3 +13,9 @@ reports/
 .env.*
 !.env.example
 .DS_Store
+.service.env
+
+# Local verification output; intentional docs evidence remains tracked.
+/test-results.xml
+/junit*.xml
+/.coverage.*

@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import re
+from contextlib import contextmanager
+from contextvars import ContextVar
 import uuid
 from datetime import datetime
 from typing import Any, Mapping
@@ -10,6 +12,18 @@ TRACE_SCHEMA_VERSION = 2
 TRACE_PHASES = frozenset({"run", "model", "tool", "controller", "evaluation"})
 TRACE_STATUSES = frozenset({"in_progress", "ok", "error", "timeout", "rejected", "cancelled"})
 REDACTED = "[REDACTED]"
+_REDACTION_SECRETS: ContextVar[tuple[str, ...]] = ContextVar("repopilot_redaction_secrets", default=())
+
+
+@contextmanager
+def secret_redaction(secrets):
+    """Optional control-plane literals; scoped to one execution, never recorded."""
+    token = _REDACTION_SECRETS.set(tuple(sorted({s for s in secrets if s}, key=len, reverse=True)))
+    try:
+        yield
+    finally:
+        _REDACTION_SECRETS.reset(token)
+
 
 _SENSITIVE_KEYS = frozenset(
     {
@@ -65,6 +79,8 @@ def stable_event_id(run_id: str, sequence: int, event_type: str) -> str:
 
 def redact_text(value: str) -> str:
     redacted = value
+    for secret in _REDACTION_SECRETS.get():
+        redacted = redacted.replace(secret, REDACTED)
     for pattern in _SECRET_PATTERNS:
         if pattern.groups == 1:
             redacted = pattern.sub(r"\1 " + REDACTED, redacted)
@@ -85,7 +101,7 @@ def redact_value(value: Any, *, key: str | None = None) -> Any:
     if isinstance(value, str):
         return redact_text(value)
     if isinstance(value, Mapping):
-        return {str(item_key): redact_value(item, key=str(item_key)) for item_key, item in value.items()}
+        return {redact_text(str(item_key)): redact_value(item, key=str(item_key)) for item_key, item in value.items()}
     if isinstance(value, list):
         return [redact_value(item) for item in value]
     if isinstance(value, tuple):

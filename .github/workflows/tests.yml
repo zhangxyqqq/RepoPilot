@@ -1,0 +1,51 @@
+name: deterministic-regression-and-service
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: repopilot_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d repopilot_test"
+          --health-interval 2s --health-timeout 3s --health-retries 30
+    env:
+      REPOPILOT_TEST_DATABASE_URL: postgresql://postgres:test@127.0.0.1:5432/repopilot_test
+      REPOPILOT_DATABASE_URL: postgresql://postgres:test@127.0.0.1:5432/repopilot_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: '0.8.13'
+          python-version: '3.12'
+      - run: uv sync --frozen --extra dev --extra service
+      - run: docker build -t repopilot-sandbox:0.1.0 .
+      - run: uv run --frozen --extra service alembic upgrade head
+      - run: uv run --frozen --extra dev --extra service pytest --junitxml=test-results.xml
+      - run: uv run --frozen repopilot --help
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: deterministic-test-results
+          path: test-results.xml
+  compose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - run: ./scripts/service-dev.sh
+      - run: python3 scripts/service-smoke.py
+      - run: python3 scripts/service-restart-check.py
+      - run: python3 scripts/service-crash-check.py
+      - if: always()
+        run: docker compose --env-file .service.env logs --no-color api worker
+      - if: always()
+        run: docker compose --env-file .service.env down --timeout 10

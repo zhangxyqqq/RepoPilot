@@ -1,0 +1,14 @@
+{"workers": 16, "submitters": 32, "repeat": 1, "logical_tasks": 1536, "executor_seconds": 0.1, "sampling_errors": [], "peak_sampled_db_connections": 36, "peak_sampled_lock_waiters": 0, "elapsed_seconds": 19.18, "throughput_tasks_per_second": 80.082, "submission_ms": {"n": 3072, "p50": 119.478, "p95": 194.014, "max": 300.257}, "queue_ms": {"n": 1536, "p50": 9761.123, "p95": 13556.473, "max": 14026.102}, "end_to_end_ms": {"n": 1536, "p50": 9888.604, "p95": 13683.223, "max": 14147.409}, "run_ms": {"n": 1536, "p50": 134.489, "p95": 225.992, "max": 294.553}, "claim_ms": {"n": 1536, "p50": 21.428, "p95": 80.48, "max": 134.181}, "worker_connect_ms": {"n": 4640, "p50": 9.222, "p95": 37.879, "max": 89.987}, "duplicate_executions": 0, "simultaneous_duplicates": 0, "attempts": 1536, "failures": 0, "admission_failures": 0, "created": 1536, "deduplicated": 1536}
+Traceback (most recent call last):
+  File "/Users/zhangxiangyun/Downloads/The_DTU_Years/2/repopilot/scripts/service-stress.py", line 425, in <module>
+    main()
+    ~~~~^^
+  File "/Users/zhangxiangyun/Downloads/The_DTU_Years/2/repopilot/scripts/service-stress.py", line 399, in main
+    report['scaling'].append(experiment.scaling(workers,submitters,repeat,args.tasks,None if args.agent else args.duration))
+                             ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zhangxiangyun/Downloads/The_DTU_Years/2/repopilot/scripts/service-stress.py", line 210, in scaling
+    wait(lambda: samples and samples[-1]['terminal'] == n, 120)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zhangxiangyun/Downloads/The_DTU_Years/2/repopilot/scripts/service-stress.py", line 40, in wait
+    raise AssertionError('bounded wait expired')
+AssertionError: bounded wait expired

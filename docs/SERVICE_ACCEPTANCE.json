@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-12",
+  "scope": "Local deterministic service and existing regression acceptance; no load or paid-model benchmark claim",
+  "pytest": {
+    "passed": 220,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "existing_tests": 181,
+    "service_tests": 39,
+    "warnings": 1,
+    "reported_duration_seconds": 78.53
+  },
+  "compose_smoke": {
+    "passed": true,
+    "provider": "scripted",
+    "workers": 2,
+    "task_id": "55211033-d68e-431e-9ad7-c68ba3dab056",
+    "run_id": "921a8f0f-b03b-47e0-936f-fdc204d74f0a"
+  },
+  "compose_restart": {
+    "passed": 4,
+    "failed": 0,
+    "checks": [
+      "queued task survives API/PostgreSQL restart",
+      "idempotency survives restart",
+      "workers execute persisted task",
+      "terminal result survives second API/PostgreSQL restart"
+    ]
+  },
+  "ci": {
+    "workflow": ".github/workflows/tests.yml",
+    "configured": true,
+    "hosted_run": "not run"
+  },
+  "limitations": [
+    "Single host, shared Docker daemon and shared artifact filesystem required",
+    "No exactly-once guarantee; retries may repeat provider costs",
+    "OS-paused owner requires operator termination or resumption",
+    "No production scale, availability or broad benchmark claim"
+  ],
+  "evidence_preservation": {
+    "benchmark_and_checkpoint_files_changed": false,
+    "preexisting_user_edits_preserved": true
+  }
+}

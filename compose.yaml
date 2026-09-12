@@ -1,0 +1,95 @@
+name: repopilot
+x-control-environment: &control-environment
+  REPOPILOT_DATABASE_URL: postgresql://repopilot:${REPOPILOT_DB_PASSWORD:?configure service environment}@postgres:5432/repopilot
+  REPOPILOT_WORKSPACE_ROOT: ${REPOPILOT_WORKSPACE_ROOT:?absolute host workspace root required}
+  REPOPILOT_ARTIFACT_ROOT: ${REPOPILOT_ARTIFACT_ROOT:?absolute host artifact root required}
+  REPOPILOT_API_TOKEN: ${REPOPILOT_API_TOKEN:?configure service environment}
+  REPOPILOT_PROVIDER: ${REPOPILOT_PROVIDER:-openai}
+  REPOPILOT_MODEL: ${REPOPILOT_MODEL:-gpt-4.1-mini}
+  REPOPILOT_SCRIPTED: ${REPOPILOT_SCRIPTED:-1}
+  REPOPILOT_LEASE_SECONDS: ${REPOPILOT_LEASE_SECONDS:-30}
+  REPOPILOT_MAX_INFLIGHT: ${REPOPILOT_MAX_INFLIGHT:-4096}
+  REPOPILOT_MAX_ATTEMPTS: ${REPOPILOT_MAX_ATTEMPTS:-3}
+  REPOPILOT_HARD_TIMEOUT_SECONDS: ${REPOPILOT_HARD_TIMEOUT_SECONDS:-900}
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: repopilot
+      POSTGRES_USER: repopilot
+      POSTGRES_PASSWORD: ${REPOPILOT_DB_PASSWORD}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U repopilot -d repopilot"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+    restart: unless-stopped
+  migrate:
+    build:
+      context: .
+      dockerfile: Dockerfile.service
+    image: repopilot-control:dev
+    command: [alembic, upgrade, head]
+    environment: *control-environment
+    depends_on:
+      postgres:
+        condition: service_healthy
+  sandbox-image:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: repopilot-sandbox:0.1.0
+    command: ["true"]
+    network_mode: none
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+  api:
+    image: repopilot-control:dev
+    environment: *control-environment
+    volumes:
+      - type: bind
+        source: ${REPOPILOT_WORKSPACE_ROOT}
+        target: ${REPOPILOT_WORKSPACE_ROOT}
+        read_only: true
+    ports:
+      - "127.0.0.1:${REPOPILOT_API_PORT:-8000}:8000"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/readyz', timeout=5)"]
+      interval: 5s
+      timeout: 6s
+      retries: 10
+    restart: unless-stopped
+  worker:
+    image: repopilot-control:dev
+    command: [repopilot-worker]
+    environment:
+      <<: *control-environment
+      # Only trusted workers receive model secrets. Child sandboxes do not.
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
+    volumes:
+      - type: bind
+        source: ${REPOPILOT_WORKSPACE_ROOT}
+        target: ${REPOPILOT_WORKSPACE_ROOT}
+        read_only: true
+      # Identical absolute path on host/worker is required for child bind mounts.
+      # The shared inode namespace also supplies process-safe execution locks.
+      - type: bind
+        source: ${REPOPILOT_ARTIFACT_ROOT}
+        target: ${REPOPILOT_ARTIFACT_ROOT}
+      - ${REPOPILOT_DOCKER_SOCKET:-/var/run/docker.sock}:/var/run/docker.sock
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      sandbox-image:
+        condition: service_completed_successfully
+    stop_grace_period: 16m
+    restart: unless-stopped
+volumes:
+  postgres-data:
