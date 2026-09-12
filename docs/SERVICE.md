@@ -3,8 +3,12 @@
 This milestone adds a production-style control plane around the existing single-agent
 runtime. It is a bounded, single-host service, with deterministic PostgreSQL and
 Docker tests. Bounded local throughput measurements are recorded separately in
+[SERVICE_DEPTH.md](SERVICE_DEPTH.md), with earlier results preserved in
 [SERVICE_STRESS.md](SERVICE_STRESS.md); they establish no production capacity,
 availability, or broad solve-rate claim. Historical evaluation evidence remains independent.
+
+The job-search milestone is frozen; [closeout verification and exceptions](JOB_SEARCH_CLOSEOUT.md)
+record the current release status. Hosted GitHub Actions execution is externally unverified.
 
 ## Architecture and ownership
 

@@ -1,0 +1,78 @@
+{
+  "date": "2026-09-12",
+  "milestone": "frozen for job-search; hosted CI exception",
+  "reviewed_implementation_commit": "e580e021f6f4679d9ff85d67e636431ef5100762",
+  "runtime_changes": false,
+  "full_regression": {
+    "tests": 244,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "warnings": 1,
+    "seconds": 97.36
+  },
+  "test_categories": {
+    "service": 63,
+    "integration": 6,
+    "regression": 32,
+    "unit": 143
+  },
+  "compose": {
+    "smoke": {
+      "task_id": "d54f1e2c-390a-4d21-9a89-64d2faf21eb5",
+      "run_id": "610efa09-ce9f-4d2a-a0a6-439362c37b16",
+      "status": "SUCCEEDED"
+    },
+    "restart": {
+      "task_id": "8339c120-aa82-4b64-958a-27c36ac7cc4c",
+      "checks": [
+        "queued task survives database and API restart",
+        "idempotency survives restart",
+        "workers execute persisted task",
+        "terminal result survives second restart"
+      ],
+      "passed": 4
+    }
+  },
+  "consistency_checks": {
+    "local_links_and_anchors_checked": 117,
+    "historical_evidence_files_unchanged": 193,
+    "prior_source_hashes_verified": 23,
+    "scaling_cases": 12,
+    "logical_tasks": 9984,
+    "http_submissions": 19968
+  },
+  "mermaid": {
+    "parser": "mermaid 11.12.0",
+    "diagrams_parsed": 3
+  },
+  "secret_scan": {
+    "tracked_files": 472,
+    "candidate_findings": 0,
+    "new_documents_checked": true,
+    "historical_forensic_audit": false
+  },
+  "hosted_ci": {
+    "verified": false,
+    "retried": false,
+    "exception": "Prior push rejected: PAT lacks workflow scope; no remote branch or run created"
+  },
+  "blockers": {
+    "P0": 0,
+    "P1": 0,
+    "P2": 0,
+    "interpretation": "None identified within reviewed single-host scope; not proof against arbitrary failures"
+  },
+  "not_rerun": [
+    "paid model evaluations",
+    "SWE-bench",
+    "unchanged stress matrix"
+  ],
+  "cv_files_modified": false,
+  "historical_evidence_gaps": [
+    "Exact historical MCP timing artifact not located in tracked checkpoints",
+    "Historical controlled DeepSeek 12-task run artifact not located in tracked checkpoints"
+  ],
+  "migration_head_verified": "0003",
+  "cli_help_exit": 0
+}

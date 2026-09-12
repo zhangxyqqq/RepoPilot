@@ -1,42 +1,144 @@
 # RepoPilot
 
-RepoPilot is an **end-to-end agent execution service and Agent Engineering & Evaluation Platform** for repository-level coding tasks. A FastAPI control plane persists tasks and run attempts in PostgreSQL, dispatches background workers through atomic claims, and connects them to the existing bounded agent runtime and restricted Docker sandbox.
+RepoPilot is an **end-to-end, production-style service for reliable execution, observation, and evaluation of repository-level coding agents**. It separates long-running agent work from HTTP requests, persists task/run state in PostgreSQL, and runs a bounded AgentLoop with typed tools in restricted Docker sandboxes. The engineering problem is keeping execution ownership, recovery and evidence coherent when clients retry, workers die or tool responses are ambiguous.
+
+**Measured:** 244 regression tests passed; 9,984 scripted service tasks completed with zero duplicate executions across the final scaling cases; a separately frozen SWE-bench Verified pilot resolved 3/5 tasks with official grading. Each result has a different scope—see [service evidence](#measured-service-evidence) and [AI/evaluation evidence](#measured-results).
+
+**Milestone frozen — 2026-09-12.** Single-host execution is the supported boundary. Hosted CI is configured but externally unverified. [Closeout and freeze record](docs/JOB_SEARCH_CLOSEOUT.md) · [Engineering evidence summary](docs/JOB_SEARCH_ENGINEERING_SUMMARY.md) · [Interview map](docs/INTERVIEW_ENGINEERING_MAP.md)
+
+## Engineering highlights
+
+- **Persistent asynchronous execution:** versioned FastAPI endpoints, PostgreSQL task/run lifecycles, explicit Alembic migrations, multiple worker processes and bounded admission with intentional 429 responses.
+- **Ownership across failures:** atomic database claims, lease checks and stale-completion fencing combine with shared POSIX execution locks and orphan cleanup. Idempotent submission and execution ownership solve different problems; neither provides exactly-once external effects.
+- **Controlled agent recovery:** six typed repository tools, direct/local stdio MCP contract parity, bounded retries, and revision-plus-Git-diff reconciliation when a mutation response is lost.
+- **Sandbox policy:** a staged repository, networkless non-root Docker execution and controller-owned test commands keep original repositories, Docker control and model credentials outside the agent sandbox.
+- **Observable behavior:** authenticated Prometheus-format service metrics, structured request/task/run logs and correlated agent trace IDs; local artifact publication remains separate from execution staging.
+- **Evidence-driven design:** deterministic concurrency, contention, crash/restart and recovery tests; measured PostgreSQL tuning with negative results preserved; frozen retrieval, compatibility and SWE-bench evaluation gates.
+
+## Complete system architecture
 
 ```mermaid
-flowchart LR
-    API[REST API] --> DB[(Persistent task lifecycle)]
-    DB --> Workers[Workers / atomic claiming / leases]
-    Workers --> Agent[Existing AgentLoop]
-    Agent --> Sandbox[Restricted staged Docker sandbox]
-    Agent --> Results[Result / trajectory]
-    Results --> DB
+flowchart TB
+    Client["Client"] --> API["FastAPI v1 / bearer auth"]
+    API --> Admission["Idempotency / bounded admission"]
+    Admission --> DB[("PostgreSQL tasks / runs / worker registry")]
+    DB <--> Worker["Workers: atomic claims / leases / local execution fence"]
+    Worker --> Loop["Existing AgentLoop / bounded recovery"]
+    Loop --> Backend["ToolBackend / canonical six tools"]
+    Backend --> Sandbox["Restricted Docker / staged repository"]
+    Backend -. "optional local CLI transport" .-> MCP["Local stdio MCP / same registry"]
+    MCP --> Sandbox
+    Loop --> Artifacts["Local artifacts: result / JSONL trace"]
+    Artifacts --> Publish["ArtifactPublisher: metadata and references"]
+    Publish --> DB
+    API --> Metrics["Authenticated metrics / DB snapshot + API counters"]
+    Worker -. "request / task / run / trace IDs" .-> Logs["Structured service logs"]
 ```
 
-The service adds idempotent submission, tested concurrency and worker recovery, correlated logs, real migrations, and a multi-service local Compose deployment. Its supported execution boundary is one host with a shared Docker daemon and artifact filesystem. This is a **production-style service architecture**, not a proven production-ready or highly scalable service.
+The service calls the internal `run_agent` entry point using the normal direct tool path; it does not invoke a second agent implementation or route service work through remote MCP. PostgreSQL holds metadata, while the shared filesystem holds staging, execution locks and full traces. The API exposes result/trace metadata rather than a client-selected file download path.
 
-Start the scripted local stack without model API calls:
+## Measured service evidence
+
+| Evidence | Exact result | Scope |
+|---|---|---|
+| Full deterministic regression | **244 passed; 0 failed/errors/skipped; 1 dependency warning** | Core, CLI, MCP, Docker and real PostgreSQL service tests; [latest closeout run](docs/JOB_SEARCH_CLOSEOUT.md) |
+| Final scaling cases | **9,984 logical tasks / 19,968 HTTP submissions; 0 failures, rejected admissions or duplicate executions** | 12 local scripted cases: 16/32/64 workers, 32 submitters, two repetitions, 100 ms and one-second execution |
+| Interruption checks | **12/12 passed; 0 simultaneous duplicates** | SIGTERM, SIGKILL, pause/stale owner, DB restart, API restart and row contention, each exercised twice |
+| Connection saturation follow-up | **100 → 73 peak sampled connections; 63 → 0 connection-limit rejections** | Comparable 64-worker, one-second workload; one connection per worker |
+| Real Compose checks | Smoke, four restart assertions and SIGKILL/orphan cleanup passed | Scripted AgentLoop and real Docker execution; migration through revision 0003 |
+
+The comparable **100 ms** workload used 1,536 tasks per case. Throughput below gives both repetitions in tasks/second:
+
+| Workers | Before | Final |
+|---:|---:|---:|
+| 16 | 112.854 / 113.478 | 110.835 / 114.438 |
+| 32 | 232.688 / 230.443 | 236.145 / 218.186 |
+| 64 | 280.270 / 262.687 | 262.339 / 268.431 |
+
+**The final DB/admission changes did not produce a general throughput improvement.** The initial admission implementation was slower still, and that evidence remains preserved. Connection pressure and large active-lease dispatch scans improved, while contention and diminishing returns remain. These short runs on a 12-CPU local Docker environment establish neither universal worker limits nor model-serving capacity. The bounded PostgreSQL design remains appropriate for the tested scope; the experiment did not demonstrate a need for a dedicated broker.
+
+[Exact p50/p95 timings, one-second comparison, query plans and limitations](docs/SERVICE_DEPTH.md) · [Preserved earlier stress evidence](docs/SERVICE_STRESS.md) · [Correctness audit](docs/SERVICE_AUDIT.md)
+
+## Quick start
+
+### Service mode — scripted local Compose stack
+
+Requirements: a POSIX host, Docker Engine/Desktop with Compose, Python 3 and a trusted Docker daemon. Run from the repository root:
 
 ```bash
 ./scripts/service-dev.sh
 python3 scripts/service-smoke.py
 ```
 
-The stack includes the API, PostgreSQL and two workers. See the [service architecture, API, deployment and trust boundaries](docs/SERVICE.md) and [post-implementation audit](docs/SERVICE_AUDIT.md), and [local stress measurements and latest regression results](docs/SERVICE_STRESS.md). The [engineering-depth acceptance report](docs/SERVICE_DEPTH.md) covers indexed recovery, bounded admission, authenticated metrics and the API/storage contracts. Existing CLI and evaluation workflows remain available below. Historical negative results and benchmark evidence are preserved separately from service correctness tests.
+On first use, the script creates a private, ignored `.service.env` with generated credentials and an example repository under `~/.local/share/repopilot-service`. It builds the sandbox/control images, migrates PostgreSQL, and starts the API plus two workers. Existing configuration is reused; the smoke command requires `REPOPILOT_SCRIPTED=1` and makes no paid model calls. API/docs are at `http://127.0.0.1:8000/docs`; task and metrics requests require the generated bearer token. The smoke script loads it without printing it.
 
-## What RepoPilot demonstrates
+Workers are trusted controllers with Docker-daemon access and, in provider mode, model credentials. **The Docker socket must never enter the restricted agent sandbox.** Worker/host artifact paths must match for child bind mounts and shared execution locks. [API examples, configuration and trust boundary](docs/SERVICE.md)
 
-- Persistent asynchronous task/run execution with PostgreSQL claims, leases and database-enforced idempotency.
-- Cross-process concurrency tests, worker-death recovery, safe trace metadata and reproducible local Compose deployment.
-- A bounded single-agent controller with typed model actions and explicit stop conditions.
-- Exactly six repository tools; no model-visible shell, Docker flags, or host paths.
-- Restricted, networkless Docker execution over a staged repository copy.
-- A canonical tool catalog shared by direct provider calls and a local stdio MCP adapter.
-- Versioned JSONL traces with local analytics, redaction, and metric reconciliation.
-- Versioned evaluation profiles and an evidence-based, multi-label failure taxonomy.
-- Bounded recovery policies tested through deterministic fault injection.
-- Structural, lexical, semantic, and hybrid retrieval experiments with a preserved negative promotion result.
-- Controlled hidden-test evaluation and separately reported SWE-bench Verified reference, feasibility, behavioral, and qualification tracks.
-- Frozen model/controller compatibility gates that measure protocol use independently from coding-task success.
+Stop the local stack while retaining PostgreSQL data:
+
+```bash
+docker compose --env-file .service.env down
+```
+
+### Local CLI mode
+
+Python 3.11+, `uv` and Docker are required. `uv sync --frozen --extra dev` installs the local CLI/evaluation environment. Use `uv run repopilot run` for one repository; provider calls require host-side credentials. [CLI and trace commands](#reproduce) remain separate from service submission.
+
+### Evaluation mode
+
+`uv run repopilot eval --benchmarks benchmarks/cases --output reports/deterministic --model scripted` runs the controlled benchmark without paid model calls. Reliability, retrieval and compatibility workflows are documented in [Reproduce](#reproduce). Historical SWE-bench/model results are frozen evidence, not startup steps or tests to rerun for this milestone.
+
+## Service lifecycle and concurrency
+
+A **Task** stores the client request and durable outcome: `QUEUED → RUNNING → SUCCEEDED | FAILED`. A **Run** represents one attempt: `RUNNING → SUCCEEDED | FAILED | ABANDONED`. Recovery abandons an expired attempt and creates another while the task stays RUNNING; finite attempt exhaustion ends the task as FAILED. Database uniqueness, foreign keys and transition guards protect these relationships. No cancellation or arbitrary state-update endpoint exists.
+
+`POST /v1/tasks` commits a task and returns 202 without waiting for agent execution. Matching idempotency keys replay the original task (200); conflicting payloads return 409. The default 4,096 QUEUED/RUNNING admission cap returns 429 for new work at capacity, while replays still work. Every API replica must use the same capacity configuration; trusted direct SQL administration can bypass admission policy.
+
+Workers use short `FOR UPDATE SKIP LOCKED` transactions, probing expired runs before FIFO queued tasks, and commit before agent work. A lease represents time-limited ownership according to the database clock; expiry alone does not prove the old process stopped. A shared per-task `flock`, retained by surviving Docker supervisors, blocks replacement execution until the owner is gone. Cleanup must confirm orphan removal before retry. Heartbeats and completion require the current owner and an unexpired lease; stale completion cannot overwrite a replacement.
+
+Submission idempotency prevents duplicate task creation. Claims, execution locks and completion checks protect execution ownership on the supported host. Recovery can execute another attempt and repeat a provider call: **no exactly-once execution or external-side-effect guarantee is claimed**. A paused owner can reduce availability; safety depends on the shared filesystem/daemon boundary, not PostgreSQL leases alone.
+
+## Two layers of reliability
+
+| Layer | Responsibility | Boundary |
+|---|---|---|
+| Service | Submission, persistence, admission, claims, leases, ownership, restart/recovery and draining | Task/run lifecycle across API and worker processes |
+| Agent | Provider/tool failures, bounded retry, ambiguous mutation reconciliation, workspace revisions and sandbox policy | One controlled attempt inside the existing AgentLoop |
+
+Representative verified failures:
+
+| Failure | Protection / recovery | Evidence |
+|---|---|---|
+| Duplicate submissions / competing claims | Unique idempotency hash, atomic claim and one active run per task | [Real-process races](tests/service/test_service.py) |
+| Expired lease with live or paused owner | Shared execution lock blocks replacement; stale heartbeat/completion rejected | [Lease tests](tests/service/test_service.py), [pause experiment](docs/SERVICE_DEPTH.md#interruption-and-contention-checks) |
+| Worker SIGKILL / orphan container | Surviving supervisor retains lock; bounded cleanup precedes retry | [Docker audit tests](tests/service/test_audit.py), [Compose crash check](scripts/service-crash-check.py) |
+| API / PostgreSQL restart | Persisted requests/results survive; DB outage fences completion and permits recovery after restoration | [Restart check](scripts/service-restart-check.py), [stress evidence](docs/SERVICE_DEPTH.md) |
+| Graceful stop / locked candidate | Stop future claims, drain claimed work; SKIP LOCKED lets independent tasks proceed | [Drain tests](tests/service/test_depth.py), [contention tests](tests/service/test_service.py) |
+| Lost mutation response | Inspect workspace revision and Git diff; do not blindly repeat the edit | [Reliability matrix](tests/regression/test_reliability_evaluation.py) |
+| Provider / safe-read tool failure | Classify retryability and execution state; bounded retry or explicit stop | [Recovery policy tests](tests/unit/test_recovery_policy.py) |
+
+## Security and sandbox boundary
+
+RepoPilot stages regular files into a separate run directory; it does not mount or modify the original repository. The agent sandbox uses:
+
+- network mode `none`;
+- a non-root UID/GID and read-only container root filesystem;
+- one staged writable repository mount;
+- all Linux capabilities dropped and `no-new-privileges`;
+- CPU, memory, PID, command-timeout, and controller-deadline bounds;
+- no Docker socket, host home, SSH agent, or forwarded API credentials;
+- host- and container-side path checks, patch validation, and protected-test policy;
+- immutable controller-owned test plans for qualified SWE-bench environments.
+
+The integration suite inspects the live container configuration. This is defense in depth, not a claim that Docker is a VM-grade security boundary; repository tests still execute arbitrary code inside the container.
+
+## Service observability and CI
+
+Authenticated `/metrics` exposes Prometheus text for task/run states, worker liveness/draining, stale recovery, retained wait/run timings, claim transaction timing, admission outcomes and API pool/HTTP observations. Labels are finite; identifiers belong in logs/traces. Database gauges describe retained history and repeat across API replicas; do not sum those replicas. API counters reset on process restart, and scrape-time aggregation can become expensive. [Metric semantics](docs/SERVICE_DEPTH.md#metrics-interpretation)
+
+Structured service logs link request, task, run and trace identifiers. `ArtifactPublisher` currently has only a local metadata/reference implementation. It does not remove the shared filesystem or provide object storage. Detailed agent traces remain described below.
+
+[GitHub Actions](.github/workflows/tests.yml) configures frozen dependencies, PostgreSQL, Docker regression tests and Compose smoke/restart/crash checks. **Hosted execution remains externally unverified:** the branch push was rejected because the available token lacked `workflow` scope. Local passes are not hosted CI passes. No repeated push attempt is needed with unchanged credentials.
 
 ## Agent and evaluation architecture
 
@@ -87,26 +189,11 @@ Recovery is policy-driven rather than an unrestricted retry loop. Default contro
 
 Schemas, descriptions, validation rules, mutation metadata, and normalized results come from one canonical catalog. Direct providers and MCP expose the same six definitions. The model never receives arbitrary shell access, and `run_tests` remains controller- or policy-owned.
 
-## Security and sandbox boundary
-
-RepoPilot stages regular files into a separate run directory; it does not mount or modify the original repository. The agent sandbox uses:
-
-- network mode `none`;
-- a non-root UID/GID and read-only container root filesystem;
-- one staged writable repository mount;
-- all Linux capabilities dropped and `no-new-privileges`;
-- CPU, memory, PID, command-timeout, and controller-deadline bounds;
-- no Docker socket, host home, SSH agent, or forwarded API credentials;
-- host- and container-side path checks, patch validation, and protected-test policy;
-- immutable controller-owned test plans for qualified SWE-bench environments.
-
-The integration suite inspects the live container configuration. This is defense in depth, not a claim that Docker is a VM-grade security boundary; repository tests still execute arbitrary code inside the container.
-
 ## MCP interoperability
 
 `repopilot mcp-serve` implements a local stdio MCP server over the existing registry and sandbox. It exposes exactly the six public tools above. Lifecycle helpers, raw Docker operations, arbitrary filesystem access, and model-selected test commands are not exposed.
 
-Contract tests verify direct/MCP schema parity and normalized success, error, and revision semantics. One controlled end-to-end task passed through the MCP adapter with the same final diff, public result, hidden result, final revision, six calls, and zero unnecessary calls as the direct path. A 100-call fake-backend microbenchmark measured **0.069 ms median** and **0.108 ms p95** adapter overhead per call. Those numbers are adapter-only local microbenchmark evidence; they exclude model, Docker, and sandbox execution time.
+Contract tests verify direct/MCP schema parity and normalized success, error, and revision semantics. One controlled end-to-end task passed through the MCP adapter with the same final diff, public result, hidden result, final revision, six calls, and zero unnecessary calls as the direct path. The earlier README reported **0.069 ms median** and **0.108 ms p95** for a 100-call fake-backend adapter microbenchmark. Its raw timing artifact is not retained in the tracked checkpoints, so these historical figures are not independently revalidated here. The current [adapter regression](tests/unit/test_mcp_adapter.py) checks a 100-call median below 10 ms; both measurements exclude model, Docker and sandbox execution time.
 
 RepoPilot does not implement remote MCP transport, production MCP deployment, or arbitrary third-party MCP tool installation.
 
@@ -252,8 +339,8 @@ These gates measure compatibility with RepoPilot’s protocol, not general model
 | Track | Measured result | What it establishes | What it does not establish |
 |---|---|---|---|
 | Controlled deterministic benchmark | 12/12 task, public, and hidden success; localization F1 1.00; 72 calls; 0 unnecessary | Controller, tools, sandbox, traces, hidden scoring, and reports | Model intelligence |
-| Controlled DeepSeek coding run | 12/12 task/public/hidden; F1 1.00; 80 calls, 1 unnecessary | One frozen live-model run on small synthetic tasks | Strict protocol compatibility or broad coding performance |
-| MCP parity/security | 23 selected tests passed; one direct/MCP task matched; 0.069 ms median adapter-only overhead | Local stdio contract and behavior parity | Remote or production MCP deployment |
+| Historical controlled DeepSeek coding report | Earlier README: 12/12 task/public/hidden; F1 1.00; 80 calls, 1 unnecessary | Historical report of one small synthetic live-model run; raw run artifact not located in tracked checkpoints | Independently revalidated closeout evidence, strict compatibility or broad coding performance |
+| MCP parity/security | 23 selected tests passed in the P0 checkpoint; direct/MCP parity reruns in regression; historical 0.069 ms median reported above | Local stdio contract and behavior parity; raw historical timing is not retained | Revalidated exact historical timing, remote or production MCP deployment |
 | Reliability matrix | 8/8 scenarios; 6/6 recoverable; all unsafe-state counters zero | Frozen injected recovery behavior | Availability under arbitrary failures |
 | Retrieval experiment | Semantic MRR 0.604 vs structural 0.573; promotion gate failed | Reproducible offline comparison and negative-result discipline | Live task improvement |
 | SWE-bench reference integrity | 5/5 | Pinned checkout and reference/test-patch applicability | Agent solves |
@@ -266,16 +353,22 @@ These gates measure compatibility with RepoPilot’s protocol, not general model
 | Fresh Cohort 2 qualification | **5/5 qualified; 5/5 official gold sanity** from a frozen 17-instance pool with 7/17 pre-screen eligible | Five reproducible, security-gated environments selected without solve evidence | Agent task success or general environment coverage |
 | Fresh Cohort 2 behavioral | **3/5 officially resolved**; one attempt per task; no reruns, substitutions, tuning, or manual repair | External one-shot behavioral evidence on this frozen subset | A 60% general solve rate, leaderboard comparability, or production readiness |
 
-The deterministic and live-model success rates are intentionally not merged.
+The deterministic and live-model success rates are intentionally not merged. The old controlled DeepSeek result and exact MCP timings are retained as historical README reports, not promoted to independently verified closeout evidence. The [P0 checkpoint](docs/checkpoints/P0_CHECKPOINT.json) supports the deterministic, reliability and 23-test MCP results; the frozen Cohort 2 links above retain official behavioral artifacts.
 
 ## Reproduce
 
 Requirements: Python 3.11+, Docker with a running daemon, and `uv`.
 
 ```bash
-uv sync --extra dev
-uv run pytest
+uv sync --frozen --extra dev --extra service
+# Configure a dedicated disposable PostgreSQL database as described below.
+uv run --frozen --extra dev --extra service pytest
 ```
+
+The complete suite requires Docker and `REPOPILOT_TEST_DATABASE_URL` pointing to a
+**disposable PostgreSQL database**; the fixture truncates service tables. Without
+that URL, service tests skip. Follow the [database setup and full-suite instructions](docs/SERVICE.md#host-development-and-tests)
+to reproduce the no-skip result. Never use the demo or a database containing retained tasks.
 
 Run the deterministic controlled benchmark:
 
@@ -341,6 +434,9 @@ uv run python -m repopilot.evaluation.model_compatibility \
 The compatibility command is a synthetic protocol gate, not a coding benchmark. The frozen SWE-bench behavioral pilots are preserved checkpoint workflows rather than a general-purpose CLI benchmark command.
 
 ## Design trade-offs and limitations
+
+- Active admission is bounded, but per-tenant quotas, disk/history retention, backup drills and TLS termination are not implemented. Authentication is one shared trusted principal.
+- At higher scale, admission serialization, connection budget, polling and metrics aggregation need workload-specific measurement; multi-host operation requires redesigned execution fencing. No broker, orchestration or object-storage deployment was added.
 
 - RepoPilot now includes a single-host execution service around its single-agent Python/pytest runtime; it makes no production-readiness or availability claim.
 - The service uses PostgreSQL and multiple local worker processes. It has no multi-host execution, persistent agent memory, UI, Kubernetes layer, or production deployment claim.
