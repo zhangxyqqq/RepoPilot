@@ -2,9 +2,9 @@
 
 RepoPilot is an **end-to-end, production-style service for reliable execution, observation, and evaluation of repository-level coding agents**. It separates long-running agent work from HTTP requests, persists task/run state in PostgreSQL, and runs a bounded AgentLoop with typed tools in restricted Docker sandboxes. The engineering problem is keeping execution ownership, recovery and evidence coherent when clients retry, workers die or tool responses are ambiguous.
 
-**Measured:** 244 regression tests passed; 9,984 scripted service tasks completed with zero duplicate executions across the final scaling cases; a separately frozen SWE-bench Verified pilot resolved 3/5 tasks with official grading. Each result has a different scope—see [service evidence](#measured-service-evidence) and [AI/evaluation evidence](#measured-results).
+**Measured:** 246 regression tests passed; 9,984 scripted service tasks completed with zero duplicate executions across the final scaling cases; a separately frozen SWE-bench Verified pilot resolved 3/5 tasks with official grading. Each result has a different scope—see [service evidence](#measured-service-evidence) and [AI/evaluation evidence](#measured-results).
 
-**Milestone frozen — 2026-09-12.** Single-host execution is the supported boundary. Hosted CI is configured but externally unverified. [Closeout and freeze record](docs/JOB_SEARCH_CLOSEOUT.md) · [Engineering evidence summary](docs/JOB_SEARCH_ENGINEERING_SUMMARY.md) · [Interview map](docs/INTERVIEW_ENGINEERING_MAP.md)
+**Milestone frozen — 2026-09-12.** Single-host execution is the supported boundary. Hosted CI ran and exposed a Linux Git-ownership incompatibility; the local correction awaits hosted re-verification. [Closeout and freeze record](docs/JOB_SEARCH_CLOSEOUT.md) · [Engineering evidence summary](docs/JOB_SEARCH_ENGINEERING_SUMMARY.md) · [Interview map](docs/INTERVIEW_ENGINEERING_MAP.md)
 
 ## Engineering highlights
 
@@ -41,7 +41,7 @@ The service calls the internal `run_agent` entry point using the normal direct t
 
 | Evidence | Exact result | Scope |
 |---|---|---|
-| Full deterministic regression | **244 passed; 0 failed/errors/skipped; 1 dependency warning** | Core, CLI, MCP, Docker and real PostgreSQL service tests; [latest closeout run](docs/JOB_SEARCH_CLOSEOUT.md) |
+| Full deterministic regression | **246 passed; 0 failed/errors/skipped; 1 dependency warning** | Core, CLI, MCP, Docker and real PostgreSQL service tests; [latest compatibility run](docs/CI_COMPATIBILITY.md) |
 | Final scaling cases | **9,984 logical tasks / 19,968 HTTP submissions; 0 failures, rejected admissions or duplicate executions** | 12 local scripted cases: 16/32/64 workers, 32 submitters, two repetitions, 100 ms and one-second execution |
 | Interruption checks | **12/12 passed; 0 simultaneous duplicates** | SIGTERM, SIGKILL, pause/stale owner, DB restart, API restart and row contention, each exercised twice |
 | Connection saturation follow-up | **100 → 73 peak sampled connections; 63 → 0 connection-limit rejections** | Comparable 64-worker, one-second workload; one connection per worker |
@@ -138,7 +138,7 @@ Authenticated `/metrics` exposes Prometheus text for task/run states, worker liv
 
 Structured service logs link request, task, run and trace identifiers. `ArtifactPublisher` currently has only a local metadata/reference implementation. It does not remove the shared filesystem or provide object storage. Detailed agent traces remain described below.
 
-[GitHub Actions](.github/workflows/tests.yml) configures frozen dependencies, PostgreSQL, Docker regression tests and Compose smoke/restart/crash checks. **Hosted execution remains externally unverified:** the branch push was rejected because the available token lacked `workflow` scope. Local passes are not hosted CI passes. No repeated push attempt is needed with unchanged credentials.
+[GitHub Actions](.github/workflows/tests.yml) configures frozen dependencies, PostgreSQL, Docker regression tests and Compose smoke/restart/crash checks. **Hosted CI has now executed:** the first run reported 33 failed / 211 passed because Linux staging ownership triggered Git repository checks. The [compatibility correction](docs/CI_COMPATIBILITY.md) records the reproduction, fix and separate Compose investigation. The fixed revision still requires a hosted rerun; earlier closeout reports retain their historical unverified status.
 
 ## Agent and evaluation architecture
 

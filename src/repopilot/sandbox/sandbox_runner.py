@@ -323,7 +323,7 @@ def apply_patch(args: dict[str, Any]) -> dict[str, Any]:
     patch_paths(patch)
     # First check whether the patch applies without modifying the worktree.
     check = subprocess.run(
-        ["git", "apply", "--check", "--whitespace=nowarn", "-"],
+        git_command("apply", "--check", "--whitespace=nowarn", "-"),
         cwd=WORKSPACE,
         input=patch,
         text=True,
@@ -335,7 +335,7 @@ def apply_patch(args: dict[str, Any]) -> dict[str, Any]:
         raise ValueError(f"patch check failed: {check.stderr.strip()}")
     # Apply only after the dry run succeeds in the isolated worktree.
     applied = subprocess.run(
-        ["git", "apply", "--whitespace=nowarn", "-"],
+        git_command("apply", "--whitespace=nowarn", "-"),
         cwd=WORKSPACE,
         input=patch,
         text=True,
@@ -389,10 +389,17 @@ def run_tests(args: dict[str, Any]) -> dict[str, Any]:
         return {"passed": False, "exit_code": None, "output": output, "truncated": truncated, "timed_out": True}
 
 
+def git_command(*arguments: str) -> list[str]:
+    # Linux bind mounts retain the host/controller UID, unlike Docker Desktop.
+    # Trust only the controller-selected staged workspace, for this command;
+    # never disable ownership checks globally or forward host Git configuration.
+    return ["git", "-c", f"safe.directory={WORKSPACE}", *arguments]
+
+
 def git_diff(args: dict[str, Any]) -> dict[str, Any]:
-    subprocess.run(["git", "add", "-N", "."], cwd=WORKSPACE, capture_output=True, timeout=10)
+    subprocess.run(git_command("add", "-N", "."), cwd=WORKSPACE, capture_output=True, timeout=10)
     diff = subprocess.run(
-        ["git", "diff", "--no-ext-diff", "--unified=3", "HEAD", "--", "."],
+        git_command("diff", "--no-ext-diff", "--unified=3", "HEAD", "--", "."),
         cwd=WORKSPACE,
         text=True,
         capture_output=True,
@@ -400,7 +407,7 @@ def git_diff(args: dict[str, Any]) -> dict[str, Any]:
         check=True,
     ).stdout
     names = subprocess.run(
-        ["git", "diff", "--name-only", "HEAD", "--", "."],
+        git_command("diff", "--name-only", "HEAD", "--", "."),
         cwd=WORKSPACE,
         text=True,
         capture_output=True,
@@ -413,11 +420,11 @@ def git_diff(args: dict[str, Any]) -> dict[str, Any]:
 
 def init_repo(args: dict[str, Any]) -> dict[str, Any]:
     commands = [
-        ["git", "init", "-q", "-b", "main"],
-        ["git", "config", "user.name", "RepoPilot"],
-        ["git", "config", "user.email", "repopilot@invalid.local"],
-        ["git", "add", "."],
-        ["git", "commit", "-q", "-m", "sandbox baseline"],
+        git_command("init", "-q", "-b", "main"),
+        git_command("config", "user.name", "RepoPilot"),
+        git_command("config", "user.email", "repopilot@invalid.local"),
+        git_command("add", "."),
+        git_command("commit", "-q", "-m", "sandbox baseline"),
     ]
     for command in commands:
         completed = subprocess.run(command, cwd=WORKSPACE, text=True, capture_output=True, timeout=20)
