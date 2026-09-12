@@ -1,0 +1,89 @@
+{
+  "date": "2026-09-12",
+  "full_regression": {
+    "tests": 244,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "pytest_seconds": 95.99,
+    "warnings": 1
+  },
+  "compose": {
+    "smoke": {
+      "task_id": "90baceea-3833-40ac-9d41-62c48fd67216",
+      "run_id": "3285bea6-454a-4482-a884-b11de061179b",
+      "status": "SUCCEEDED"
+    },
+    "restart": {
+      "task_id": "24eb4504-d8ee-4b7d-a174-860d08a712cf",
+      "checks": [
+        "queued task survives database and API restart",
+        "idempotency survives restart",
+        "workers execute persisted task",
+        "terminal result survives second restart"
+      ],
+      "passed": 4
+    },
+    "crash": {
+      "task_id": "973e32e6-987a-4ead-afb6-22153d8e9369",
+      "passed": 1,
+      "check": "Compose worker SIGKILL, orphan removal and successful second attempt"
+    }
+  },
+  "database_revision": "0003",
+  "live_metrics": {
+    "unauthenticated_status": 401,
+    "authenticated_status": 200,
+    "content_type": "text/plain; version=0.0.4; charset=utf-8",
+    "capacity": 4096,
+    "token_absent": true
+  },
+  "cli_help_exit": 0,
+  "final_benchmarks": [
+    "SERVICE_DEPTH_SCALING.json",
+    "SERVICE_DEPTH_FINAL_LONG.json"
+  ],
+  "preserved_initial_benchmarks": [
+    "SERVICE_DEPTH_INITIAL_SCALING.json",
+    "SERVICE_DEPTH_LONG.json"
+  ],
+  "final_scaling_totals": {
+    "logical_tasks": 9984,
+    "http_submissions": 19968,
+    "failures": 0,
+    "admission_failures": 0,
+    "duplicate_executions": 0,
+    "simultaneous_duplicates": 0
+  },
+  "hosted_ci": {
+    "verified": false,
+    "push": "rejected: PAT lacks workflow scope",
+    "remote_branch_created": false,
+    "hosted_run_created": false
+  },
+  "source_sha256": {
+    ".github/workflows/tests.yml": "9e73e3c44d74fc02563edb080f6e5207d95d4014a197da6e77e1290067649560",
+    "compose.yaml": "51a7b02034e588a8942bae1b7e85daffc8991965284d43e533e7d0eb0ad929c0",
+    "migrations/env.py": "5d5856d52182de0ccd1080c16e60f352a4b444fefaaea7e491020fe2ba56a985",
+    "migrations/versions/0001_tasks.py": "f16c582a9e1160b26ea333f2b05ac03a3d5538d780c377716597f397ace7b53b",
+    "migrations/versions/0002_service_depth.py": "943d9bea4475ff8900af0864ed6be2ad369568abb05a6b49aa32f46c29242d02",
+    "migrations/versions/0003_admission.py": "f2d318e1605347c53ab57176e766591f71b1806c86d2a4bb22f264e4ec7ff746",
+    "scripts/service-stress.py": "7173d0e35b89e92bcdbac2d5fa98ea103d86e78cb34fc80c403a5db0924f620f",
+    "src/repopilot/service/__init__.py": "574d4a5b72a406001136043359191cd50e4c3d1d08ed7f9b4a8238dd02b304fc",
+    "src/repopilot/service/api.py": "21df16e6ce71431630adc9611e9bf77de82196fe07848c14e37660aa2a46de3f",
+    "src/repopilot/service/artifacts.py": "420e7d0e14627ae7415e61cec46b4b1043ca96a86ae500afbfd333bd93b4680f",
+    "src/repopilot/service/bounds.py": "8c20242b8b047cd3b99c32f2e23d91d1381719f802bffeba9dd5c273b96f4b16",
+    "src/repopilot/service/executor.py": "44307d133d533c952ec32328f75b8f1d4880c14f1adb977c67d540721c17aada",
+    "src/repopilot/service/logging.py": "de8deb910a2a804ed4fa3805b5eada4e7fc57db3ac9cbb28cb32de9007381543",
+    "src/repopilot/service/metrics.py": "28329b130123c0c61f1de40331e18bbb4898b6ce1999bfaee0c109b63af81e1c",
+    "src/repopilot/service/schemas.py": "bb64b402102a709470f26029eb5e6f9242235e542aaa159973f2a9933a7faaf1",
+    "src/repopilot/service/settings.py": "4608f35d1609a01c639bf28cd1aa136f9719deeb64644d7ab1f550bebd65875c",
+    "src/repopilot/service/store.py": "04ccfaf1e6cd5a66f29b3a318b59143c0d0583c3b0bc04b62962e596276d89cf",
+    "src/repopilot/service/worker.py": "62cd3b2e3b9aee0ddc017bddb73afec8aad22d3bc60d7c53bed0adc29d3c3287",
+    "tests/service/conftest.py": "a70232ba8bda3e97e89d97fbc05628fad9d14a16e132505e64cb3bfec4322e1f",
+    "tests/service/test_audit.py": "dfdf47828eabb8144c0bbac381b2475b4df28d55cc94f00407efb0b7791e17e4",
+    "tests/service/test_depth.py": "1bb1bc56d10a86f86e57f14e0f2d42c432ec81256f4b24baa36db3780820b1f0",
+    "tests/service/test_service.py": "01bb8995b24637cf08b98164c62ff5a9f610dbba1b29d80f1bb3cbfbbbacafeb",
+    "tests/service/test_stress_regressions.py": "e2c08ad805089bd87e338c6fc5771581800df992d347825325109b2530c9dfc4"
+  }
+}

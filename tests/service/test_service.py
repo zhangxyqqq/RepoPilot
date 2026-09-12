@@ -538,4 +538,4 @@ def test_readiness_requires_applied_revision(settings):
             assert api.get("/healthz").status_code == 200
     finally:
         with Store(settings).connect() as db:
-            db.execute("INSERT INTO alembic_version(version_num) VALUES ('0002')")
+            db.execute("INSERT INTO alembic_version(version_num) VALUES ('0003')")

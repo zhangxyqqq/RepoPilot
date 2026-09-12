@@ -68,9 +68,12 @@ Migrations are explicit Alembic revisions, separate from application startup.
 Readiness checks the database and expected migration revision. Schema creation
 never silently falls back to SQLite or an in-memory store. Application connections
 have connect, statement and lock timeouts. The API uses a bounded eight-connection
-Psycopg pool, each worker a two-connection pool; acquisition waits at most three
+Psycopg pool, each worker a one-connection pool; acquisition waits at most three
 seconds, and connections are checked before reuse. Pools close with process/app
 lifetimes and transactions finish before a connection returns to its pool; database failures yield safe 503 responses.
+Revision `0003` is required. Revision `0002` adds queued/recovery indexes and worker
+telemetry; `0003` moves serialized admission into a PostgreSQL function. Recovery
+checks expired runs first, then queued tasks in creation order.
 A single migration job runs before API/workers in Compose. See the
 [Alembic migration environment documentation](https://alembic.sqlalchemy.org/en/latest/tutorial.html).
 
@@ -364,7 +367,8 @@ be used on the local scripted test stack.
 
 The executable tests are the acceptance evidence. See [SERVICE_AUDIT.md](SERVICE_AUDIT.md)
 for audit findings and deployment checks, and [SERVICE_STRESS.md](SERVICE_STRESS.md)
-for subsequent load/fault experiments and latest regression counts;
+for the previous load/fault experiments; [SERVICE_DEPTH.md](SERVICE_DEPTH.md)
+contains the current admission, metrics, dispatch and regression evidence;
 [SERVICE_ACCEPTANCE.md](SERVICE_ACCEPTANCE.md) retains the original pre-audit result. These are controlled
 correctness tests, not load tests or a production reliability percentage.
 
@@ -382,7 +386,7 @@ correctness tests, not load tests or a production reliability percentage.
   or survive restart. Shared execution locks add the fail-closed partition behavior
   needed by this single-host design.
 - PostgreSQL persists metadata; shared files hold full artifacts. Disk quotas,
-  retention, admission limits, multi-tenant authentication, TLS termination, backups,
+  retention, multi-tenant authentication, TLS termination, backups,
   and operational alerting are not implemented. Keep the development API local.
 - A fully paused owner, unavailable Docker daemon, or DB outage reduces availability.
   Retries can repeat provider calls and incur costs. In-flight provider requests may
@@ -393,3 +397,24 @@ correctness tests, not load tests or a production reliability percentage.
   first. None of these prospective components is claimed or implemented here.
 - Existing retrieval negative results, strict compatibility failures, stopped
   qualification gates, and the narrowly scoped 3/5 external pilot remain unchanged.
+
+## Bounded admission and operational metrics
+
+`REPOPILOT_MAX_INFLIGHT` defaults to 4096 QUEUED/RUNNING tasks and is forwarded by
+Compose. Configure every API replica identically. New tasks at capacity receive
+429 `admission_full` with `Retry-After: 1`; matching idempotency replays still return
+200 and conflicting keys return 409. Bodies over 128 KiB receive 413. Errors expose
+`code`, safe `detail` and a request UUID also returned as `X-Request-ID`. This bounds
+active task admission, not every HTTP connection or tenant's request rate.
+
+Authenticated `GET /metrics` exposes Prometheus text with finite labels for task/run
+states, worker liveness/draining, retained wait/run durations, claim transaction
+time, stale leases/recovery, admission outcomes, HTTP totals and API pool state.
+Read the [metrics semantics and limits](SERVICE_DEPTH.md#metrics-interpretation)
+before aggregating replicas. Traces remain the source for detailed agent events.
+
+SIGTERM stops future worker claims and drains an already claimed execution within
+the configured hard deadline. Queued tasks remain durable for other workers. API
+shutdown waits for active requests through Uvicorn and closes its pool; API restart
+does not stop worker execution. Running-task cancellation is unsupported; see the
+[execution and storage boundary](SERVICE_DEPTH.md#contract-and-implementation).

@@ -103,49 +103,29 @@ class Store:
     def ready(self):
         with self.connect() as db:
             revision = db.execute("SELECT version_num FROM alembic_version").fetchone()
-            return bool(revision and revision["version_num"] == "0002")
+            return bool(revision and revision["version_num"] == "0003")
 
     def submit(self, payload: dict, key: str | None, request_id: UUID):
         canonical = json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
         fingerprint = hashlib.sha256(canonical.encode()).hexdigest()
         key_hash = hashlib.sha256(key.encode()).hexdigest() if key is not None else None
+        task_id = uuid4()
         with self.connect() as db:
-            # Replays bypass admission, including when the queue is full. The
-            # unique index still arbitrates an uncommitted concurrent same-key insert.
-            if key_hash is not None:
-                existing = db.execute("SELECT * FROM tasks WHERE idempotency_hash=%s", (key_hash,)).fetchone()
-                if existing is not None:
-                    if existing['fingerprint'] != fingerprint:
-                        raise IdempotencyConflict("idempotency key already belongs to a different request")
-                    event('task_deduplicated', request_id=request_id, task_id=existing['id'])
-                    return existing, False
-            # Global admission mutex, transaction-scoped and shared across API
-            # processes. Count uses a NEW READ COMMITTED statement snapshot after
-            # the lock, so waiting submitters see preceding admissions.
-            db.execute("SELECT pg_advisory_xact_lock(742019,1)")
-            if key_hash is not None:
-                existing = db.execute("SELECT * FROM tasks WHERE idempotency_hash=%s", (key_hash,)).fetchone()
-                if existing is not None:
-                    if existing['fingerprint'] != fingerprint:
-                        raise IdempotencyConflict("idempotency key already belongs to a different request")
-                    return existing, False
-            active = db.execute("SELECT count(*) AS n FROM tasks WHERE status IN ('QUEUED','RUNNING')").fetchone()['n']
-            if active >= self.settings.max_inflight:
-                raise AdmissionFull()
-            task = db.execute("""
-                INSERT INTO tasks (id, request_id, payload, provider, model, idempotency_hash, fingerprint)
-                VALUES (%s,%s,%s,%s,%s,%s,%s)
-                ON CONFLICT (idempotency_hash) DO NOTHING RETURNING *
-            """, (uuid4(), request_id, Jsonb(payload),
-                  "scripted" if self.settings.scripted else self.settings.provider,
-                  "scripted-final" if self.settings.scripted else self.settings.model, key_hash, fingerprint)).fetchone()
-            created = task is not None
+            try:
+                task = db.execute("SELECT * FROM admit_task(%s,%s,%s,%s,%s,%s,%s,%s)",
+                    (task_id,request_id,Jsonb(payload),
+                     'scripted' if self.settings.scripted else self.settings.provider,
+                     'scripted-final' if self.settings.scripted else self.settings.model,
+                     key_hash,fingerprint,self.settings.max_inflight)).fetchone()
+            except psycopg.Error as exc:
+                if exc.sqlstate == 'RP001':
+                    raise AdmissionFull() from None
+                raise
+            created = task['id'] == task_id
             if created:
-                self.settings.repository(payload["repository"])
-            if task is None:
-                task = db.execute("SELECT * FROM tasks WHERE idempotency_hash=%s", (key_hash,)).fetchone()
-                if task["fingerprint"] != fingerprint:
-                    raise IdempotencyConflict("idempotency key already belongs to a different request")
+                self.settings.repository(payload['repository'])
+            elif task['fingerprint'] != fingerprint:
+                raise IdempotencyConflict('idempotency key already belongs to a different request')
         event("task_created" if created else "task_deduplicated", request_id=request_id, task_id=task["id"],
               original_request_id=task["request_id"])
         return task, created

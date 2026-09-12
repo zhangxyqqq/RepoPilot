@@ -60,6 +60,11 @@ class Metrics:
                 gauge(name+'_seconds', 'Retained duration distribution, seconds.', [(f'{{quantile="{q}"}}',row[key]) for q,key in (('0.5','p50'),('0.95','p95'))])
                 gauge(name+'_observations', 'Retained duration observation count.', [('',row['n'])])
                 gauge(name+'_seconds_sum', 'Retained duration sum.', [('',row['seconds'])])
+        gauge('admission_capacity', 'Configured active-task admission capacity.', [('',store.settings.max_inflight)])
+        if store._pool is not None:
+            stats = store._pool.get_stats()
+            gauge('api_pool', 'API process pool observations and limits.',
+                  [(f'{{measure="{key}"}}',stats.get(key,0)) for key in ('pool_max','pool_size','pool_available','requests_waiting')])
         with self.lock:
             lines += ['# HELP repopilot_admission_total API process admission events.', '# TYPE repopilot_admission_total counter']
             for name in ('created','deduplicated','conflict','rejected'):
